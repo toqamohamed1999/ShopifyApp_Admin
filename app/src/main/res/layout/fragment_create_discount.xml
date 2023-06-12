@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".creatediscount.presentation.ui.CreateDiscountFragment">
+    tools:context=".discounts.presentation.creatediscount.ui.CreateDiscountFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView

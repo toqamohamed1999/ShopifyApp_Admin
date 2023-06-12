@@ -22,13 +22,14 @@
 
 
         <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/image"
+            android:id="@+id/imageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:src="@drawable/products"
+            android:cropToPadding="true"
             app:civ_border_width="0dp"/>
 
         <TextView
@@ -37,7 +38,7 @@
             android:maxLines="2"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/image"
+            app:layout_constraintStart_toEndOf="@id/imageView"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginStart="@dimen/_20sdp"
             android:textColor="@color/black"

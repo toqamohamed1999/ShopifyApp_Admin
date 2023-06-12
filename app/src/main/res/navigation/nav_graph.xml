@@ -3,11 +3,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/createDiscountFragment">
+    app:startDestination="@id/homeFragment">
 
     <fragment
         android:id="@+id/createDiscountFragment"
-        android:name="eg.gov.iti.jets.shopifyapp_admin.creatediscount.presentation.ui.CreateDiscountFragment"
+        android:name="eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.creatediscount.ui.CreateDiscountFragment"
         android:label="fragment_create_discount"
         tools:layout="@layout/fragment_create_discount" />
     <fragment
@@ -17,7 +17,17 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/createProductFragment"
-        android:name="eg.gov.iti.jets.shopifyapp_admin.createproducts.presentation.ui.CreateProductFragment"
+        android:name="eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.ui.CreateProductFragment"
         android:label="fragment_create_product"
         tools:layout="@layout/fragment_create_product" />
+    <fragment
+        android:id="@+id/allProductsFragment"
+        android:name="eg.gov.iti.jets.shopifyapp_admin.products.presentation.allproducts.ui.AllProductsFragment"
+        android:label="fragment_all_products"
+        tools:layout="@layout/fragment_all_products" />
+    <fragment
+        android:id="@+id/allDiscountFragment"
+        android:name="eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.ui.AllDiscountFragment"
+        android:label="fragment_all_discount"
+        tools:layout="@layout/fragment_all_discount" />
 </navigation>

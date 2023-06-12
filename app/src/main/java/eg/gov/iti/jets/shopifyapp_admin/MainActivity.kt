@@ -10,6 +10,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import eg.gov.iti.jets.shopifyapp_admin.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+
     private val TAG = "MainActivity"
 
     private lateinit var mainBinding: ActivityMainBinding
@@ -18,10 +19,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
+        supportActionBar?.hide()
 
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.navController
-        navController.navigate(R.id.createDiscountFragment)
+      //  navController.navigate(R.id.createDiscountFragment)
     }
 }
