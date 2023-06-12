@@ -47,4 +47,17 @@ class CreateDiscountRemoteSourceImp : CreateDiscountRemoteSource{
         }
     }
 
+    override suspend fun updatePriceRule(ruleID: Long, body: PriceRuleResponse): PriceRuleResponse {
+        return APIClient.apiInterface.updatePriceRule(ruleID,body)
+    }
+
+    override suspend fun deletePriceRule(ruleID: Long): String {
+        return try {
+            APIClient.apiInterface.deletePriceRule(ruleID)
+            "success"
+        }catch (ex : Exception){
+            "error"
+        }
+    }
+
 }

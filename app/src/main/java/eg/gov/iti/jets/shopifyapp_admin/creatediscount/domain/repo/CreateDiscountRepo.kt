@@ -12,4 +12,7 @@ interface CreateDiscountRepo {
     suspend fun updateDiscount(ruleID : Long, discountId : Long, body: DiscountCodeResponse)
             : Flow<DiscountCodeResponse>
     suspend fun deleteDiscount(ruleID : Long, discountId : Long) : Flow<String>
+    suspend fun updatePriceRule(ruleID : Long, body: PriceRuleResponse): Flow<PriceRuleResponse>
+    suspend fun deletePriceRule(ruleID : Long) : Flow<String>
+
 }

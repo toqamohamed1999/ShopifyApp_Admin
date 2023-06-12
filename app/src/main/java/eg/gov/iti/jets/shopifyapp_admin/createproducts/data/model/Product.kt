@@ -1,6 +1,7 @@
 package eg.gov.iti.jets.shopifyapp_admin.createproducts.data.model
 
 data class Product(
+
     val id: Long? = null,
     val title: String? = null,
     val admin_graphql_api_id: String? = null,

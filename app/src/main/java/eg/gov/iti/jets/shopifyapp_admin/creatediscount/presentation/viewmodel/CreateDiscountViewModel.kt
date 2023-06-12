@@ -45,6 +45,16 @@ class CreateDiscountViewModel(private val repo: CreateDiscountRepo) : ViewModel(
         APIState.Loading()
     )
     var deleteDiscountState: StateFlow<APIState<String>> = _deleteDiscountState
+////////////////////////////
+    private var _updateRuleState: MutableStateFlow<APIState<PriceRuleResponse>> = MutableStateFlow(
+        APIState.Loading()
+    )
+    var updateRuleState: StateFlow<APIState<PriceRuleResponse>> = _updateRuleState
+
+    private var _deleteRuleState: MutableStateFlow<APIState<String>> = MutableStateFlow(
+        APIState.Loading()
+    )
+    var deleteRuleState: StateFlow<APIState<String>> = _deleteDiscountState
 
     init {
        // getPriceRules()
@@ -76,7 +86,7 @@ class CreateDiscountViewModel(private val repo: CreateDiscountRepo) : ViewModel(
         }
     }
 
-    fun createDiscountCode(ruleID : Long, body: DiscountCodeBody) {
+    fun createDiscount(ruleID : Long, body: DiscountCodeBody) {
         viewModelScope.launch {
             try {
                 repo.createDiscountCode(ruleID,body).collect {
@@ -84,7 +94,7 @@ class CreateDiscountViewModel(private val repo: CreateDiscountRepo) : ViewModel(
                 }
             } catch (e: java.lang.Exception) {
                 _createDiscountState.value = APIState.Error()
-                Log.i(TAG, "createDiscountCode: "+e.message)
+                Log.i(TAG, "createDiscount: "+e.message)
             }
         }
     }
@@ -124,6 +134,32 @@ class CreateDiscountViewModel(private val repo: CreateDiscountRepo) : ViewModel(
             } catch (e: java.lang.Exception) {
                 _deleteDiscountState.value = APIState.Error()
                 Log.i(TAG, "deleteDiscount: "+e.message)
+            }
+        }
+    }
+
+    fun updatePriceRule(ruleId : Long, body: PriceRuleResponse) {
+        viewModelScope.launch {
+            try {
+                repo.updatePriceRule(ruleId,body).collect {
+                    _updateRuleState.value = APIState.Success(it!!)
+                }
+            } catch (e: java.lang.Exception) {
+                _updateRuleState.value = APIState.Error()
+                Log.i(TAG, "updatePriceRule: "+e.message)
+            }
+        }
+    }
+
+    fun deletePriceRule(ruleId : Long) {
+        viewModelScope.launch {
+            try {
+                repo.deletePriceRule(ruleId).collect {
+                    _deleteRuleState.value = APIState.Success(it!!)
+                }
+            } catch (e: java.lang.Exception) {
+                _deleteRuleState.value = APIState.Error()
+                Log.i(TAG, "deletePriceRule: "+e.message)
             }
         }
     }

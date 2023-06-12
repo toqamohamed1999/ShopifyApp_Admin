@@ -53,4 +53,12 @@ class CreateDiscountRepoImp private constructor(
         return flowOf(remoteSource.deleteDiscount(ruleID,discountId))
     }
 
+    override suspend fun updatePriceRule(ruleID: Long, body: PriceRuleResponse): Flow<PriceRuleResponse> {
+        return flowOf(remoteSource.updatePriceRule(ruleID,body))
+    }
+
+    override suspend fun deletePriceRule(ruleID: Long): Flow<String> {
+        return flowOf(remoteSource.deletePriceRule(ruleID))
+    }
+
 }

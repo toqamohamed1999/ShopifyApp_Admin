@@ -14,5 +14,5 @@ data class DiscountCode(
 
 data class DiscountCodeResponse(
 
-    @SerializedName("discount_code") var discountCode: DiscountCode = DiscountCode()
+    @SerializedName("discount_code") var discountCode: DiscountCode
 )

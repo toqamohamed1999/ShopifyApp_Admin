@@ -8,10 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import eg.gov.iti.jets.shopifyapp_admin.creatediscount.data.model.DiscountCodeB
-import eg.gov.iti.jets.shopifyapp_admin.creatediscount.data.model.DiscountCodeBody
-import eg.gov.iti.jets.shopifyapp_admin.creatediscount.data.model.PriceRuleB
-import eg.gov.iti.jets.shopifyapp_admin.creatediscount.data.model.PriceRuleBody
+import eg.gov.iti.jets.shopifyapp_admin.creatediscount.data.model.*
 import eg.gov.iti.jets.shopifyapp_admin.creatediscount.data.remote.CreateDiscountRemoteSourceImp
 import eg.gov.iti.jets.shopifyapp_admin.creatediscount.data.remote.APIState
 import eg.gov.iti.jets.shopifyapp_admin.creatediscount.data.repo.CreateDiscountRepoImp
@@ -56,6 +53,10 @@ class CreateDiscountFragment : Fragment() {
         //observeRulesData()
        // observeCreateDiscount()
        // observeGetDiscounts()
+        //observeUpdateDiscount()
+      //  observeDeleteDiscount()
+        //observeUpdateRule()
+        observeDeleteRule()
     }
 
 
@@ -96,12 +97,12 @@ class CreateDiscountFragment : Fragment() {
                     }
                     is APIState.Success -> {
 
-                        Log.i(TAG, "observeRulesData: ${it.data}")
+                        Log.i(TAG, "observeCreateRule: ${it.data}")
 
                     }
                     else -> {
 
-                        Log.i(TAG, "getRulesDataFromApi: $it")
+                        Log.i(TAG, "observeCreateRule: $it")
                     }
                 }
             }
@@ -110,7 +111,7 @@ class CreateDiscountFragment : Fragment() {
 
     private fun observeCreateDiscount() {
 
-        viewModel.createDiscountCode(
+        viewModel.createDiscount(
             1385615130905,
             DiscountCodeBody(DiscountCodeB("SUMMERSALE10OMM"))
         )
@@ -123,12 +124,12 @@ class CreateDiscountFragment : Fragment() {
                     }
                     is APIState.Success -> {
 
-                        Log.i(TAG, "observeRulesData: ${it.data}")
+                        Log.i(TAG, "observeCreateDiscount: ${it.data}")
 
                     }
                     else -> {
 
-                        Log.i(TAG, "getRulesDataFromApi: $it")
+                        Log.i(TAG, "observeCreateDiscount: $it")
                     }
                 }
             }
@@ -147,16 +148,116 @@ class CreateDiscountFragment : Fragment() {
                         }
                         is APIState.Success -> {
 
-                            Log.i(TAG, "observeRulesData: ${it.data}")
+                            Log.i(TAG, "observeGetDiscounts: ${it.data}")
 
                         }
                         else -> {
 
-                            Log.i(TAG, "getRulesDataFromApi: $it")
+                            Log.i(TAG, "observeGetDiscounts: $it")
                         }
                     }
                 }
             }
     }
+
+    private fun observeUpdateDiscount() {
+
+        viewModel.updateDiscount(1385615130905,19605667971353,
+        DiscountCodeResponse(DiscountCode(19605667971353, code = "WINTERSALE20OWW"))
+        )
+
+        lifecycleScope.launch {
+            viewModel.updateDiscountState.collectLatest {
+                when (it) {
+                    is APIState.Loading -> {
+
+                    }
+                    is APIState.Success -> {
+
+                        Log.i(TAG, "observeUpdateDiscount: ${it.data}")
+
+                    }
+                    else -> {
+
+                        Log.i(TAG, "observeUpdateDiscount: $it")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeDeleteDiscount() {
+
+        viewModel.deleteDiscount(1385615130905,19605667971353)
+
+        lifecycleScope.launch {
+            viewModel.deleteDiscountState.collectLatest {
+                when (it) {
+                    is APIState.Loading -> {
+
+                    }
+                    is APIState.Success -> {
+
+                        Log.i(TAG, "observeDeleteDiscount: ${it.data}")
+
+                    }
+                    else -> {
+
+                        Log.i(TAG, "observeDeleteDiscount: $it")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeUpdateRule() {
+
+        viewModel.updatePriceRule(1385615130905, PriceRuleResponse(
+            PriceRuleX(id  = 1385615130905, title = "test title update", value = "-28.0")))
+
+        lifecycleScope.launch {
+            viewModel.updateRuleState.collectLatest {
+                when (it) {
+                    is APIState.Loading -> {
+
+                    }
+                    is APIState.Success -> {
+
+                        Log.i(TAG, "observeUpdateRule: ${it.data}")
+
+                    }
+                    else -> {
+
+                        Log.i(TAG, "observeUpdateRule: $it")
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeDeleteRule() {
+
+        viewModel.deletePriceRule(1385615130905)
+
+        lifecycleScope.launch {
+            viewModel.deleteRuleState.collectLatest {
+                when (it) {
+                    is APIState.Loading -> {
+
+                    }
+                    is APIState.Success -> {
+
+                        Log.i(TAG, "observeDeleteRule: ${it.data}")
+
+                    }
+                    else -> {
+
+                        Log.i(TAG, "observeDeleteRule: $it")
+                    }
+                }
+            }
+        }
+    }
+
 
 }

@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class PriceRuleBody(
 
-    @SerializedName("price_rule") var priceRule : PriceRuleB? = PriceRuleB()
+    @SerializedName("price_rule") var priceRule : PriceRuleB
 )

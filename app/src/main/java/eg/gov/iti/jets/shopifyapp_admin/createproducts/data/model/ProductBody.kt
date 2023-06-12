@@ -14,5 +14,5 @@ data class ProductB(
 
 data class ProductBody(
 
-    @SerializedName("product") var product: ProductB? = ProductB()
+    @SerializedName("product") var product: ProductB
 )
