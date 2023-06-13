@@ -1,10 +1,8 @@
 package eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.creatediscount.ui
 
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +10,6 @@ import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.navArgs
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.*
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.remote.DiscountRemoteSourceImp
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
@@ -20,6 +17,7 @@ import eg.gov.iti.jets.shopifyapp_admin.discounts.data.repo.DiscountRepoImp
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.creatediscount.viewmodel.CreateDiscountViewModel
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.creatediscount.viewmodel.CreateDiscountViewModelFactory
 import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentCreateDiscountBinding
+import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.ui.DiscountListener
 import eg.gov.iti.jets.shopifyapp_admin.util.createAlertDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -38,7 +36,7 @@ class CreateDiscountFragment : DialogFragment() {
     }
 
     private val alertDialog : AlertDialog by lazy {
-        createAlertDialog(binding.root.context,"")
+        createAlertDialog(requireContext(),"")
     }
 
 
@@ -48,9 +46,11 @@ class CreateDiscountFragment : DialogFragment() {
     }
     companion object {
         private lateinit var priceRule: PriceRule
+        private lateinit var discountListener: DiscountListener
         const val TAG = "CreateDiscountFragment"
-        fun newInstance(priceRule1: PriceRule): CreateDiscountFragment {
+        fun newInstance(priceRule1: PriceRule,discountListener1: DiscountListener): CreateDiscountFragment {
             priceRule = priceRule1
+            discountListener = discountListener1
             return CreateDiscountFragment()
         }
     }
@@ -65,7 +65,6 @@ class CreateDiscountFragment : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         addActionBtn()
         observeCreateDiscount()
     }
@@ -77,6 +76,7 @@ class CreateDiscountFragment : DialogFragment() {
                     priceRule.id ?: 0,
                     DiscountCodeBody(DiscountCodeB(binding.codeEditText.text.toString()))
                 )
+                alertDialog.show()
             }else{
                 binding.codeEditText.error = "should have a code"
             }
@@ -88,18 +88,19 @@ class CreateDiscountFragment : DialogFragment() {
             viewModel.createDiscountState.collectLatest {
                 when (it) {
                     is APIState.Loading -> {
-                        alertDialog.show()
+                        //alertDialog.show()
                     }
                     is APIState.Success -> {
                         Log.i(TAG, "observeCreateDiscount: ${it.data}")
                         alertDialog.dismiss()
-                        Toast.makeText(requireContext(),"Created successfully",Toast.LENGTH_LONG).show()
+                        discountListener.getDiscounts()
+                        Toast.makeText(requireActivity(),"Created successfully",Toast.LENGTH_LONG).show()
                         dismiss()
                     }
                     else -> {
                         Log.i(TAG, "observeCreateDiscount: $it")
                         alertDialog.dismiss()
-                        Toast.makeText(requireContext(),"Creation failed",Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireActivity(),"Creation failed",Toast.LENGTH_LONG).show()
                         dismiss()
                     }
                 }
@@ -182,31 +183,7 @@ class CreateDiscountFragment : DialogFragment() {
             }
     }
 
-    private fun observeUpdateDiscount() {
 
-        viewModel.updateDiscount(1385615130905,19605667971353,
-        DiscountCodeResponse(DiscountCode(19605667971353, code = "WINTERSALE20OWW"))
-        )
-
-        lifecycleScope.launch {
-            viewModel.updateDiscountState.collectLatest {
-                when (it) {
-                    is APIState.Loading -> {
-
-                    }
-                    is APIState.Success -> {
-
-                        Log.i(TAG, "observeUpdateDiscount: ${it.data}")
-
-                    }
-                    else -> {
-
-                        Log.i(TAG, "observeUpdateDiscount: $it")
-                    }
-                }
-            }
-        }
-    }
 
     private fun observeDeleteDiscount() {
 

@@ -18,16 +18,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/edit_image"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:src="@drawable/baseline_edit_24"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/black" />
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/discount_imageView"
-            android:layout_width="match_parent"
+            android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
             android:src="@drawable/discount"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -37,12 +47,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
             android:gravity="center"
             android:textColor="@color/black"
             android:textSize="14sp"
             android:textStyle="bold"
+            android:layout_marginBottom="@dimen/_5sdp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/discount_imageView" />
@@ -52,17 +62,29 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="11dp"
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:textColor="@color/black"
+            android:textColor="@color/green"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/discountTitle_textView" />
+
+        <ImageView
+            android:id="@+id/delete_image"
+            android:layout_width="@dimen/_25sdp"
+            android:layout_height="@dimen/_25sdp"
+            android:src="@drawable/baseline_delete_24"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="5dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:tint="@color/black" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

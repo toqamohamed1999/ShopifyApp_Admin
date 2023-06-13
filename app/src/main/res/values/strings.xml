@@ -14,5 +14,8 @@
     <string name="add_discount_code">Add discount code</string>
     <string name="code">Code</string>
     <string name="add">Add</string>
+    <string name="processing">Processing...</string>
+    <string name="edit_discount_code">Edit Discount</string>
+    <string name="save_edit">Save Edit</string>
 
 </resources>

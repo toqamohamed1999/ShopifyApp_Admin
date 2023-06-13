@@ -111,18 +111,7 @@ class CreateDiscountViewModel(private val repo: DiscountRepo) : ViewModel() {
         }
     }
 
-    fun updateDiscount(ruleId : Long,discountId: Long, body: DiscountCodeResponse) {
-        viewModelScope.launch {
-            try {
-                repo.updateDiscount(ruleId,discountId,body).collect {
-                    _updateDiscountState.value = APIState.Success(it!!)
-                }
-            } catch (e: java.lang.Exception) {
-                _updateDiscountState.value = APIState.Error()
-                Log.i(TAG, "updateDiscount: "+e.message)
-            }
-        }
-    }
+
 
     fun deleteDiscount(ruleId : Long,discountId: Long) {
         viewModelScope.launch {

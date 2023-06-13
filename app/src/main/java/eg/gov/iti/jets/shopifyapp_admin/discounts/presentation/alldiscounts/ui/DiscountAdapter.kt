@@ -10,11 +10,10 @@ import eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.DiscountCode
 import eg.gov.iti.jets.shopifyapp_admin.util.MyDiffUtil
 
 
-class DiscountAdapter : ListAdapter<DiscountCode, DiscountAdapter.ArticleViewHolder>(MyDiffUtil<DiscountCode>()) {
+class DiscountAdapter(private val discountListener: DiscountListener,private val value : String
+) : ListAdapter<DiscountCode, DiscountAdapter.ArticleViewHolder>(MyDiffUtil<DiscountCode>()) {
 
     private lateinit var binding: DiscountItemBinding
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
         val inflater =
@@ -27,7 +26,19 @@ class DiscountAdapter : ListAdapter<DiscountCode, DiscountAdapter.ArticleViewHol
         val discount = getItem(position)
 
         holder.binding.discountTitleTextView.text = discount.code
-       // holder.binding.discountValueTextView.text = disc
+        holder.binding.discountValueTextView.text = "$value%"
+
+        binding.deleteImage.setOnClickListener {
+            discountListener.deleteDiscount(discount)
+        }
+
+        binding.editImage.setOnClickListener {
+            discountListener.updateDiscount(discount)
+        }
+    }
+
+     fun changeData(){
+        notifyDataSetChanged()
     }
 
     inner class ArticleViewHolder(var binding: DiscountItemBinding) :

@@ -27,7 +27,7 @@ class RulesAdapter : ListAdapter<PriceRule, RulesAdapter.ArticleViewHolder>(MyDi
         val rule = getItem(position)
 
         holder.binding.titleTextview.text = rule.title
-        holder.binding.valueTextview.text = rule.value
+        holder.binding.valueTextview.text = rule.value+"%"
         holder.binding.createdAtTextview.text = rule.created_at
         if(rule.ends_at.isNullOrEmpty()) holder.binding.endsAtTextview.visibility = View.GONE
         else holder.binding.endsAtTextview.text = rule.ends_at

@@ -20,6 +20,10 @@ class AllDiscountsViewModel(private val repo: DiscountRepo) : ViewModel() {
     )
     var getDiscountState: StateFlow<APIState<List<DiscountCode>>> = _getDiscountState
 
+    private var _deleteDiscountState: MutableStateFlow<APIState<String>> = MutableStateFlow(
+        APIState.Loading()
+    )
+    var deleteDiscountState: StateFlow<APIState<String>> = _deleteDiscountState
 
     fun getDiscounts(ruleID : Long) {
         viewModelScope.launch {
@@ -33,6 +37,20 @@ class AllDiscountsViewModel(private val repo: DiscountRepo) : ViewModel() {
             }
         }
     }
+
+    fun deleteDiscount(ruleId : Long,discountId: Long) {
+        viewModelScope.launch {
+            try {
+                repo.deleteDiscount(ruleId,discountId).collect {
+                    _deleteDiscountState.value = APIState.Success(it!!)
+                }
+            } catch (e: java.lang.Exception) {
+                _deleteDiscountState.value = APIState.Error()
+                Log.i(TAG, "deleteDiscount: "+e.message)
+            }
+        }
+    }
+
 }
 
 class AllDiscountsViewModelFactory(private val repo: DiscountRepo) : ViewModelProvider.Factory {
