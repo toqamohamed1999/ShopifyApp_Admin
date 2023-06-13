@@ -16,13 +16,13 @@ import eg.gov.iti.jets.shopifyapp_admin.products.data.repo.ProductRepoImp
 import eg.gov.iti.jets.shopifyapp_admin.products.presentation.allproducts.viewmodel.AllProductViewModelFactory
 import eg.gov.iti.jets.shopifyapp_admin.products.presentation.allproducts.viewmodel.AllProductsViewModel
 import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentAllProductsBinding
-import eg.gov.iti.jets.shopifyapp_user.products.presentation.ui.OnClickProduct
+import eg.gov.iti.jets.shopifyapp_user.products.presentation.ui.ProductListener
 import eg.gov.iti.jets.shopifyapp_user.products.presentation.ui.ProductsAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 
-class AllProductsFragment : Fragment(), OnClickProduct {
+class AllProductsFragment : Fragment(), ProductListener {
 
     private val TAG = "AllProductsFragment"
     private lateinit var binding: FragmentAllProductsBinding
@@ -80,7 +80,6 @@ class AllProductsFragment : Fragment(), OnClickProduct {
                         productsAdapter.setProductList(productsList)
                     }
                     else -> {
-
                         Log.i(TAG, "observeGetProduct: $it")
                     }
                 }
@@ -89,11 +88,7 @@ class AllProductsFragment : Fragment(), OnClickProduct {
     }
 
 
-    override fun onClickFavIcon(product: Product) {
-
-    }
-
-    override fun onClickProductCard(product: Product) {
+    override fun deleteProduct(product: Product) {
 
     }
 }

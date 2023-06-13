@@ -110,8 +110,8 @@ class CreateProductFragment : Fragment() {
 
     private fun observeUpdateProduct() {
 
-        viewModel.updateProduct(8354252652825,ProductResponse(
-            Product(id = 8354252652825, title = "test new title 1")))
+//        viewModel.updateProduct(8354252652825,ProductResponse(
+//            Product(id = 8354252652825, title = "test new title 1")))
 
         lifecycleScope.launch {
             viewModel.updateProductState.collectLatest {

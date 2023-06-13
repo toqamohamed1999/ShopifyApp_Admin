@@ -34,8 +34,7 @@ class RulesAdapter : ListAdapter<PriceRule, RulesAdapter.ArticleViewHolder>(MyDi
 
         holder.binding.ruleCardView.setOnClickListener{
             holder.binding.root.findNavController()
-                .navigate(AllRulesFragmentDirections.actionAllRulesFragmentToAllDiscountFragment(rule)
-            )
+                .navigate(AllRulesFragmentDirections.actionAllRulesFragmentToAllDiscountFragment(rule))
         }
     }
 

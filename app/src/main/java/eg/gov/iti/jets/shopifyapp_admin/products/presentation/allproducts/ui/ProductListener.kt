@@ -2,9 +2,7 @@ package eg.gov.iti.jets.shopifyapp_user.products.presentation.ui
 
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Product
 
-interface OnClickProduct{
+interface ProductListener{
 
-    fun onClickFavIcon(product : Product)
-    fun onClickProductCard(product : Product)
-
+    fun deleteProduct(product : Product)
 }
