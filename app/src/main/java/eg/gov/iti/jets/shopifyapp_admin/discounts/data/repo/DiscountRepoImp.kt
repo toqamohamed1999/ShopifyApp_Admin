@@ -33,7 +33,7 @@ class DiscountRepoImp private constructor(
         return flowOf(remoteSource.createDiscountCode(ruleID, body))
     }
 
-    override suspend fun getPriceRules(): Flow<List<PriceRuleX>> {
+    override suspend fun getPriceRules(): Flow<List<PriceRule>> {
         return flowOf(remoteSource.getPriceRules())
     }
 

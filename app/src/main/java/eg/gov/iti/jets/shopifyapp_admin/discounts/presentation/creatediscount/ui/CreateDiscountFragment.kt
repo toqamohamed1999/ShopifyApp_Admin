@@ -1,13 +1,18 @@
 package eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.creatediscount.ui
 
+import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.navArgs
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.*
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.remote.DiscountRemoteSourceImp
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
@@ -15,12 +20,12 @@ import eg.gov.iti.jets.shopifyapp_admin.discounts.data.repo.DiscountRepoImp
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.creatediscount.viewmodel.CreateDiscountViewModel
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.creatediscount.viewmodel.CreateDiscountViewModelFactory
 import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentCreateDiscountBinding
+import eg.gov.iti.jets.shopifyapp_admin.util.createAlertDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
-class CreateDiscountFragment : Fragment() {
+class CreateDiscountFragment : DialogFragment() {
 
-    private val TAG = "CreateDiscountFragment"
     private lateinit var binding : FragmentCreateDiscountBinding
 
     private val viewModel: CreateDiscountViewModel by lazy {
@@ -32,10 +37,22 @@ class CreateDiscountFragment : Fragment() {
         ViewModelProvider(this, factory)[CreateDiscountViewModel::class.java]
     }
 
+    private val alertDialog : AlertDialog by lazy {
+        createAlertDialog(binding.root.context,"")
+    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+    }
+    companion object {
+        private lateinit var priceRule: PriceRule
+        const val TAG = "CreateDiscountFragment"
+        fun newInstance(priceRule1: PriceRule): CreateDiscountFragment {
+            priceRule = priceRule1
+            return CreateDiscountFragment()
+        }
     }
 
     override fun onCreateView(
@@ -49,17 +66,49 @@ class CreateDiscountFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-      //  observeCreateRule()
-        //observeRulesData()
-       // observeCreateDiscount()
-       // observeGetDiscounts()
-        //observeUpdateDiscount()
-      //  observeDeleteDiscount()
-        //observeUpdateRule()
-        observeDeleteRule()
+        addActionBtn()
+        observeCreateDiscount()
+    }
+
+    private fun addActionBtn(){
+        binding.addBtn.setOnClickListener {
+            if (!binding.codeEditText.text.toString().isNullOrEmpty()) {
+                viewModel.createDiscount(
+                    priceRule.id ?: 0,
+                    DiscountCodeBody(DiscountCodeB(binding.codeEditText.text.toString()))
+                )
+            }else{
+                binding.codeEditText.error = "should have a code"
+            }
+        }
+    }
+
+    private fun observeCreateDiscount() {
+        lifecycleScope.launch {
+            viewModel.createDiscountState.collectLatest {
+                when (it) {
+                    is APIState.Loading -> {
+                        alertDialog.show()
+                    }
+                    is APIState.Success -> {
+                        Log.i(TAG, "observeCreateDiscount: ${it.data}")
+                        alertDialog.dismiss()
+                        Toast.makeText(requireContext(),"Created successfully",Toast.LENGTH_LONG).show()
+                        dismiss()
+                    }
+                    else -> {
+                        Log.i(TAG, "observeCreateDiscount: $it")
+                        alertDialog.dismiss()
+                        Toast.makeText(requireContext(),"Creation failed",Toast.LENGTH_LONG).show()
+                        dismiss()
+                    }
+                }
+            }
+        }
     }
 
 
+/*
     private fun observeRulesData() {
 
         lifecycleScope.launch {
@@ -103,33 +152,6 @@ class CreateDiscountFragment : Fragment() {
                     else -> {
 
                         Log.i(TAG, "observeCreateRule: $it")
-                    }
-                }
-            }
-        }
-    }
-
-    private fun observeCreateDiscount() {
-
-        viewModel.createDiscount(
-            1385615130905,
-            DiscountCodeBody(DiscountCodeB("SUMMERSALE10OMM"))
-        )
-
-        lifecycleScope.launch {
-            viewModel.createDiscountState.collectLatest {
-                when (it) {
-                    is APIState.Loading -> {
-
-                    }
-                    is APIState.Success -> {
-
-                        Log.i(TAG, "observeCreateDiscount: ${it.data}")
-
-                    }
-                    else -> {
-
-                        Log.i(TAG, "observeCreateDiscount: $it")
                     }
                 }
             }
@@ -213,7 +235,7 @@ class CreateDiscountFragment : Fragment() {
     private fun observeUpdateRule() {
 
         viewModel.updatePriceRule(1385615130905, PriceRuleResponse(
-            PriceRuleX(id  = 1385615130905, title = "test title update", value = "-28.0")))
+            PriceRule(id  = 1385615130905, title = "test title update", value = "-28.0")))
 
         lifecycleScope.launch {
             viewModel.updateRuleState.collectLatest {
@@ -259,5 +281,5 @@ class CreateDiscountFragment : Fragment() {
         }
     }
 
-
+*/
 }

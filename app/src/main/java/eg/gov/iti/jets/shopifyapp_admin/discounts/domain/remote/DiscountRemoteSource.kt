@@ -6,7 +6,7 @@ interface DiscountRemoteSource {
 
     suspend fun createPriceRule(body : PriceRuleBody): PriceRuleResponse?
     suspend fun createDiscountCode(ruleID : Long, body : DiscountCodeBody): DiscountCode
-    suspend fun getPriceRules(): List<PriceRuleX>
+    suspend fun getPriceRules(): List<PriceRule>
     suspend fun getDiscounts(ruleID : Long) : List<DiscountCode>
     suspend fun updateDiscount(ruleID : Long, discountId : Long, body: DiscountCodeResponse)
         : DiscountCodeResponse

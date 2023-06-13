@@ -5,5 +5,14 @@
     <string name="products">Products</string>
     <string name="search_for_product">Search for product...</string>
     <string name="admin_dashboard">Admin Dashboard</string>
+    <string name="description">description</string>
+    <string name="reviews">reviews</string>
+    <string name="title">title</string>
+    <string name="value">value</string>
+    <string name="endsAt">ends at</string>
+    <string name="created_at">created at</string>
+    <string name="add_discount_code">Add discount code</string>
+    <string name="code">Code</string>
+    <string name="add">Add</string>
 
 </resources>

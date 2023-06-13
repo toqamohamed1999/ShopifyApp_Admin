@@ -1,6 +1,10 @@
 package eg.gov.iti.jets.shopifyapp_admin.products.data.model
 
-data class Product(
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
+data class Product (
 
     val id: Long? = null,
     val title: String? = null,
@@ -16,8 +20,7 @@ data class Product(
     val published_scope: String? = null,
     val status: String? = null,
     val tags: String? = null,
-    val template_suffix: Any? = null,
     val updated_at: String? = null,
     val variants: List<Variant>? = null,
     val vendor: String? = null
-)
+): Parcelable

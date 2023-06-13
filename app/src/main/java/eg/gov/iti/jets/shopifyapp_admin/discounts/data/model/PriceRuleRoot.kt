@@ -4,6 +4,6 @@ import com.google.gson.annotations.SerializedName
 
 data class PriceRuleRoot(
 
-    @SerializedName("price_rules") var priceRules : ArrayList<PriceRuleX>
+    @SerializedName("price_rules") var priceRules : ArrayList<PriceRule>
 
 )

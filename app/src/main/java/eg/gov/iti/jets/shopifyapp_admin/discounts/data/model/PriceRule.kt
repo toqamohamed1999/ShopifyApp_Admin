@@ -1,15 +1,24 @@
 package eg.gov.iti.jets.shopifyapp_admin.discounts.data.model
 
-import com.google.gson.annotations.SerializedName
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-data class PriceRuleB(
+@Parcelize
+data class PriceRule(
 
-    @SerializedName("title") var title: String? = null,
-    @SerializedName("target_type") var targetType: String? = null,
-    @SerializedName("target_selection") var targetSelection: String? = null,
-    @SerializedName("allocation_method") var allocationMethod: String? = null,
-    @SerializedName("value_type") var valueType: String? = null,
-    @SerializedName("value") var value: String? = null,
-    @SerializedName("customer_selection") var customerSelection: String? = null,
-    @SerializedName("starts_at") var startsAt: String? = null
-)
+    val allocation_limit: String? = null,
+    val allocation_method: String? = null,
+    val created_at: String? = null,
+    val customer_selection: String? = null,
+    val ends_at: String? = null,
+    val id: Long? = null,
+    val once_per_customer: Boolean? = null,
+    val starts_at: String? = null,
+    val target_selection: String? = null,
+    val target_type: String? = null,
+    val title: String? = null,
+    val updated_at: String? = null,
+    val usage_limit: String? = null,
+    val value: String? = null,
+    val value_type: String? = null,
+) : Parcelable

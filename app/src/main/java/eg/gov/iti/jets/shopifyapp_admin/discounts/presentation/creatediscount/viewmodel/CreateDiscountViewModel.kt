@@ -15,10 +15,10 @@ class CreateDiscountViewModel(private val repo: DiscountRepo) : ViewModel() {
 
     private val TAG = "CreateDiscountViewModel"
 
-    private var _ruleState: MutableStateFlow<APIState<List<PriceRuleX>>> = MutableStateFlow(
+    private var _ruleState: MutableStateFlow<APIState<List<PriceRule>>> = MutableStateFlow(
         APIState.Loading()
     )
-    var ruleState: StateFlow<APIState<List<PriceRuleX>>> = _ruleState
+    var ruleState: StateFlow<APIState<List<PriceRule>>> = _ruleState
 
     private var _createRuleState: MutableStateFlow<APIState<PriceRuleResponse>> = MutableStateFlow(
         APIState.Loading()

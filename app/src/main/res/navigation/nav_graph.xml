@@ -9,7 +9,11 @@
         android:id="@+id/createDiscountFragment"
         android:name="eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.creatediscount.ui.CreateDiscountFragment"
         android:label="fragment_create_discount"
-        tools:layout="@layout/fragment_create_discount" />
+        tools:layout="@layout/fragment_create_discount" >
+        <argument
+            android:name="priceRule"
+            app:argType="eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.PriceRule" />
+    </fragment>
     <fragment
         android:id="@+id/homeFragment"
         android:name="eg.gov.iti.jets.shopifyapp_admin.home.presentation.ui.HomeFragment"
@@ -24,10 +28,39 @@
         android:id="@+id/allProductsFragment"
         android:name="eg.gov.iti.jets.shopifyapp_admin.products.presentation.allproducts.ui.AllProductsFragment"
         android:label="fragment_all_products"
-        tools:layout="@layout/fragment_all_products" />
+        tools:layout="@layout/fragment_all_products" >
+        <action
+            android:id="@+id/action_allProductsFragment_to_productDetailsFragment"
+            app:destination="@id/productDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/allDiscountFragment"
         android:name="eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.ui.AllDiscountFragment"
         android:label="fragment_all_discount"
-        tools:layout="@layout/fragment_all_discount" />
+        tools:layout="@layout/fragment_all_discount" >
+        <argument
+            android:name="priceRule"
+            app:argType="eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.PriceRule" />
+        <action
+            android:id="@+id/action_allDiscountFragment_to_createDiscountFragment"
+            app:destination="@id/createDiscountFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetailsFragment"
+        android:name="eg.gov.iti.jets.shopifyapp_admin.productsdetails.presentation.ui.ProductDetailsFragment"
+        android:label="fragment_product_details"
+        tools:layout="@layout/fragment_product_details" >
+        <argument
+            android:name="product"
+            app:argType="eg.gov.iti.jets.shopifyapp_admin.products.data.model.Product" />
+    </fragment>
+    <fragment
+        android:id="@+id/allRulesFragment"
+        android:name="eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.allrules.ui.AllRulesFragment"
+        android:label="fragment_all_rules"
+        tools:layout="@layout/fragment_all_rules" >
+        <action
+            android:id="@+id/action_allRulesFragment_to_allDiscountFragment"
+            app:destination="@id/allDiscountFragment" />
+    </fragment>
 </navigation>

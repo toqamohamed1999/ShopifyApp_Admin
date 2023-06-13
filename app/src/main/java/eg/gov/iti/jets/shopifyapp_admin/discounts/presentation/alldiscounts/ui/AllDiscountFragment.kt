@@ -8,13 +8,18 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import eg.gov.iti.jets.shopifyapp_admin.R
 import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentAllDiscountBinding
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.DiscountCode
+import eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.PriceRule
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.remote.DiscountRemoteSourceImp
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.repo.DiscountRepoImp
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.viewmodel.AllDiscountsViewModel
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.viewmodel.AllDiscountsViewModelFactory
+import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.creatediscount.ui.CreateDiscountFragment
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -27,6 +32,8 @@ class AllDiscountFragment : Fragment() {
     private lateinit var binding: FragmentAllDiscountBinding
     private lateinit var discountAdapter: DiscountAdapter
     private var discountsList: List<DiscountCode> = ArrayList()
+    private val args: AllDiscountFragmentArgs by navArgs()
+    private lateinit var priceRule : PriceRule
 
     private val viewModel: AllDiscountsViewModel by lazy {
 
@@ -53,10 +60,18 @@ class AllDiscountFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        priceRule = args.priceRule
+    }
+
+    override fun onStart() {
+        super.onStart()
 
         setUpRecyclerView()
+        addDiscountAction()
         observeGetDiscounts()
+        Log.i(TAG, "onStart: ")
     }
+
 
     private fun setUpRecyclerView() {
         discountAdapter = DiscountAdapter()
@@ -69,7 +84,7 @@ class AllDiscountFragment : Fragment() {
 
 
     private fun observeGetDiscounts() {
-        viewModel.getDiscounts(1385614967065)
+        viewModel.getDiscounts(priceRule.id!!)
 
         lifecycleScope.launch {
             viewModel.getDiscountState.collectLatest {
@@ -87,6 +102,14 @@ class AllDiscountFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun addDiscountAction(){
+        binding.addFloatingBtn.setOnClickListener {
+            CreateDiscountFragment.newInstance(priceRule)
+                .show(requireActivity().supportFragmentManager, CreateDiscountFragment.TAG)
+        //  Navigation.findNavController(binding.root).navigate(R.id.createDiscountFragment)
         }
     }
 

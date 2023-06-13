@@ -21,7 +21,7 @@ class DiscountRemoteSourceImp : DiscountRemoteSource{
         return APIClient.apiInterface.createDiscountCode(ruleID,body).discountCode
     }
 
-    override suspend fun getPriceRules(): List<PriceRuleX>{
+    override suspend fun getPriceRules(): List<PriceRule>{
         return APIClient.apiInterface.getPriceRules().priceRules
     }
 

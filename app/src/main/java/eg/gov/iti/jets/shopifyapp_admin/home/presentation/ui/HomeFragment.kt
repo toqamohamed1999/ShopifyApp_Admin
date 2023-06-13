@@ -51,7 +51,7 @@ class HomeFragment : Fragment() {
             Navigation.findNavController(binding.root).navigate(R.id.allProductsFragment)
         }
         binding.discountsLayout.constraintLayout.setOnClickListener {
-            Navigation.findNavController(binding.root).navigate(R.id.allDiscountFragment)
+            Navigation.findNavController(binding.root).navigate(R.id.allRulesFragment)
         }
     }
 }

@@ -1,17 +1,21 @@
 package eg.gov.iti.jets.shopifyapp_admin.products.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Variant(
 
     val created_at: String? = null,
     val id: Long? = null,
-    val image_id: Any? = null,
+    val image_id: String? = null,
     val inventory_item_id: Long? = null,
     val inventory_management: String? = null,
     val inventory_quantity: Int? = null,
     val old_inventory_quantity: Int? = null,
     val option1: String? = null,
     val option2: String? = null,
-    val option3: Any? = null,
+    val option3: String? = null,
     val position: Int? = null,
     val price: String? = null,
     val product_id: Long? = null,
@@ -19,7 +23,7 @@ data class Variant(
     val title: String? = null,
     val updated_at: String? = null,
 
-)
+) : Parcelable
 /*
 {
     "inventory_item": {
