@@ -48,9 +48,9 @@ class CreateDiscountFragment : DialogFragment() {
         private lateinit var priceRule: PriceRule
         private lateinit var discountListener: DiscountListener
         const val TAG = "CreateDiscountFragment"
-        fun newInstance(priceRule1: PriceRule,discountListener1: DiscountListener): CreateDiscountFragment {
-            priceRule = priceRule1
-            discountListener = discountListener1
+        fun newInstance(priceRule: PriceRule,discountListener: DiscountListener): CreateDiscountFragment {
+            this.priceRule = priceRule
+            this.discountListener = discountListener
             return CreateDiscountFragment()
         }
     }

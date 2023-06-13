@@ -2,6 +2,7 @@ package eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.updatediscount.u
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,6 +14,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import eg.gov.iti.jets.shopifyapp_admin.R
 import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentCreateDiscountBinding
+import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentUpdateDiscountBinding
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.*
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.remote.DiscountRemoteSourceImp
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.repo.DiscountRepoImp
@@ -30,7 +32,7 @@ import kotlinx.coroutines.launch
 
 class UpdateDiscountFragment : DialogFragment() {
 
-    private lateinit var binding : FragmentCreateDiscountBinding
+    private lateinit var binding : FragmentUpdateDiscountBinding
 
     private val viewModel: UpdateDiscountViewModel by lazy {
 
@@ -60,6 +62,7 @@ class UpdateDiscountFragment : DialogFragment() {
             this.priceRule = priceRule
             this.discountCode = discountCode
             this.discountListener = discountListener
+
             return UpdateDiscountFragment()
         }
     }
@@ -68,25 +71,31 @@ class UpdateDiscountFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCreateDiscountBinding.inflate(inflater,container,false)
+        binding = FragmentUpdateDiscountBinding.inflate(inflater,container,false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.codeEditText.setText(discountCode.code!!)
+
         editActionBtn()
         observeUpdateDiscount()
     }
 
     private fun editActionBtn(){
-        binding.addBtn.setOnClickListener {
-            if (!binding.codeEditText.text.toString().isNullOrEmpty()) {
+        binding.saveEditBtn.setOnClickListener {
+            if(discountCode.code == binding.codeEditText.text.toString()){
+                binding.codeEditText.error = "code have no change to save"
+            }
+            else if (!binding.codeEditText.text.toString().isNullOrEmpty()) {
                 viewModel.updateDiscount(priceRule.id!!,discountCode.id!!,
-                       DiscountCodeResponse(DiscountCode(discountCode.id!!, code = binding.codeEditText.text.toString()))
-                )
+                       DiscountCodeResponse(DiscountCode(discountCode.id!!, code = binding.codeEditText.text.toString())))
+
                 alertDialog.show()
-            }else{
+            }
+            else{
                 binding.codeEditText.error = "should have a code"
             }
         }
@@ -97,16 +106,20 @@ class UpdateDiscountFragment : DialogFragment() {
             viewModel.updateDiscountState.collectLatest {
                 when (it) {
                     is APIState.Loading -> {
-
+                        //alertDialog.show()
                     }
                     is APIState.Success -> {
-
                         Log.i(TAG, "observeUpdateDiscount: ${it.data}")
-
+                        alertDialog.dismiss()
+                        discountListener.getDiscounts()
+                        Toast.makeText(requireActivity(),"Updated successfully",Toast.LENGTH_LONG).show()
+                        dismiss()
                     }
                     else -> {
-
-                        Log.i(TAG, "observeUpdateDiscount: $it")
+                        Log.i(CreateDiscountFragment.TAG, "observeUpdateDiscount: $it")
+                        alertDialog.dismiss()
+                        Toast.makeText(requireActivity(),"Update failed",Toast.LENGTH_LONG).show()
+                        dismiss()
                     }
                 }
             }

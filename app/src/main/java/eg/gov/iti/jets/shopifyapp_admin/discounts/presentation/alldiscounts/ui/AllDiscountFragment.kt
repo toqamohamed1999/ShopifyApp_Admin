@@ -22,6 +22,7 @@ import eg.gov.iti.jets.shopifyapp_admin.discounts.data.repo.DiscountRepoImp
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.viewmodel.AllDiscountsViewModel
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.viewmodel.AllDiscountsViewModelFactory
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.creatediscount.ui.CreateDiscountFragment
+import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.updatediscount.ui.UpdateDiscountFragment
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
 import eg.gov.iti.jets.shopifyapp_admin.util.createAlertDialog
 import kotlinx.coroutines.flow.collectLatest
@@ -145,7 +146,8 @@ class AllDiscountFragment : Fragment() , DiscountListener{
     }
 
     override fun updateDiscount(discountCode: DiscountCode) {
-
+        UpdateDiscountFragment.newInstance(priceRule,discountCode,this)
+            .show(childFragmentManager, UpdateDiscountFragment.TAG)
     }
     override fun deleteDiscount(discountCode: DiscountCode) {
         this.discountCode = discountCode
