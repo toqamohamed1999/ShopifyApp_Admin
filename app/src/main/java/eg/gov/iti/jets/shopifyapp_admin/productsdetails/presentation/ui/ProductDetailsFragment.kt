@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import eg.gov.iti.jets.shopifyapp_admin.R
 import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentAllDiscountBinding
@@ -25,7 +26,10 @@ import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.ui.D
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.viewmodel.AllDiscountsViewModel
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.viewmodel.AllDiscountsViewModelFactory
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Product
+import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Variant
 import eg.gov.iti.jets.shopifyapp_admin.util.createAlertDialog
+import eg.gov.iti.jets.shopifyapp_user.products.presentation.ui.DisplayVariantAdapter
+import eg.gov.iti.jets.shopifyapp_user.products.presentation.ui.VariantAdapter
 
 
 class ProductDetailsFragment : Fragment() {
@@ -35,7 +39,8 @@ class ProductDetailsFragment : Fragment() {
     private lateinit var binding: FragmentProductDetailsBinding
     private val args: ProductDetailsFragmentArgs by navArgs()
     private lateinit var product : Product
-
+    private lateinit var displayVariantAdapter: DisplayVariantAdapter
+    private var variantList = listOf<Variant>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -57,6 +62,13 @@ class ProductDetailsFragment : Fragment() {
         bindProduct()
     }
 
+    private fun setUpRecyclerView() {
+        displayVariantAdapter = DisplayVariantAdapter(variantList)
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.variantsRecyclerView.layoutManager = layoutManager
+        binding.variantsRecyclerView.adapter = displayVariantAdapter
+    }
+
     private fun bindProduct(){
         if (product != null) {
             product.images?.let { createDots(it.size) }
@@ -71,7 +83,10 @@ class ProductDetailsFragment : Fragment() {
             binding.txtProductPrice.text = (product.variants?.get(0)?.price + " EGP")
             binding.txtProductName.text = product.title
             binding.txtViewDescription.text = product.bodyHtml
+            variantList = product.variants
             binding.viewPagerImages.adapter = ProductImageViewPagerAdapter(product.images!!)
+
+            setUpRecyclerView()
         }
     }
 
@@ -101,10 +116,5 @@ class ProductDetailsFragment : Fragment() {
             dot.background = drawable
         }
     }
-
-
-
-
-
 
 }

@@ -27,7 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            android:src="@drawable/price_rule"
+            android:src="@drawable/rule2"
             app:civ_border_width="@dimen/_1sdp"/>
 
         <TextView
@@ -35,14 +35,14 @@
             android:layout_width="195dp"
             android:maxLines="2"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/createdAt_textview"
             app:layout_constraintStart_toEndOf="@id/image"
-            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginStart="@dimen/_10sdp"
             android:textColor="@color/black"
             android:text="@string/title"
             android:textStyle="bold"
             android:textSize="@dimen/_15sdp"
-            android:layout_marginTop="@dimen/_18sdp" />
+            android:layout_marginTop="@dimen/_8sdp" />
 
 
 
@@ -63,9 +63,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/title_textview"
-            app:layout_constraintStart_toEndOf="@id/image"
-            android:layout_marginStart="@dimen/_20sdp"
-            android:textColor="#FF5722"
+            app:layout_constraintStart_toStartOf="@id/title_textview"
+            android:textColor="@color/lightBrown"
             android:text="@string/value"
             android:textStyle="bold|italic"
             android:textSize="@dimen/_12sdp"

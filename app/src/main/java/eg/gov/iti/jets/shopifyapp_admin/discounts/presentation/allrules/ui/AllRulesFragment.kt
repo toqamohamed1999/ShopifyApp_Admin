@@ -80,14 +80,16 @@ class AllRulesFragment : Fragment() {
             viewModel.ruleState.collectLatest {
                 when (it) {
                     is APIState.Loading -> {
-
+                        binding.progressbar.visibility = View.VISIBLE
                     }
                     is APIState.Success -> {
+                        binding.progressbar.visibility = View.GONE
                         Log.i(TAG, "observeGetRules: ${it.data}")
                         rulesList = it.data
                         rulesAdapter.submitList(rulesList)
                     }
                     else -> {
+                        binding.progressbar.visibility = View.GONE
                         Log.i(TAG, "observeGetRules: $it")
                     }
                 }

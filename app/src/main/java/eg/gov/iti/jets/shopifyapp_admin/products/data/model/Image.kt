@@ -16,6 +16,11 @@ data class Image(
     @SerializedName("width") var width : Int?=0,
     @SerializedName("height") var height : Int?=0,
     @SerializedName("src") var src : String?="",
-    @SerializedName("variant_ids") var variantIds : List<String> = emptyList(),
-    @SerializedName("admin_graphql_api_id") var adminGraphqlApiId : String?=""
 ): Parcelable
+
+data class ImageB (
+
+    @SerializedName("attachment") var attachment : String? = null,
+    @SerializedName("filename") var filename   : String? = null
+
+)

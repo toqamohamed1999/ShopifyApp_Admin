@@ -8,7 +8,9 @@ data class ProductB(
     @SerializedName("body_html") var bodyHtml: String? = null,
     @SerializedName("vendor") var vendor: String? = null,
     @SerializedName("product_type") var productType: String? = null,
-    @SerializedName("published") var published: Boolean? = null
+    @SerializedName("published") var published: Boolean? = null,
+    @SerializedName("variants") var variants : List<Variant> = emptyList(),
+    @SerializedName("images") var images: ArrayList<ImageB> = arrayListOf()
 )
 
 

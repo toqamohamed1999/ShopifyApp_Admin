@@ -42,7 +42,7 @@ class HomeFragment : Fragment() {
         binding.inventoryLayout.titleTextview.text = "Inventory"
         binding.inventoryLayout.imageView.setImageResource(R.drawable.inventory);
         binding.discountsLayout.constraintLayout.setBackgroundColor(Color.parseColor("#FF8FE493"))
-        binding.discountsLayout.titleTextview.text = "Discounts"
+        binding.discountsLayout.titleTextview.text = " Price Rules\n& Discounts"
         binding.discountsLayout.imageView.setImageResource(R.drawable.discount);
     }
 

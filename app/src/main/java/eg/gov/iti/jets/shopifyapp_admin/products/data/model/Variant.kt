@@ -13,17 +13,17 @@ data class Variant(
     val inventory_management: String? = null,
     val inventory_quantity: Int? = null,
     val old_inventory_quantity: Int? = null,
-    val option1: String? = null,
-    val option2: String? = null,
+    var option1: String? = null,
+    var option2: String? = null,
     val option3: String? = null,
     val position: Int? = null,
-    val price: String? = null,
+    var price: String? = null,
     val product_id: Long? = null,
     val sku: String? = null,
     val title: String? = null,
     val updated_at: String? = null,
 
-) : Parcelable
+    ) : Parcelable
 /*
 {
     "inventory_item": {

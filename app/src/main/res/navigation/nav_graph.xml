@@ -32,6 +32,9 @@
         <action
             android:id="@+id/action_allProductsFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
+        <action
+            android:id="@+id/action_allProductsFragment_to_updateProductFragment"
+            app:destination="@id/updateProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/allDiscountFragment"
@@ -62,5 +65,18 @@
         <action
             android:id="@+id/action_allRulesFragment_to_allDiscountFragment"
             app:destination="@id/allDiscountFragment" />
+    </fragment>
+    <dialog
+        android:id="@+id/updateDiscountFragment"
+        android:name="eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.updatediscount.ui.UpdateDiscountFragment"
+        android:label="UpdateDiscountFragment" />
+    <fragment
+        android:id="@+id/updateProductFragment"
+        android:name="eg.gov.iti.jets.shopifyapp_admin.updateproduct.presentation.ui.UpdateProductFragment"
+        android:label="fragment_update_product"
+        tools:layout="@layout/fragment_update_product" >
+        <argument
+            android:name="product"
+            app:argType="eg.gov.iti.jets.shopifyapp_admin.products.data.model.Product" />
     </fragment>
 </navigation>

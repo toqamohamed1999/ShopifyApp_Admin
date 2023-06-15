@@ -3,40 +3,43 @@ package eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.ui
 import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.LocationManager
+import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Environment
 import android.provider.MediaStore
-import android.provider.Settings
+import android.util.Base64
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.AdapterView.OnItemClickListener
+import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation
 import androidx.navigation.Navigation.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentCreateProductBinding
+import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ImageB
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductB
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductBody
+import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Variant
 import eg.gov.iti.jets.shopifyapp_admin.products.data.remote.ProductRemoteSourceImp
 import eg.gov.iti.jets.shopifyapp_admin.products.data.repo.ProductRepoImp
 import eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.viewmodel.CreateProductViewModel
 import eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.viewmodel.CreateProductViewModelFactory
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
 import eg.gov.iti.jets.shopifyapp_admin.util.createAlertDialog
+import eg.gov.iti.jets.shopifyapp_user.products.presentation.ui.ProductsAdapter
+import eg.gov.iti.jets.shopifyapp_user.products.presentation.ui.VariantAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
+import java.io.ByteArrayOutputStream
 
 
 class CreateProductFragment : Fragment() {
@@ -45,6 +48,9 @@ class CreateProductFragment : Fragment() {
     private lateinit var binding: FragmentCreateProductBinding
     private val STORAGE_PERMISSION_CODE = 1002
     private val PICK_IMAGE_CODE = 105
+    private var imageUri: Uri? = null
+    private lateinit var variantAdapter : VariantAdapter
+    private var variantList = mutableListOf(Variant())
 
     private val viewModel: CreateProductViewModel by lazy {
 
@@ -60,7 +66,6 @@ class CreateProductFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
     }
 
     override fun onCreateView(
@@ -78,6 +83,21 @@ class CreateProductFragment : Fragment() {
         addProductAction()
         observeCreateProduct()
         handleImageAction()
+        setUpRecyclerView()
+        addVariantAction()
+    }
+
+    private fun setUpRecyclerView() {
+        variantAdapter = VariantAdapter(variantList, requireActivity())
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.variantsRecyclerView.layoutManager = layoutManager
+        binding.variantsRecyclerView.adapter = variantAdapter
+    }
+    private fun addVariantAction(){
+        binding.addVariantBtn.setOnClickListener {
+            variantAdapter.variantsList.add(Variant())
+            variantAdapter.notifyDataSetChanged()
+        }
     }
 
     private fun addProductAction() {
@@ -114,12 +134,20 @@ class CreateProductFragment : Fragment() {
     }
 
     private fun buildProduct(): ProductB {
-        return ProductB(
+        var productB = ProductB(
             title = binding.titleEditText.text.toString(),
-            bodyHtml = binding.titleEditText.text.toString(),
+            bodyHtml = binding.descEditText.text.toString(),
             vendor = binding.vendorEditText.text.toString(),
-            productType = binding.typeEditText.text.toString()
+            productType = binding.typeEditText.text.toString(),
         )
+
+        if (imageUri != null) {
+            productB.images = arrayListOf(ImageB(attachment = convertImageToBase64()))
+        }
+
+        productB.variants = variantAdapter.variantsList
+
+        return productB
     }
 
     private fun isDataValidate(): Boolean {
@@ -139,8 +167,18 @@ class CreateProductFragment : Fragment() {
             binding.titleEditText.error = "should have a type"
             return false
         }
+        if (imageUri == null) {
+            Toast.makeText(requireActivity(),"you should choose a picture", Toast.LENGTH_LONG).show()
+            return false
+        }
+        if(!variantAdapter.checkDataValidation()){
+            return false
+        }
         return true
     }
+
+
+
     private fun handleImageAction() {
         binding.imageView.setOnClickListener {
             if (checkPermission()) {
@@ -150,17 +188,20 @@ class CreateProductFragment : Fragment() {
             }
         }
     }
+
     private fun pickPicture() {
         val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
         startActivityForResult(gallery, PICK_IMAGE_CODE)
     }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE_CODE) {
-            var imageUri = data?.data
+            imageUri = data?.data
             binding.imageView.setImageURI(imageUri)
         }
     }
+
     private fun checkPermission(): Boolean {
         return ActivityCompat.checkSelfPermission(
             requireActivity(),
@@ -171,6 +212,7 @@ class CreateProductFragment : Fragment() {
                     Manifest.permission.WRITE_EXTERNAL_STORAGE
                 ) == PackageManager.PERMISSION_GRANTED
     }
+
     private fun requestPermission() {
         this.requestPermissions( //Method of Fragment
             arrayOf(
@@ -179,6 +221,7 @@ class CreateProductFragment : Fragment() {
             ), STORAGE_PERMISSION_CODE
         )
     }
+
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,
@@ -191,6 +234,16 @@ class CreateProductFragment : Fragment() {
             }
         }
     }
+
+    private fun convertImageToBase64(): String {
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        val bitmap = binding.imageView.drawable.toBitmap()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
+        val imageBytes: ByteArray = byteArrayOutputStream.toByteArray()
+
+        return Base64.encodeToString(imageBytes, Base64.DEFAULT)
+    }
+
 
 
     /*
