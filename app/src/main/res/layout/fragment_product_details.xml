@@ -90,10 +90,10 @@
             android:layout_height="wrap_content"
             android:layout_margin="12dp"
             android:layout_marginStart="5dp"
-            android:text="1000 LE"
+            android:text="1000 EGP"
             android:textAlignment="viewStart"
             android:textSize="15sp"
-            android:textColor="@color/black"
+            android:textColor="@color/orange"
             android:textStyle="bold"
             />
         <TextView
@@ -116,7 +116,7 @@
             android:layout_marginStart="5dp"
             android:text="@string/description"
             android:textAlignment="viewStart"
-            android:textSize="15sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             />
         <androidx.cardview.widget.CardView
@@ -134,11 +134,11 @@
                 android:layout_margin="8dp"
                 android:text="There's a shell toe for every season, and the adidas Originals Superstar 80s shoes have a full grain leather upper with a shiny badge on the tongue that makes these shoes ready for any time of year."
                 android:textAlignment="viewStart"
+                android:padding="@dimen/_5sdp"
+                android:textColor="#373232"
+                android:lineSpacingExtra="@dimen/_5sdp"
                 android:textSize="17sp" />
         </androidx.cardview.widget.CardView>
-
-
     </LinearLayout>
-
 
 </androidx.core.widget.NestedScrollView>

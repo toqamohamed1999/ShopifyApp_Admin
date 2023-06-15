@@ -32,10 +32,6 @@ class CreateProductViewModel(private val repo: ProductRepo) : ViewModel() {
     )
     var updateProductState: StateFlow<APIState<ProductResponse>> = _updateProductState
 
-    private var _deleteProductState: MutableStateFlow<APIState<String>> = MutableStateFlow(
-        APIState.Loading()
-    )
-    var deleteProductState: StateFlow<APIState<String>> = _deleteProductState
 
 
     init {
@@ -82,18 +78,6 @@ class CreateProductViewModel(private val repo: ProductRepo) : ViewModel() {
         }
     }
 
-    fun deleteProduct(productId: Long) {
-        viewModelScope.launch {
-            try {
-                repo.deleteProduct(productId).collect {
-                    _deleteProductState.value = APIState.Success(it!!)
-                }
-            } catch (e: java.lang.Exception) {
-                _deleteProductState.value = APIState.Error()
-                Log.i(TAG, "deleteProduct: "+e.message)
-            }
-        }
-    }
 
 }
 

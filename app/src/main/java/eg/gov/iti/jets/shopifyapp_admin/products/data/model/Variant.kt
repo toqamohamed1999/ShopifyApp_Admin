@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Variant(
-
+//inventory quantity/option1(color)/option2(size)/price/title
     val created_at: String? = null,
     val id: Long? = null,
     val image_id: String? = null,

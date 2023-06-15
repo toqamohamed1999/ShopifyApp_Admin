@@ -5,7 +5,7 @@
     <string name="products">Products</string>
     <string name="search_for_product">Search for product...</string>
     <string name="admin_dashboard">Admin Dashboard</string>
-    <string name="description">description</string>
+    <string name="description">Description</string>
     <string name="reviews">reviews</string>
     <string name="title">title</string>
     <string name="value">value</string>
@@ -17,5 +17,8 @@
     <string name="processing">Processing...</string>
     <string name="edit_discount_code">Edit Discount</string>
     <string name="save_edit">Save Edit</string>
+    <string name="create_product">Create Product</string>
+    <string name="type">Type</string>
+    <string name="vendor">Vendor</string>
 
 </resources>

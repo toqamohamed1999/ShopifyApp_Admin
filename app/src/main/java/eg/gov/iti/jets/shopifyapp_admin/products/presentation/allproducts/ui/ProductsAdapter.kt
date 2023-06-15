@@ -13,7 +13,8 @@ import eg.gov.iti.jets.shopifyapp_admin.products.presentation.allproducts.ui.All
 import eg.gov.iti.jets.shopifyapp_admin.util.getTitleOfProduct
 
 
-class ProductsAdapter(private var productList: List<Product>, private val context: Context, var myListener: ProductListener) :
+class ProductsAdapter(private var productList: List<Product>, private val context: Context,
+                      var listener: ProductListener) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
     private val TAG = "ProductsAdapter"
@@ -32,23 +33,31 @@ class ProductsAdapter(private var productList: List<Product>, private val contex
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentProduct = productList[position]
+        val product = productList[position]
 
-        holder.binding.productTitleTextView.text = getTitleOfProduct(currentProduct.title!!)
-        holder.binding.productPriceTextView.text = currentProduct.variants?.get(0)?.price ?: ""
         Glide.with(context)
-            .load(currentProduct.image?.src)
+            .load(product.image?.src)
             .into(holder.binding.productImageView)
 
-        Log.i(TAG, "onBindViewHolder: $currentProduct")
+        holder.binding.productTitleTextView.text = getTitleOfProduct(product.title!!)
+        holder.binding.productPriceTextView.text = (product.variants?.get(0)?.price + " EGP")
+
         holder.binding.productCardView.setOnClickListener {
             holder.binding.root.findNavController()
                 .navigate(AllProductsFragmentDirections
-                    .actionAllProductsFragmentToProductDetailsFragment(currentProduct))
+                    .actionAllProductsFragmentToProductDetailsFragment(product))
+        }
+
+        holder.binding.deleteImage.setOnClickListener {
+            listener.deleteProduct(product)
         }
     }
 
     override fun getItemCount() = productList.size
+    fun changeData(productList: MutableList<Product>) {
+        this.productList = productList
+        notifyDataSetChanged()
+    }
 
     inner class ViewHolder(var binding: ProductItemBinding) : RecyclerView.ViewHolder(binding.root)
 }
