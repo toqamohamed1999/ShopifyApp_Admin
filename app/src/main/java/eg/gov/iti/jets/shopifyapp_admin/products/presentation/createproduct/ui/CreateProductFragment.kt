@@ -25,10 +25,7 @@ import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentCreateProductBinding
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ImageB
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductB
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductBody
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Variant
+import eg.gov.iti.jets.shopifyapp_admin.products.data.model.*
 import eg.gov.iti.jets.shopifyapp_admin.products.data.remote.ProductRemoteSourceImp
 import eg.gov.iti.jets.shopifyapp_admin.products.data.repo.ProductRepoImp
 import eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.viewmodel.CreateProductViewModel
@@ -142,7 +139,7 @@ class CreateProductFragment : Fragment() {
         )
 
         if (imageUri != null) {
-            productB.images = arrayListOf(ImageB(attachment = convertImageToBase64()))
+            productB.images = arrayListOf(Image(attachment = convertImageToBase64()))
         }
 
         productB.variants = variantAdapter.variantsList

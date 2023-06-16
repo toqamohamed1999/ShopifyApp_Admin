@@ -140,9 +140,9 @@ class UpdateProductFragment : Fragment() {
         product?.vendor = binding.vendorEditText.text.toString()
         product?.productType = binding.typeEditText.text.toString()
 
-//        if (imageUri != null) {
-//            product?.images = arrayListOf(Image(src = convertImageToBase64()))
-//        }
+        if (imageUri != null) {
+            product?.images = arrayListOf(Image(attachment = convertImageToBase64()))
+        }
         product?.variants = variantAdapter.variantsList
     }
 

@@ -16,12 +16,8 @@ data class Image(
     @SerializedName("width") var width : Int?=0,
     @SerializedName("height") var height : Int?=0,
     @SerializedName("src") var src : String?="",
-): Parcelable
-
-@Parcelize
-data class ImageB (
-
     @SerializedName("attachment") var attachment : String? = null,
     @SerializedName("filename") var filename   : String? = null
 
-) : Parcelable
+): Parcelable
+
