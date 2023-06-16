@@ -43,7 +43,7 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
         holder.binding.colorEditText.setText(variant.sku)
         holder.binding.sizeEditText.setText(variant.option1)
         holder.binding.priceEditText.setText(variant.price)
-        holder.binding.quantityEditText.setText(variant.inventory_quantity ?: 0)
+        holder.binding.quantityEditText.setText((variant.inventory_quantity ?: "").toString())
 
         holder.binding.deleteImage.setOnClickListener {
             variantsList.removeAt(position)
@@ -94,7 +94,8 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
         }
 
         holder.binding.quantityEditText.doAfterTextChanged {
-            variantsList[position1].inventory_quantity = (it.toString()).toInt()
+           if(!it.toString().isNullOrEmpty())
+               variantsList[position1].inventory_quantity = (it.toString()).toInt()
         }
     }
 

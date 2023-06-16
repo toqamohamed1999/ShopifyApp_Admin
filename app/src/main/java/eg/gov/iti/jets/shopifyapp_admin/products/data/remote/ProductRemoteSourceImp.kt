@@ -3,6 +3,7 @@ package eg.gov.iti.jets.shopifyapp_admin.products.data.remote
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Product
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductBody
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductResponse
+import eg.gov.iti.jets.shopifyapp_admin.products.data.model.VariantRoot
 import eg.gov.iti.jets.shopifyapp_admin.products.domain.remote.ProductRemoteSource
 import eg.gov.iti.jets.shopifyapp_user.base.remote.AppRetrofit
 
@@ -34,6 +35,10 @@ class ProductRemoteSourceImp : ProductRemoteSource{
         }catch (ex : java.lang.Exception){
             "error"
         }
+    }
+
+    override suspend fun updateVariant(variantId: Long, body: VariantRoot): VariantRoot {
+        return APIClient.apiInterface.updateVariant(variantId,body)
     }
 
 }

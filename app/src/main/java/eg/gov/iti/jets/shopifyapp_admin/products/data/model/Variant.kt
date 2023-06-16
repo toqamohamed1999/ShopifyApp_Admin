@@ -6,24 +6,32 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Variant(
 //inventory quantity/option2(color)/option1(size)/price/title
-    val created_at: String? = null,
-    val id: Long? = null,
-    val image_id: String? = null,
-    val inventory_item_id: Long? = null,
-    val inventory_management: String? = null,
+    var created_at: String? = null,
+    var id: Long? = null,
+    var image_id: String? = null,
+    var inventory_item_id: Long? = null,
+    var inventory_management: String? = null,
     var inventory_quantity: Int? = null,
-    val old_inventory_quantity: Int? = null,
+    var old_inventory_quantity: Int? = null,
     var option1: String? = null,
     var option2: String? = null,
     var option3: String? = null,
-    val position: Int? = null,
+    var position: Int? = null,
     var price: String? = null,
-    val product_id: Long? = null,
+    var product_id: Long? = null,
     var sku: String? = null,
     var title: String? = null,
-    val updated_at: String? = null,
+    var updated_at: String? = null,
 
     ) : Parcelable
+
+@Parcelize
+data class VariantRoot(
+    var variant: Variant? = null,
+
+    ) : Parcelable
+
+
 /*
 {
     "inventory_item": {

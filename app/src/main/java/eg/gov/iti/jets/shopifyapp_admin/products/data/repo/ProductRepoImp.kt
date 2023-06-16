@@ -3,6 +3,7 @@ package eg.gov.iti.jets.shopifyapp_admin.products.data.repo
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Product
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductBody
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductResponse
+import eg.gov.iti.jets.shopifyapp_admin.products.data.model.VariantRoot
 import eg.gov.iti.jets.shopifyapp_admin.products.domain.remote.ProductRemoteSource
 import eg.gov.iti.jets.shopifyapp_admin.products.domain.repo.ProductRepo
 import kotlinx.coroutines.flow.Flow
@@ -41,6 +42,10 @@ class ProductRepoImp private constructor(
 
     override suspend fun deleteProduct(productId: Long) : Flow<String> {
         return flowOf(remoteSource.deleteProduct(productId))
+    }
+
+    override suspend fun updateVariant(variantId: Long, body: VariantRoot): Flow<VariantRoot> {
+        return flowOf(remoteSource.updateVariant(variantId, body))
     }
 
 }

@@ -84,6 +84,7 @@ class UpdateProductFragment : Fragment() {
         handleImageAction()
         setUpRecyclerView()
         addVariantAction()
+        observeUpdateVariant()
     }
 
     private fun setUpRecyclerView() {
@@ -104,6 +105,7 @@ class UpdateProductFragment : Fragment() {
         binding.saveBtn.setOnClickListener {
             if (isDataValidate()) {
                 buildProduct()
+                Log.i(TAG, "addProductAction: $product")
                 viewModel.updateProduct(product?.id!!, ProductResponse(product!!))
                 alertDialog.show()
             }
@@ -128,6 +130,27 @@ class UpdateProductFragment : Fragment() {
                         Log.i(TAG, "observeUpdateProduct: $it")
                         Toast.makeText(requireActivity(), "Update failed", Toast.LENGTH_LONG)
                             .show()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun observeUpdateVariant() {
+        viewModel.updateVariant(45470459363609,
+            VariantRoot(Variant(id = 45470459363609, option2 = "blue", inventory_quantity = 27 )))
+
+        lifecycleScope.launch {
+            viewModel.updateVariantState.collectLatest {
+                when (it) {
+                    is APIState.Loading -> {
+                    }
+                    is APIState.Success -> {
+                        Log.i(TAG, "observeUpdateVariant: ${it.data}")
+                    }
+                    else -> {
+                        alertDialog.dismiss()
+                        Log.i(TAG, "observeUpdateVariant: $it")
                     }
                 }
             }
