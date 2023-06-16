@@ -65,7 +65,7 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
 
     private fun setupMenu() {
         val colorsList =
-            listOf("white", "black", "orange", "blue", "red", "brown", "burble", "yellow", "green")
+            listOf("white", "black", "orange", "blue", "red", "brown", "yellow", "green")
         val adapter: ArrayAdapter<String> =
             ArrayAdapter(context, R.layout.select_dialog_item, colorsList)
 
@@ -79,6 +79,7 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
             AdapterView.OnItemClickListener { parent, _, position, _ ->
                 val item = parent.getItemAtPosition(position)
                 variantsList[position1].sku = item.toString()
+                variantsList[position1].option2 = item.toString()
             }
     }
 

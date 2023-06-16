@@ -18,9 +18,10 @@ data class Image(
     @SerializedName("src") var src : String?="",
 ): Parcelable
 
+@Parcelize
 data class ImageB (
 
     @SerializedName("attachment") var attachment : String? = null,
     @SerializedName("filename") var filename   : String? = null
 
-)
+) : Parcelable

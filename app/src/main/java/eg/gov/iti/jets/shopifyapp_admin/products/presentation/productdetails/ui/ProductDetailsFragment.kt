@@ -15,7 +15,6 @@ import eg.gov.iti.jets.shopifyapp_admin.R
 import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentProductDetailsBinding
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Product
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Variant
-import eg.gov.iti.jets.shopifyapp_admin.productsdetails.presentation.ui.ProductDetailsFragmentDirections
 import eg.gov.iti.jets.shopifyapp_user.products.presentation.ui.DisplayVariantAdapter
 
 
