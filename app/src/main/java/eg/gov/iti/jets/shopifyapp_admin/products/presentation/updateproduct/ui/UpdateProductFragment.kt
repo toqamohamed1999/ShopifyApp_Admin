@@ -1,63 +1,60 @@
-package eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.ui
+package eg.gov.iti.jets.shopifyapp_admin.products.presentation.updateproduct.ui
 
 import android.Manifest
-import android.app.Activity.RESULT_OK
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Base64
 import android.util.Log
-import android.view.*
-import android.widget.AdapterView.OnItemClickListener
-import android.widget.ArrayAdapter
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toBitmap
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.Navigation.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentCreateProductBinding
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ImageB
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductB
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductBody
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Variant
+import com.bumptech.glide.Glide
+import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentUpdateProductBinding
+import eg.gov.iti.jets.shopifyapp_admin.products.data.model.*
 import eg.gov.iti.jets.shopifyapp_admin.products.data.remote.ProductRemoteSourceImp
 import eg.gov.iti.jets.shopifyapp_admin.products.data.repo.ProductRepoImp
-import eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.viewmodel.CreateProductViewModel
-import eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.viewmodel.CreateProductViewModelFactory
+import eg.gov.iti.jets.shopifyapp_admin.products.presentation.updateproduct.viewmodel.UpdateProductViewModel
+import eg.gov.iti.jets.shopifyapp_admin.products.presentation.updateproduct.viewmodel.UpdateProductViewModelFactory
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
 import eg.gov.iti.jets.shopifyapp_admin.util.createAlertDialog
-import eg.gov.iti.jets.shopifyapp_user.products.presentation.ui.ProductsAdapter
 import eg.gov.iti.jets.shopifyapp_user.products.presentation.ui.VariantAdapter
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
+class UpdateProductFragment : Fragment() {
 
-class CreateProductFragment : Fragment() {
-
-    private val TAG = "CreateProductFragment"
-    private lateinit var binding: FragmentCreateProductBinding
+    private val TAG = "UpdateProductFragment"
+    private lateinit var binding: FragmentUpdateProductBinding
+    private val args: UpdateProductFragmentArgs by navArgs()
     private val STORAGE_PERMISSION_CODE = 1002
     private val PICK_IMAGE_CODE = 105
     private var imageUri: Uri? = null
-    private lateinit var variantAdapter : VariantAdapter
-    private var variantList = mutableListOf(Variant())
+    private lateinit var variantAdapter: VariantAdapter
+    private var variantList = mutableListOf<Variant>()
+    private var product: Product? = null
 
-    private val viewModel: CreateProductViewModel by lazy {
+    private val viewModel: UpdateProductViewModel by lazy {
 
-        val factory = CreateProductViewModelFactory(
+        val factory = UpdateProductViewModelFactory(
             ProductRepoImp.getInstance(ProductRemoteSourceImp())!!
         )
-        ViewModelProvider(this, factory)[CreateProductViewModel::class.java]
+        ViewModelProvider(this, factory)[UpdateProductViewModel::class.java]
     }
 
     private val alertDialog: AlertDialog by lazy {
@@ -72,16 +69,18 @@ class CreateProductFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentCreateProductBinding.inflate(inflater, container, false)
+        binding = FragmentUpdateProductBinding.inflate(inflater, container, false)
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        product = args.product
 
+        bindProductData()
         addProductAction()
-        observeCreateProduct()
+        observeUpdateProduct()
         handleImageAction()
         setUpRecyclerView()
         addVariantAction()
@@ -93,7 +92,8 @@ class CreateProductFragment : Fragment() {
         binding.variantsRecyclerView.layoutManager = layoutManager
         binding.variantsRecyclerView.adapter = variantAdapter
     }
-    private fun addVariantAction(){
+
+    private fun addVariantAction() {
         binding.addVariantBtn.setOnClickListener {
             variantAdapter.variantsList.add(Variant())
             variantAdapter.notifyDataSetChanged()
@@ -101,31 +101,32 @@ class CreateProductFragment : Fragment() {
     }
 
     private fun addProductAction() {
-        binding.addBtn.setOnClickListener {
+        binding.saveBtn.setOnClickListener {
             if (isDataValidate()) {
-                viewModel.createProduct(ProductBody(buildProduct()))
+                buildProduct()
+                viewModel.updateProduct(product?.id!!, ProductResponse(product!!))
                 alertDialog.show()
             }
         }
     }
 
-    private fun observeCreateProduct() {
+    private fun observeUpdateProduct() {
         lifecycleScope.launch {
-            viewModel.productState.collectLatest {
+            viewModel.updateProductState.collectLatest {
                 when (it) {
                     is APIState.Loading -> {
                     }
                     is APIState.Success -> {
                         alertDialog.dismiss()
-                        Toast.makeText(requireActivity(), "Created successfully", Toast.LENGTH_LONG)
+                        Toast.makeText(requireActivity(), "Updated successfully", Toast.LENGTH_LONG)
                             .show()
-                        findNavController(binding.root).popBackStack()
-                        Log.i(TAG, "observeCreateProduct: ${it.data}")
+                        Navigation.findNavController(binding.root).popBackStack()
+                        Log.i(TAG, "observeUpdateProduct: ${it.data}")
                     }
                     else -> {
                         alertDialog.dismiss()
-                        Log.i(TAG, "observeCreateProduct: $it")
-                        Toast.makeText(requireActivity(), "Creation failed", Toast.LENGTH_LONG)
+                        Log.i(TAG, "observeUpdateProduct: $it")
+                        Toast.makeText(requireActivity(), "Update failed", Toast.LENGTH_LONG)
                             .show()
                     }
                 }
@@ -133,21 +134,33 @@ class CreateProductFragment : Fragment() {
         }
     }
 
-    private fun buildProduct(): ProductB {
-        var productB = ProductB(
-            title = binding.titleEditText.text.toString(),
-            bodyHtml = binding.descEditText.text.toString(),
-            vendor = binding.vendorEditText.text.toString(),
-            productType = binding.typeEditText.text.toString(),
-        )
+    private fun buildProduct() {
+        product?.title = binding.titleEditText.text.toString()
+        product?.bodyHtml = binding.descEditText.text.toString()
+        product?.vendor = binding.vendorEditText.text.toString()
+        product?.productType = binding.typeEditText.text.toString()
 
-        if (imageUri != null) {
-            productB.images = arrayListOf(ImageB(attachment = convertImageToBase64()))
+//        if (imageUri != null) {
+//            product?.images = arrayListOf(Image(src = convertImageToBase64()))
+//        }
+        product?.variants = variantAdapter.variantsList
+    }
+
+    private fun bindProductData() {
+        if (product != null) {
+
+            binding.titleEditText.setText(product?.title)
+            binding.descEditText.setText(product?.bodyHtml)
+            binding.vendorEditText.setText(product?.vendor)
+            binding.typeEditText.setText(product?.productType)
+
+            variantList = product?.variants as MutableList<Variant>
+            setUpRecyclerView()
+
+            Glide.with(requireContext())
+                .load(product?.image?.src)
+                .into(binding.imageView)
         }
-
-        productB.variants = variantAdapter.variantsList
-
-        return productB
     }
 
     private fun isDataValidate(): Boolean {
@@ -167,17 +180,16 @@ class CreateProductFragment : Fragment() {
             binding.titleEditText.error = "should have a type"
             return false
         }
-        if (imageUri == null) {
-            Toast.makeText(requireActivity(),"you should choose a picture", Toast.LENGTH_LONG).show()
+        if (imageUri == null && product?.image?.src == null) {
+            Toast.makeText(requireActivity(), "you should choose a picture", Toast.LENGTH_LONG)
+                .show()
             return false
         }
-        if(!variantAdapter.checkDataValidation()){
+        if (!variantAdapter.checkDataValidation()) {
             return false
         }
         return true
     }
-
-
 
     private fun handleImageAction() {
         binding.imageView.setOnClickListener {
@@ -196,7 +208,7 @@ class CreateProductFragment : Fragment() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK && requestCode == PICK_IMAGE_CODE) {
+        if (resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE_CODE) {
             imageUri = data?.data
             binding.imageView.setImageURI(imageUri)
         }
@@ -243,5 +255,6 @@ class CreateProductFragment : Fragment() {
 
         return Base64.encodeToString(imageBytes, Base64.DEFAULT)
     }
+
 
 }

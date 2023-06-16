@@ -1,4 +1,4 @@
-package eg.gov.iti.jets.shopifyapp_admin.productsdetails.presentation.ui
+package eg.gov.iti.jets.shopifyapp_admin.products.presentation.productdetails.ui
 
 import android.content.Context
 import android.view.LayoutInflater

@@ -22,23 +22,6 @@ class CreateProductViewModel(private val repo: ProductRepo) : ViewModel() {
     )
     var productState: StateFlow<APIState<ProductResponse>> = _productState
 
-    private var _getProductState: MutableStateFlow<APIState<List<Product>>> = MutableStateFlow(
-        APIState.Loading()
-    )
-    var getProductState: StateFlow<APIState<List<Product>>> = _getProductState
-
-    private var _updateProductState: MutableStateFlow<APIState<ProductResponse>> = MutableStateFlow(
-        APIState.Loading()
-    )
-    var updateProductState: StateFlow<APIState<ProductResponse>> = _updateProductState
-
-
-
-    init {
-    }
-
-
-
     fun createProduct(body : ProductBody) {
         viewModelScope.launch {
             try {
@@ -51,34 +34,6 @@ class CreateProductViewModel(private val repo: ProductRepo) : ViewModel() {
             }
         }
     }
-
-    fun getProducts() {
-        viewModelScope.launch {
-            try {
-                repo.getProducts().collect {
-                    _getProductState.value = APIState.Success(it!!)
-                }
-            } catch (e: java.lang.Exception) {
-                _getProductState.value = APIState.Error()
-                Log.i(TAG, "getProducts: "+e.message)
-            }
-        }
-    }
-
-    fun updateProduct(productId: Long, body: ProductResponse) {
-        viewModelScope.launch {
-            try {
-                repo.updateProduct(productId,body).collect {
-                    _updateProductState.value = APIState.Success(it!!)
-                }
-            } catch (e: java.lang.Exception) {
-                _updateProductState.value = APIState.Error()
-                Log.i(TAG, "updateProduct: "+e.message)
-            }
-        }
-    }
-
-
 }
 
 class CreateProductViewModelFactory(private val repo: ProductRepo) : ViewModelProvider.Factory {

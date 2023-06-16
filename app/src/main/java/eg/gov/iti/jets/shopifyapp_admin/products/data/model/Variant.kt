@@ -15,12 +15,12 @@ data class Variant(
     val old_inventory_quantity: Int? = null,
     var option1: String? = null,
     var option2: String? = null,
-    val option3: String? = null,
+    var option3: String? = null,
     val position: Int? = null,
     var price: String? = null,
     val product_id: Long? = null,
-    val sku: String? = null,
-    val title: String? = null,
+    var sku: String? = null,
+    var title: String? = null,
     val updated_at: String? = null,
 
     ) : Parcelable

@@ -97,6 +97,7 @@ class AllDiscountFragment : Fragment() , DiscountListener{
                     }
                     is APIState.Success -> {
                         Log.i(TAG, "observeGetDiscounts: ${it.data}")
+                        if(alertDialog.isShowing) alertDialog.dismiss()
                         discountsList = it.data.toMutableList()
                         discountAdapter.submitList(discountsList)
                         binding.progressbar.visibility = View.GONE
@@ -117,10 +118,7 @@ class AllDiscountFragment : Fragment() , DiscountListener{
                     is APIState.Loading -> {
                     }
                     is APIState.Success -> {
-                        alertDialog.dismiss()
-                        discountsList.remove(discountCode)
-                        discountAdapter.submitList(discountsList)
-                        discountAdapter.changeData()
+                        viewModel.getDiscounts(priceRule.id!!)
                         Toast.makeText(requireActivity(),"deleted successfully",Toast.LENGTH_LONG).show()
                     }
                     else -> {

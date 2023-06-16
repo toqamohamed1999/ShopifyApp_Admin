@@ -23,8 +23,7 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
 
     private val TAG = "ProductsAdapter"
     private lateinit var binding: VarientItemBinding
-    private lateinit var holder : ViewHolder
-
+    private lateinit var holder: ViewHolder
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater: LayoutInflater =
@@ -38,10 +37,10 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
         val variant = variantsList[position]
         this.holder = holder
 
-        if(position == 0) holder.binding.deleteImage.visibility = View.GONE
+        if (position == 0) holder.binding.deleteImage.visibility = View.GONE
 
-        holder.binding.variantTextview.text = "Variant "+(position+1).toString()
-        holder.binding.colorEditText.setText(variant.option2)
+        holder.binding.variantTextview.text = "Variant " + (position + 1).toString()
+        holder.binding.colorEditText.setText(variant.sku)
         holder.binding.sizeEditText.setText(variant.option1)
         holder.binding.priceEditText.setText(variant.price)
 
@@ -64,8 +63,9 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
 
     inner class ViewHolder(var binding: VarientItemBinding) : RecyclerView.ViewHolder(binding.root)
 
-    private fun setupMenu(){
-        val colorsList = listOf("White","Black","Orange","Blue","Red","Brown","Burble","Yellow","Green")
+    private fun setupMenu() {
+        val colorsList =
+            listOf("white", "black", "orange", "blue", "red", "brown", "burble", "yellow", "green")
         val adapter: ArrayAdapter<String> =
             ArrayAdapter(context, R.layout.select_dialog_item, colorsList)
 
@@ -74,15 +74,15 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
         holder.binding.colorEditText.setTextColor(Color.BLACK)
     }
 
-        private fun handleSelectedColor(position1: Int){
+    private fun handleSelectedColor(position1: Int) {
         holder.binding.colorEditText.onItemClickListener =
             AdapterView.OnItemClickListener { parent, _, position, _ ->
                 val item = parent.getItemAtPosition(position)
-                variantsList[position1].option2 = item.toString()
+                variantsList[position1].sku = item.toString()
             }
     }
 
-    private fun handleVariantData(position1: Int){
+    private fun handleVariantData(position1: Int) {
         holder.binding.priceEditText.doAfterTextChanged {
             variantsList[position1].price = it.toString()
         }
@@ -92,12 +92,12 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
         }
     }
 
-    fun checkDataValidation() : Boolean{
+    fun checkDataValidation(): Boolean {
         var variant: Variant
-        for(i in variantsList.indices){
+        for (i in variantsList.indices) {
             variant = variantsList[i]
 
-            if (variant.option2.isNullOrEmpty()) {
+            if (variant.sku.isNullOrEmpty()) {
                 holder.binding.colorEditText.error = "should have a color"
                 return false
             }

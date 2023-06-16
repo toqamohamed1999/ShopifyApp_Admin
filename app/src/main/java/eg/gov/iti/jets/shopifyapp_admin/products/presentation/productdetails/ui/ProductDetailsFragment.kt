@@ -1,6 +1,5 @@
-package eg.gov.iti.jets.shopifyapp_admin.productsdetails.presentation.ui
+package eg.gov.iti.jets.shopifyapp_admin.products.presentation.productdetails.ui
 
-import android.app.AlertDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,28 +7,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
 import eg.gov.iti.jets.shopifyapp_admin.R
-import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentAllDiscountBinding
 import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentProductDetailsBinding
-import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentUpdateDiscountBinding
-import eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.DiscountCode
-import eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.PriceRule
-import eg.gov.iti.jets.shopifyapp_admin.discounts.data.remote.DiscountRemoteSourceImp
-import eg.gov.iti.jets.shopifyapp_admin.discounts.data.repo.DiscountRepoImp
-import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.ui.AllDiscountFragmentArgs
-import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.ui.DiscountAdapter
-import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.viewmodel.AllDiscountsViewModel
-import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.viewmodel.AllDiscountsViewModelFactory
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Product
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Variant
-import eg.gov.iti.jets.shopifyapp_admin.util.createAlertDialog
+import eg.gov.iti.jets.shopifyapp_admin.productsdetails.presentation.ui.daProductDetailsFragmentArgs
+import eg.gov.iti.jets.shopifyapp_admin.productsdetails.presentation.ui.ProductDetailsFragmentDirections
 import eg.gov.iti.jets.shopifyapp_user.products.presentation.ui.DisplayVariantAdapter
-import eg.gov.iti.jets.shopifyapp_user.products.presentation.ui.VariantAdapter
 
 
 class ProductDetailsFragment : Fragment() {
@@ -60,6 +48,7 @@ class ProductDetailsFragment : Fragment() {
         product = args.product
 
         bindProduct()
+        editAction()
     }
 
     private fun setUpRecyclerView() {
@@ -67,6 +56,17 @@ class ProductDetailsFragment : Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         binding.variantsRecyclerView.layoutManager = layoutManager
         binding.variantsRecyclerView.adapter = displayVariantAdapter
+    }
+
+    private fun editAction(){
+        binding.editImage.setOnClickListener {
+            Navigation.findNavController(binding.root)
+                .navigate(
+                    ProductDetailsFragmentDirections.actionProductDetailsFragmentToUpdateProductFragment(
+                        product
+                    )
+                )
+        }
     }
 
     private fun bindProduct(){

@@ -39,7 +39,13 @@ class DisplayVariantAdapter(private var variantsList: List<Variant>) :
         val variant = variantsList[position]
 
         holder.binding.variantTextview.text = "Variant "+(position+1).toString()
-        holder.binding.colorTextview.text = variant.option2
+        // "AD-01-white-6"
+        if(variant.sku?.contains("-") == true){
+            val list = variant.sku?.split("-")
+            holder.binding.colorTextview.text = list?.get(2) ?: ""
+        }else{
+            holder.binding.colorTextview.text = variant.sku
+        }
         holder.binding.sizeTextview.text = variant.option1
         holder.binding.priceTextview.text = variant.price+ " EGP"
     }

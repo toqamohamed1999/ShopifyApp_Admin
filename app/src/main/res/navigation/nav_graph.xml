@@ -32,9 +32,6 @@
         <action
             android:id="@+id/action_allProductsFragment_to_productDetailsFragment"
             app:destination="@id/productDetailsFragment" />
-        <action
-            android:id="@+id/action_allProductsFragment_to_updateProductFragment"
-            app:destination="@id/updateProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/allDiscountFragment"
@@ -50,12 +47,15 @@
     </fragment>
     <fragment
         android:id="@+id/productDetailsFragment"
-        android:name="eg.gov.iti.jets.shopifyapp_admin.productsdetails.presentation.ui.ProductDetailsFragment"
+        android:name="eg.gov.iti.jets.shopifyapp_admin.products.presentation.productdetails.ui.ProductDetailsFragment"
         android:label="fragment_product_details"
         tools:layout="@layout/fragment_product_details" >
         <argument
             android:name="product"
             app:argType="eg.gov.iti.jets.shopifyapp_admin.products.data.model.Product" />
+        <action
+            android:id="@+id/action_productDetailsFragment_to_updateProductFragment"
+            app:destination="@id/updateProductFragment" />
     </fragment>
     <fragment
         android:id="@+id/allRulesFragment"
@@ -72,7 +72,7 @@
         android:label="UpdateDiscountFragment" />
     <fragment
         android:id="@+id/updateProductFragment"
-        android:name="eg.gov.iti.jets.shopifyapp_admin.updateproduct.presentation.ui.UpdateProductFragment"
+        android:name="eg.gov.iti.jets.shopifyapp_admin.products.presentation.updateproduct.ui.UpdateProductFragment"
         android:label="fragment_update_product"
         tools:layout="@layout/fragment_update_product" >
         <argument
