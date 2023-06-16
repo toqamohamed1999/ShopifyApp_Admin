@@ -25,5 +25,7 @@
     <string name="price">Price</string>
     <string name="size">Size</string>
     <string name="add_variant">Add Variant</string>
+    <string name="EGP">EGP</string>
+    <string name="quantity">Quantity</string>
 
 </resources>

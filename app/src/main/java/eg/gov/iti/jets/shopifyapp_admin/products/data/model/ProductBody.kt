@@ -10,7 +10,7 @@ data class ProductB(
     @SerializedName("product_type") var productType: String? = null,
     @SerializedName("published") var published: Boolean? = null,
     @SerializedName("variants") var variants : List<Variant> = emptyList(),
-    @SerializedName("images") var images: ArrayList<ImageB> = arrayListOf()
+    @SerializedName("images") var images: ArrayList<Image> = arrayListOf()
 )
 
 

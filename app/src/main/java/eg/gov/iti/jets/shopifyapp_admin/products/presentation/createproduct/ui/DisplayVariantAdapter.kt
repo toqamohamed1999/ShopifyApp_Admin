@@ -48,6 +48,7 @@ class DisplayVariantAdapter(private var variantsList: List<Variant>) :
         }
         holder.binding.sizeTextview.text = variant.option1
         holder.binding.priceTextview.text = variant.price+ " EGP"
+        holder.binding.quantityTextview.text = variant.inventory_quantity.toString()
     }
 
     override fun getItemCount() = variantsList.size

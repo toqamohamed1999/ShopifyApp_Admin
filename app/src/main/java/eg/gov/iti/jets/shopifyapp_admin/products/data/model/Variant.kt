@@ -11,7 +11,7 @@ data class Variant(
     val image_id: String? = null,
     val inventory_item_id: Long? = null,
     val inventory_management: String? = null,
-    val inventory_quantity: Int? = null,
+    var inventory_quantity: Int? = null,
     val old_inventory_quantity: Int? = null,
     var option1: String? = null,
     var option2: String? = null,
