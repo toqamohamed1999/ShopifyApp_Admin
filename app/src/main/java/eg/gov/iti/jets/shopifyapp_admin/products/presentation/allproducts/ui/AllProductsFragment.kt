@@ -2,6 +2,8 @@ package eg.gov.iti.jets.shopifyapp_admin.products.presentation.allproducts.ui
 
 import android.app.AlertDialog
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -69,6 +71,7 @@ class AllProductsFragment : Fragment(), ProductListener {
         addAction()
         observeGetProduct()
         observeDeleteProduct()
+        searchProduct()
     }
 
     override fun onStart() {
@@ -152,6 +155,37 @@ class AllProductsFragment : Fragment(), ProductListener {
             .setNegativeButton("Cancel", null)
             .setIcon(android.R.drawable.ic_dialog_alert)
             .show()
+    }
+
+    private fun searchProduct(){
+        binding.searchEditText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                val filteredList = filterProducts(s.toString())
+                showNoMatching(filteredList)
+                if (filteredList != null) {
+                    productsAdapter.setProductList(filteredList)
+                }
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
+    }
+
+    private fun filterProducts(s: String): List<Product>? {
+
+        return productsList?.filter { it.title!!.lowercase().contains(s.lowercase()) }
+    }
+    private fun showNoMatching(filteredList: List<Product>?) {
+        if (filteredList.isNullOrEmpty()) {
+            binding.txtNoResults.visibility = View.VISIBLE
+            binding.productsRecyclerView.visibility = View.GONE
+        } else {
+
+            binding.txtNoResults.visibility = View.GONE
+            binding.productsRecyclerView.visibility = View.VISIBLE
+        }
     }
 
 }
