@@ -8,18 +8,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import eg.gov.iti.jets.shopifyapp_admin.R
-import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentAllDiscountBinding
 import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentAllRulesBinding
-import eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.DiscountCode
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.PriceRule
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.remote.DiscountRemoteSourceImp
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.repo.DiscountRepoImp
-import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.ui.DiscountAdapter
-import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.viewmodel.AllDiscountsViewModel
-import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.alldiscounts.viewmodel.AllDiscountsViewModelFactory
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.allrules.viewmodel.AllRulesViewModel
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.allrules.viewmodel.AllRulesViewModelFactory
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
@@ -63,6 +58,13 @@ class AllRulesFragment : Fragment() {
 
         setUpRecyclerView()
         observeGetRules()
+        addAction()
+    }
+
+    override fun onStart() {
+        super.onStart()
+
+        viewModel.getPriceRules()
     }
 
     private fun setUpRecyclerView() {
@@ -94,6 +96,13 @@ class AllRulesFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    private fun addAction(){
+        binding.addFloatingBtn.setOnClickListener {
+            Navigation.findNavController(binding.root)
+                .navigate(R.id.createRuleFragment)
         }
     }
 

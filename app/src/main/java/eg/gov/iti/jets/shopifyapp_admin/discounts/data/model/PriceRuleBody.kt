@@ -11,7 +11,9 @@ data class PriceRuleB(
     @SerializedName("value_type") var valueType: String? = null,
     @SerializedName("value") var value: String? = null,
     @SerializedName("customer_selection") var customerSelection: String? = null,
-    @SerializedName("starts_at") var startsAt: String? = null
+    @SerializedName("starts_at") var startsAt: String? = null,
+    @SerializedName("ends_at") var endsAt: String? = null,
+
 )
 
 data class PriceRuleBody(

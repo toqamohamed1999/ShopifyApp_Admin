@@ -4,6 +4,9 @@ import android.app.AlertDialog
 import android.content.Context
 import eg.gov.iti.jets.shopifyapp_admin.BuildConfig
 import eg.gov.iti.jets.shopifyapp_admin.R
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 const val BASE_URL =
@@ -20,5 +23,16 @@ fun createAlertDialog(context: Context, msg : String): AlertDialog {
     builder.setView(R.layout.loading)
 
     return builder.create()
+}
+
+fun formatDate(strDate : String) : String?{
+    //val dtStart = "05-11-2017 05:42 PM"
+    val format = SimpleDateFormat("dd-MM-yyyy hh:mm a")
+    try {
+        return format.parse(strDate).toString()
+    } catch (e: ParseException) {
+        e.printStackTrace()
+    }
+    return null
 }
 

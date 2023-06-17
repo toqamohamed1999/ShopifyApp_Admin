@@ -1,8 +1,8 @@
 package eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.allrules.ui
 
 import android.content.Context
+import android.text.Html
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.ListAdapter
@@ -14,6 +14,7 @@ import eg.gov.iti.jets.shopifyapp_admin.util.MyDiffUtil
 
 class RulesAdapter : ListAdapter<PriceRule, RulesAdapter.ArticleViewHolder>(MyDiffUtil<PriceRule>()) {
 
+    private val TAG = "RulesAdapter"
     private lateinit var binding: RuleItemBinding
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArticleViewHolder {
@@ -29,12 +30,18 @@ class RulesAdapter : ListAdapter<PriceRule, RulesAdapter.ArticleViewHolder>(MyDi
         holder.binding.titleTextview.text = rule.title
         holder.binding.valueTextview.text = rule.value+"%"
         holder.binding.createdAtTextview.text = rule.created_at
-        if(rule.ends_at.isNullOrEmpty()) holder.binding.endsAtTextview.visibility = View.GONE
-        else holder.binding.endsAtTextview.text = rule.ends_at
+        holder.binding.startAtTextview.text = Html.fromHtml("<b>Start:</b> ${rule.starts_at}")
+
+        if(rule.ends_at.isNullOrEmpty()) holder.binding.endsAtTextview.text = Html.fromHtml("<b>End:</b> Not determined yet")
+        else holder.binding.endsAtTextview.text = Html.fromHtml("<b>End:</b> ${rule.ends_at}")
 
         holder.binding.ruleCardView.setOnClickListener{
             holder.binding.root.findNavController()
                 .navigate(AllRulesFragmentDirections.actionAllRulesFragmentToAllDiscountFragment(rule))
+        }
+        holder.binding.editImage.setOnClickListener {
+            holder.binding.root.findNavController()
+                .navigate(AllRulesFragmentDirections.actionAllRulesFragmentToUpdateRuleFragment(rule))
         }
     }
 

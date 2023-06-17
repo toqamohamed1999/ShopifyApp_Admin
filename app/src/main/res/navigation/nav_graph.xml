@@ -65,6 +65,9 @@
         <action
             android:id="@+id/action_allRulesFragment_to_allDiscountFragment"
             app:destination="@id/allDiscountFragment" />
+        <action
+            android:id="@+id/action_allRulesFragment_to_updateRuleFragment"
+            app:destination="@id/updateRuleFragment" />
     </fragment>
     <dialog
         android:id="@+id/updateDiscountFragment"
@@ -78,5 +81,19 @@
         <argument
             android:name="product"
             app:argType="eg.gov.iti.jets.shopifyapp_admin.products.data.model.Product" />
+    </fragment>
+    <fragment
+        android:id="@+id/createRuleFragment"
+        android:name="eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.createrule.ui.CreateRuleFragment"
+        android:label="fragment_create_rule"
+        tools:layout="@layout/fragment_create_rule" />
+    <fragment
+        android:id="@+id/updateRuleFragment"
+        android:name="eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.updaterule.ui.UpdateRuleFragment"
+        android:label="fragment_update_rule"
+        tools:layout="@layout/fragment_update_rule" >
+        <argument
+            android:name="priceRule"
+            app:argType="eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.PriceRule" />
     </fragment>
 </navigation>

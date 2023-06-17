@@ -20,11 +20,7 @@ class AllRulesViewModel(private val repo: DiscountRepo) : ViewModel() {
     )
     var ruleState: StateFlow<APIState<List<PriceRule>>> = _ruleState
 
-    init {
-        getPriceRules()
-    }
-
-    private fun getPriceRules() {
+    fun getPriceRules() {
         viewModelScope.launch {
             try {
                 repo.getPriceRules().collect {
