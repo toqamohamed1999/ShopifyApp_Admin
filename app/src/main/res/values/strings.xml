@@ -32,5 +32,6 @@
     <string name="edit_price_rule">Edit Price Rule</string>
     <string name="end_date">End Date</string>
     <string name="no_match_results">No Result matches</string>
+    <string name="time">Time</string>
 
 </resources>

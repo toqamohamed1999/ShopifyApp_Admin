@@ -2,6 +2,7 @@ package eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.updaterule.ui
 
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -27,7 +28,9 @@ import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.createrule.viewmo
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.updaterule.viewmodel.UpdateRuleViewModel
 import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.updaterule.viewmodel.UpdateRuleViewModelFactory
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
+import eg.gov.iti.jets.shopifyapp_admin.util.buildDate
 import eg.gov.iti.jets.shopifyapp_admin.util.createAlertDialog
+import eg.gov.iti.jets.shopifyapp_admin.util.get12HourFormat
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.*
@@ -39,6 +42,8 @@ class UpdateRuleFragment : Fragment() {
     private lateinit var binding: FragmentUpdateRuleBinding
     private val args: UpdateRuleFragmentArgs by navArgs()
     private var priceRule: PriceRule? = null
+    private var startDate : String? = null
+    private var endDate : String? = null
 
     private val viewModel: UpdateRuleViewModel by lazy {
 
@@ -76,6 +81,7 @@ class UpdateRuleFragment : Fragment() {
         editActionBtn()
         observeUpdateRule()
         addDatePricker()
+        addTimePicker()
     }
 
     private fun editActionBtn() {
@@ -117,8 +123,8 @@ class UpdateRuleFragment : Fragment() {
 
         priceRule?.title = binding.titleEditText.text.toString()
         priceRule?.value = value.toString()
-        priceRule?.starts_at = binding.startAtEditText.text.toString()
-        priceRule?.ends_at = binding.endsAtEditText.text.toString()
+        priceRule?.starts_at = startDate
+        priceRule?.ends_at = endDate
     }
 
     private fun bindRuleData() {
@@ -148,22 +154,61 @@ class UpdateRuleFragment : Fragment() {
             return false
         }
         if (binding.startAtEditText.text.toString().isNullOrEmpty()) {
-            binding.titleEditText.error = "should have a start date"
+            binding.startAtEditText.error = "should have a start date"
+            return false
+        }
+        if (binding.startTimeEditText.text.toString().isNullOrEmpty()) {
+            binding.startTimeEditText.error = "should have a start time"
+            return false
+        }
+        if (!binding.endsAtEditText.text.toString().isNullOrEmpty()) {
+            if (binding.endTimeEditText.text.toString().isNullOrEmpty()) {
+                binding.endTimeEditText.error = "should have a end time"
+                return false
+            }
+        }
+        if (!binding.endTimeEditText.text.toString().isNullOrEmpty()) {
+            if (binding.endsAtEditText.text.toString().isNullOrEmpty()) {
+                binding.endsAtEditText.error = "should have a end date"
+                return false
+            }
+        }
+        if(!validateDate()){
+            Toast.makeText(requireContext(),"End date before start date",Toast.LENGTH_LONG).show()
             return false
         }
         return true
     }
 
+    private fun validateDate() : Boolean{
+        startDate = binding.startAtEditText.text.toString() + " " + binding.startTimeEditText.text
+        endDate = binding.endsAtEditText.text.toString() + " " + binding.endTimeEditText.text
+
+        if(!binding.endsAtEditText.text.toString().isNullOrEmpty())
+            return buildDate(startDate!!)!!.before(buildDate(endDate!!))
+
+        return true
+    }
+
     private fun addDatePricker() {
         binding.startAtEditText.setOnClickListener {
-            startDatePicker(it)
+            showDatePicker(it)
         }
         binding.endsAtEditText.setOnClickListener {
-            startDatePicker(it)
+            showDatePicker(it)
         }
     }
 
-    private fun startDatePicker(view: View) {
+    private fun addTimePicker() {
+        binding.startTimeEditText.setOnClickListener {
+            showTimeDialog(it)
+        }
+        binding.endTimeEditText.setOnClickListener {
+            showTimeDialog(it)
+        }
+    }
+
+    private fun showDatePicker(view: View) {
         val c: Calendar = Calendar.getInstance()
         val mYear = c.get(Calendar.YEAR)
         val mMonth = c.get(Calendar.MONTH)
@@ -174,14 +219,12 @@ class UpdateRuleFragment : Fragment() {
             requireActivity(),
             { _, year, monthOfYear, dayOfMonth ->
 
-                val strDate =
-                    year.toString() + "-" + (monthOfYear + 1) + "-" + dayOfMonth.toString()
+                val strDate = year.toString() + "-" + (monthOfYear + 1) + "-" + dayOfMonth.toString()
                 if (view.id == binding.startAtEditText.id) {
                     binding.startAtEditText.setText(strDate)
                 } else {
                     binding.endsAtEditText.setText(strDate)
                 }
-
             },
             mYear!!,
             mMonth!!,
@@ -189,5 +232,26 @@ class UpdateRuleFragment : Fragment() {
         )
         datePickerDialog.datePicker.minDate = System.currentTimeMillis() - 1000;
         datePickerDialog.show()
+    }
+
+    private fun showTimeDialog(view: View) {
+        val c2: Calendar = Calendar.getInstance()
+        val mHour = c2.get(Calendar.HOUR_OF_DAY)
+        val mMinute = c2.get(Calendar.MINUTE)
+
+
+        val timePickerDialog = TimePickerDialog(
+            requireActivity(), { _, hourOfDay, minute ->
+
+                val time = get12HourFormat(hourOfDay, minute)
+                if (view.id == binding.startTimeEditText.id) {
+                    binding.startTimeEditText.setText(time)
+                } else {
+                    binding.endTimeEditText.setText(time)
+                }
+
+            }, mHour!!, mMinute!!, false
+        )
+        timePickerDialog.show()
     }
 }

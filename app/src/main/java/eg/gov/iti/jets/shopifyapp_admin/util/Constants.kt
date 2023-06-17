@@ -25,14 +25,25 @@ fun createAlertDialog(context: Context, msg : String): AlertDialog {
     return builder.create()
 }
 
-fun formatDate(strDate : String) : String?{
+fun buildDate(strDate : String) : Date?{
     //val dtStart = "05-11-2017 05:42 PM"
-    val format = SimpleDateFormat("dd-MM-yyyy hh:mm a")
+    val format = SimpleDateFormat("yyyy-MM-dd hh:mm a")
     try {
-        return format.parse(strDate).toString()
+        return format.parse(strDate)
     } catch (e: ParseException) {
         e.printStackTrace()
     }
     return null
 }
+
+fun get12HourFormat(hourOfDay: Int, minute: Int): String {
+    val isPM = hourOfDay >= 12
+    return java.lang.String.format(
+        "%02d:%02d %s",
+        if (hourOfDay === 12 || hourOfDay === 0) 12 else hourOfDay % 12,
+        minute,
+        if (isPM) "PM" else "AM"
+    )
+}
+
 
