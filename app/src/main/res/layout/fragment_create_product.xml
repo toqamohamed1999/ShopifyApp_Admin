@@ -57,16 +57,6 @@
                 app:layout_constraintTop_toBottomOf="@id/label" />
 
 
-            <!--    <ImageView-->
-            <!--        android:id="@+id/imageView"-->
-            <!--        android:layout_width="300dp"-->
-            <!--        android:layout_height="160dp"-->
-            <!--        android:layout_marginTop="@dimen/_10sdp"-->
-            <!--        android:src="@drawable/baseline_add_photo_alternate_24"-->
-            <!--        app:layout_constraintStart_toStartOf="parent"-->
-            <!--        app:layout_constraintEnd_toEndOf="parent"-->
-            <!--        app:layout_constraintTop_toBottomOf="@id/label"/>-->
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/title_textLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
