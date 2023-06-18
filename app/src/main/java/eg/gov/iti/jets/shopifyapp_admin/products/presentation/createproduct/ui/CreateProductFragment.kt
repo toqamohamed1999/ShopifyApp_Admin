@@ -30,6 +30,8 @@ import eg.gov.iti.jets.shopifyapp_admin.products.data.remote.ProductRemoteSource
 import eg.gov.iti.jets.shopifyapp_admin.products.data.repo.ProductRepoImp
 import eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.viewmodel.CreateProductViewModel
 import eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.viewmodel.CreateProductViewModelFactory
+import eg.gov.iti.jets.shopifyapp_admin.products.presentation.productdetails.ui.ImagesAdapter
+import eg.gov.iti.jets.shopifyapp_admin.products.presentation.productdetails.ui.ProductImageViewPagerAdapter
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
 import eg.gov.iti.jets.shopifyapp_admin.util.createAlertDialog
 import eg.gov.iti.jets.shopifyapp_user.products.presentation.ui.ProductsAdapter
@@ -39,15 +41,18 @@ import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
 
-class CreateProductFragment : Fragment() {
+class CreateProductFragment : Fragment(), ImageListener {
 
     private val TAG = "CreateProductFragment"
     private lateinit var binding: FragmentCreateProductBinding
     private val STORAGE_PERMISSION_CODE = 1002
     private val PICK_IMAGE_CODE = 105
     private var imageUri: Uri? = null
-    private lateinit var variantAdapter : VariantAdapter
+    private lateinit var variantAdapter: VariantAdapter
     private var variantList = mutableListOf(Variant())
+    private var imageList = mutableListOf(Image())
+    private lateinit var imagesAdapter: ImagesAdapter
+    private var imagePosition = 0
 
     private val viewModel: CreateProductViewModel by lazy {
 
@@ -79,18 +84,28 @@ class CreateProductFragment : Fragment() {
 
         addProductAction()
         observeCreateProduct()
-        handleImageAction()
-        setUpRecyclerView()
+        setUpVariantRecyclerView()
         addVariantAction()
+        setUpImagesRecyclerView()
+        handleAddImage()
     }
 
-    private fun setUpRecyclerView() {
+    private fun setUpVariantRecyclerView() {
         variantAdapter = VariantAdapter(variantList, requireActivity())
         val layoutManager = LinearLayoutManager(requireContext())
         binding.variantsRecyclerView.layoutManager = layoutManager
         binding.variantsRecyclerView.adapter = variantAdapter
     }
-    private fun addVariantAction(){
+
+    private fun setUpImagesRecyclerView() {
+        imagesAdapter = ImagesAdapter(imageList, this,requireContext())
+        val layoutManager = LinearLayoutManager(requireContext())
+        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        binding.imagesRecyclerView.layoutManager = layoutManager
+        binding.imagesRecyclerView.adapter = imagesAdapter
+    }
+
+    private fun addVariantAction() {
         binding.addVariantBtn.setOnClickListener {
             variantAdapter.variantsList.add(Variant())
             variantAdapter.notifyDataSetChanged()
@@ -138,8 +153,9 @@ class CreateProductFragment : Fragment() {
             productType = binding.typeEditText.text.toString(),
         )
 
+        imageList = imagesAdapter.images
         if (imageUri != null) {
-            productB.images = arrayListOf(Image(attachment = convertImageToBase64()))
+            productB.images = imagesAdapter.getImagesInBase64() as ArrayList<Image>
         }
 
         productB.variants = variantAdapter.variantsList
@@ -164,25 +180,27 @@ class CreateProductFragment : Fragment() {
             binding.titleEditText.error = "should have a type"
             return false
         }
-        if (imageUri == null) {
-            Toast.makeText(requireActivity(),"you should choose a picture", Toast.LENGTH_LONG).show()
+        if (!imagesAdapter.validateImagesUriList()) {
+            Toast.makeText(requireActivity(), "product should have at least one image", Toast.LENGTH_LONG)
+                .show()
             return false
         }
-        if(!variantAdapter.checkDataValidation()){
+        if (!imagesAdapter.validateImagesListCount()) {
+            Toast.makeText(requireActivity(), "delete unused images", Toast.LENGTH_LONG)
+                .show()
+            return false
+        }
+        if (!variantAdapter.checkDataValidation()) {
             return false
         }
         return true
     }
 
 
-
-    private fun handleImageAction() {
-        binding.imageView.setOnClickListener {
-            if (checkPermission()) {
-                pickPicture()
-            } else {
-                requestPermission()
-            }
+    private fun handleAddImage() {
+        binding.addImageBtn.setOnClickListener {
+            imagesAdapter.images.add(Image())
+            imagesAdapter.notifyDataSetChanged()
         }
     }
 
@@ -195,7 +213,8 @@ class CreateProductFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE_CODE) {
             imageUri = data?.data
-            binding.imageView.setImageURI(imageUri)
+            imagesAdapter.imagesUriList.add(imagePosition, imageUri!!)
+            imagesAdapter.notifyDataSetChanged()
         }
     }
 
@@ -211,7 +230,7 @@ class CreateProductFragment : Fragment() {
     }
 
     private fun requestPermission() {
-        this.requestPermissions( //Method of Fragment
+        this.requestPermissions(
             arrayOf(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -232,13 +251,14 @@ class CreateProductFragment : Fragment() {
         }
     }
 
-    private fun convertImageToBase64(): String {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        val bitmap = binding.imageView.drawable.toBitmap()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-        val imageBytes: ByteArray = byteArrayOutputStream.toByteArray()
-
-        return Base64.encodeToString(imageBytes, Base64.DEFAULT)
+    override fun handleImageAction(position: Int) {
+        this.imagePosition = position
+        if (checkPermission()) {
+            pickPicture()
+        } else {
+            requestPermission()
+        }
     }
+
 
 }

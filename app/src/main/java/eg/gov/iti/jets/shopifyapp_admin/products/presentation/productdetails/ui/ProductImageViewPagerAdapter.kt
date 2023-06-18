@@ -19,10 +19,10 @@ class ProductImageViewPagerAdapter(private val images: List<Image>) :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater: LayoutInflater = parent.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-       binding = CouponImageBinding.inflate(inflater, parent, false)
+        binding = CouponImageBinding.inflate(inflater, parent, false)
         return ViewHolder(binding)
     }
-    fun setImage(image: Image) {
+    private fun setImage(image: Image) {
 
         Glide.with(binding.root.context)
             .load(image.src)
@@ -35,6 +35,7 @@ class ProductImageViewPagerAdapter(private val images: List<Image>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val image = images[position]
         setImage(image)
-
     }
+
+
 }
