@@ -4,10 +4,8 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import eg.gov.iti.jets.shopifyapp_admin.products.data.model.*
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Product
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductResponse
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.VariantRoot
 import eg.gov.iti.jets.shopifyapp_admin.products.domain.repo.ProductRepo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -22,10 +20,10 @@ class UpdateProductViewModel(private val repo: ProductRepo) : ViewModel() {
     )
     var updateProductState: StateFlow<APIState<ProductResponse>> = _updateProductState
 
-    private var _updateVariantState: MutableStateFlow<APIState<VariantRoot>> = MutableStateFlow(
+    private var _updateProductQuantity: MutableStateFlow<APIState<InventoryLevelResponse>> = MutableStateFlow(
         APIState.Loading()
     )
-    var updateVariantState: StateFlow<APIState<VariantRoot>> = _updateVariantState
+    var updateProductQuantity: StateFlow<APIState<InventoryLevelResponse>> = _updateProductQuantity
 
     fun updateProduct(productId: Long, body: ProductResponse) {
         viewModelScope.launch {
@@ -40,14 +38,14 @@ class UpdateProductViewModel(private val repo: ProductRepo) : ViewModel() {
         }
     }
 
-    fun updateVariant(variantId: Long, body: VariantRoot) {
+    fun updateProductQuantity( body: UpdateQuantityBody) {
         viewModelScope.launch {
             try {
-                repo.updateVariant(variantId,body).collect {
-                    _updateVariantState.value = APIState.Success(it!!)
+                repo.updateProductQuantity(body).collect {
+                    _updateProductQuantity.value = APIState.Success(it!!)
                 }
             } catch (e: java.lang.Exception) {
-                _updateVariantState.value = APIState.Error()
+                _updateProductQuantity.value = APIState.Error()
                 Log.i(TAG, "updateVariant: "+e.message)
             }
         }

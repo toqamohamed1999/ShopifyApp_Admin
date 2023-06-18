@@ -28,6 +28,8 @@ import eg.gov.iti.jets.shopifyapp_admin.databinding.FragmentUpdateProductBinding
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.*
 import eg.gov.iti.jets.shopifyapp_admin.products.data.remote.ProductRemoteSourceImp
 import eg.gov.iti.jets.shopifyapp_admin.products.data.repo.ProductRepoImp
+import eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.ui.ImageListener
+import eg.gov.iti.jets.shopifyapp_admin.products.presentation.productdetails.ui.ImagesAdapter
 import eg.gov.iti.jets.shopifyapp_admin.products.presentation.updateproduct.viewmodel.UpdateProductViewModel
 import eg.gov.iti.jets.shopifyapp_admin.products.presentation.updateproduct.viewmodel.UpdateProductViewModelFactory
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
@@ -37,7 +39,7 @@ import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.io.ByteArrayOutputStream
 
-class UpdateProductFragment : Fragment() {
+class UpdateProductFragment : Fragment() ,ImageListener{
 
     private val TAG = "UpdateProductFragment"
     private lateinit var binding: FragmentUpdateProductBinding
@@ -48,6 +50,9 @@ class UpdateProductFragment : Fragment() {
     private lateinit var variantAdapter: VariantAdapter
     private var variantList = mutableListOf<Variant>()
     private var product: Product? = null
+    private var imageList = mutableListOf(Image())
+    private lateinit var imagesAdapter: ImagesAdapter
+    private var imagePosition = 0
 
     private val viewModel: UpdateProductViewModel by lazy {
 
@@ -78,13 +83,14 @@ class UpdateProductFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         product = args.product
 
+        setUpImagesRecyclerView()
         bindProductData()
         addProductAction()
         observeUpdateProduct()
-        handleImageAction()
         setUpRecyclerView()
         addVariantAction()
-        observeUpdateVariant()
+        handleAddImage()
+        observeUpdateProductQuantity()
     }
 
     private fun setUpRecyclerView() {
@@ -92,6 +98,14 @@ class UpdateProductFragment : Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         binding.variantsRecyclerView.layoutManager = layoutManager
         binding.variantsRecyclerView.adapter = variantAdapter
+    }
+
+    private fun setUpImagesRecyclerView() {
+        imagesAdapter = ImagesAdapter(imageList, this,requireContext())
+        val layoutManager = LinearLayoutManager(requireContext())
+        layoutManager.orientation = LinearLayoutManager.HORIZONTAL
+        binding.imagesRecyclerView.layoutManager = layoutManager
+        binding.imagesRecyclerView.adapter = imagesAdapter
     }
 
     private fun addVariantAction() {
@@ -105,7 +119,6 @@ class UpdateProductFragment : Fragment() {
         binding.saveBtn.setOnClickListener {
             if (isDataValidate()) {
                 buildProduct()
-                Log.i(TAG, "addProductAction: $product")
                 viewModel.updateProduct(product?.id!!, ProductResponse(product!!))
                 alertDialog.show()
             }
@@ -136,26 +149,31 @@ class UpdateProductFragment : Fragment() {
         }
     }
 
-    private fun observeUpdateVariant() {
-        viewModel.updateVariant(45470459363609,
-            VariantRoot(Variant(id = 45470459363609, option2 = "blue", inventory_quantity = 27 )))
+    private fun observeUpdateProductQuantity() {
+
+        viewModel.updateProductQuantity(UpdateQuantityBody(locationId = 84417610009,
+            inventoryItemId = product!!.variants[0].inventory_item_id, available = 88))
 
         lifecycleScope.launch {
-            viewModel.updateVariantState.collectLatest {
+            viewModel.updateProductQuantity.collectLatest {
                 when (it) {
                     is APIState.Loading -> {
                     }
                     is APIState.Success -> {
-                        Log.i(TAG, "observeUpdateVariant: ${it.data}")
+//                        alertDialog.dismiss()
+//                        Toast.makeText(requireActivity(), "Updated successfully", Toast.LENGTH_LONG)
+//                            .show()
+                        Log.i(TAG, "observeUpdateProductQuantity: ${it.data}")
                     }
                     else -> {
-                        alertDialog.dismiss()
-                        Log.i(TAG, "observeUpdateVariant: $it")
+                        Log.i(TAG, "observeUpdateProductQuantity: $it")
+//                      alertDialog.dismiss()
                     }
                 }
             }
         }
     }
+
 
     private fun buildProduct() {
         product?.title = binding.titleEditText.text.toString()
@@ -164,7 +182,7 @@ class UpdateProductFragment : Fragment() {
         product?.productType = binding.typeEditText.text.toString()
 
         if (imageUri != null) {
-            product?.images = arrayListOf(Image(attachment = convertImageToBase64()))
+            product?.images = imagesAdapter.getImagesInBase64() as ArrayList<Image>
         }
         product?.variants = variantAdapter.variantsList
     }
@@ -180,9 +198,13 @@ class UpdateProductFragment : Fragment() {
             variantList = product?.variants as MutableList<Variant>
             setUpRecyclerView()
 
-            Glide.with(requireContext())
-                .load(product?.image?.src)
-                .into(binding.imageView)
+//            Glide.with(requireContext())
+//                .load(product?.image?.src)
+//                .into(binding.imageView)
+
+            imagesAdapter.bindKey = "update"
+            imagesAdapter.images = product?.images as MutableList<Image>
+            imagesAdapter.notifyDataSetChanged()
         }
     }
 
@@ -203,8 +225,13 @@ class UpdateProductFragment : Fragment() {
             binding.titleEditText.error = "should have a type"
             return false
         }
-        if (imageUri == null && product?.image?.src == null) {
-            Toast.makeText(requireActivity(), "you should choose a picture", Toast.LENGTH_LONG)
+        if (!imagesAdapter.validateImagesUriList()) {
+            Toast.makeText(requireActivity(), "product should have at least one image", Toast.LENGTH_LONG)
+                .show()
+            return false
+        }
+        if (!imagesAdapter.validateImagesListCount()) {
+            Toast.makeText(requireActivity(), "delete unused images", Toast.LENGTH_LONG)
                 .show()
             return false
         }
@@ -214,13 +241,10 @@ class UpdateProductFragment : Fragment() {
         return true
     }
 
-    private fun handleImageAction() {
-        binding.imageView.setOnClickListener {
-            if (checkPermission()) {
-                pickPicture()
-            } else {
-                requestPermission()
-            }
+    private fun handleAddImage() {
+        binding.addImageBtn.setOnClickListener {
+            imagesAdapter.images.add(Image())
+            imagesAdapter.notifyDataSetChanged()
         }
     }
 
@@ -233,7 +257,8 @@ class UpdateProductFragment : Fragment() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE_CODE) {
             imageUri = data?.data
-            binding.imageView.setImageURI(imageUri)
+            imagesAdapter.imagesUriList.add(imagePosition, imageUri!!)
+            imagesAdapter.notifyDataSetChanged()
         }
     }
 
@@ -249,7 +274,7 @@ class UpdateProductFragment : Fragment() {
     }
 
     private fun requestPermission() {
-        this.requestPermissions( //Method of Fragment
+        this.requestPermissions(
             arrayOf(
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE
@@ -270,14 +295,13 @@ class UpdateProductFragment : Fragment() {
         }
     }
 
-    private fun convertImageToBase64(): String {
-        val byteArrayOutputStream = ByteArrayOutputStream()
-        val bitmap = binding.imageView.drawable.toBitmap()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
-        val imageBytes: ByteArray = byteArrayOutputStream.toByteArray()
-
-        return Base64.encodeToString(imageBytes, Base64.DEFAULT)
+    override fun handleImageAction(position: Int) {
+        this.imagePosition = position
+        if (checkPermission()) {
+            pickPicture()
+        } else {
+            requestPermission()
+        }
     }
-
 
 }

@@ -33,5 +33,6 @@
     <string name="end_date">End Date</string>
     <string name="no_match_results">No Result matches</string>
     <string name="time">Time</string>
+    <string name="edit_product">Edit Product</string>
 
 </resources>

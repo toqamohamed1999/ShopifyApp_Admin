@@ -1,9 +1,6 @@
 package eg.gov.iti.jets.shopifyapp_admin.products.data.remote
 
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductBody
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductResponse
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.ProductsRoot
-import eg.gov.iti.jets.shopifyapp_admin.products.data.model.VariantRoot
+import eg.gov.iti.jets.shopifyapp_admin.products.data.model.*
 import retrofit2.http.Body
 import retrofit2.http.DELETE
 import retrofit2.http.GET
@@ -38,9 +35,8 @@ interface ProductAPIInterface {
     )
 
     @Headers("Content-Type:application/json", "X-Shopify-Access-Token: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")
-    @PUT("variants/{variant_id}.json")
-    suspend fun updateVariant(
-        @Path("variant_id") variantId : Long,
-        @Body body: VariantRoot
-    ): VariantRoot
+    @POST("inventory_levels/set.json")
+    suspend fun updateProductQuantity(
+        @Body body: UpdateQuantityBody
+    ) : InventoryLevelResponse
 }

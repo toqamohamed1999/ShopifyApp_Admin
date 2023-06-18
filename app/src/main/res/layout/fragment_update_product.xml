@@ -19,7 +19,7 @@
                 android:id="@+id/label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/create_product"
+                android:text="@string/edit_product"
                 android:textSize="@dimen/_20sdp"
                 android:fontFamily="@font/acme"
                 android:layout_gravity="center"
@@ -31,15 +31,31 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
-            <ImageView
-                android:id="@+id/imageView"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/imagesRecyclerView"
                 android:layout_width="300dp"
-                android:layout_height="160dp"
-                android:layout_marginTop="@dimen/_10sdp"
-                android:src="@drawable/baseline_image_24"
-                app:layout_constraintStart_toStartOf="parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="@dimen/_15sdp"
+                android:paddingStart="32dp"
+                android:paddingEnd="32dp"
+                tools:listitem="@layout/image_item"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/label"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addImageBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="@dimen/_5sdp"
+                android:backgroundTint="@color/orange"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10sdp"
+                app:cornerRadius="10dp"
+                app:icon="@drawable/baseline_add_photo_alternate_24"
+                app:iconTint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/label" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/title_textLayout"
@@ -57,7 +73,7 @@
                 app:hintTextColor="@color/orange"
                 app:startIconDrawable="@drawable/baseline_title_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/imageView">
+                app:layout_constraintTop_toBottomOf="@id/imagesRecyclerView">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/title_editText"

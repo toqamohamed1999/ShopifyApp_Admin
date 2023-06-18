@@ -30,13 +30,14 @@ import eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.ui.I
 import java.io.ByteArrayOutputStream
 
 class ImagesAdapter(
-    val images: MutableList<Image>, private val imageListener: ImageListener,val context: Context,
+    var images: MutableList<Image>, private val imageListener: ImageListener, val context: Context,
     var imagesUriList: MutableList<Uri> = mutableListOf()
 ) : RecyclerView.Adapter<ImagesAdapter.ViewHolder>() {
 
     private val TAG = "ImagesAdapter"
     lateinit var binding: ImageItemBinding
     lateinit var holder: ViewHolder
+    var bindKey = "create"
 
     inner class ViewHolder(var binding: ImageItemBinding) : RecyclerView.ViewHolder(binding.root)
 
@@ -52,14 +53,9 @@ class ImagesAdapter(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val image = images[position]
         this.holder = holder
-       // holder.binding.couponLayout.maxWidth = 400
         if (position == 0) holder.binding.deleteImage.visibility = View.GONE
 
-        if (imagesUriList.size > position) {
-            holder.binding.couponImageView.setImageURI(imagesUriList[position])
-        } else {
-            holder.binding.couponImageView.setImageResource(R.drawable.baseline_add_photo_alternate_24)
-        }
+       bind(position)
 
         binding.couponImageView.setOnClickListener {
             handleImageAction(position)
@@ -111,6 +107,25 @@ class ImagesAdapter(
             return false
         }
         return true
+    }
+
+    fun setUpdateProductData(imageList : MutableList<Image>){
+        this.images = imageList
+        notifyDataSetChanged()
+    }
+
+    private fun bind(position: Int){
+        if(bindKey == "create") {
+            if (imagesUriList.size > position) {
+                holder.binding.couponImageView.setImageURI(imagesUriList[position])
+            } else {
+                holder.binding.couponImageView.setImageResource(R.drawable.baseline_add_photo_alternate_24)
+            }
+        }else{
+            Glide.with(context)
+                .load(images[position].src)
+                .into(holder.binding.couponImageView)
+        }
     }
 
 
