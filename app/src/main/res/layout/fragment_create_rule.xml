@@ -77,6 +77,34 @@
             android:textSize="18sp" />
     </com.google.android.material.textfield.TextInputLayout>
 
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/valueType_textLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
+        android:layout_width="260dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginEnd="@dimen/_15sdp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:hint="@string/value_type"
+        app:boxBackgroundMode="outline"
+        app:boxStrokeColor="@color/lightBrown"
+        app:errorEnabled="true"
+        app:hintTextColor="@color/lightBrown"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/value_textLayout">
+
+        <AutoCompleteTextView
+            android:id="@+id/valueType_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:textColor="@color/black"
+            android:textSize="12sp"
+            style="@style/Widget.AppTheme.TextInputEditText.Dense"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/startAt_textLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -92,7 +120,7 @@
         app:hintTextColor="@color/lightBrown"
         app:startIconDrawable="@drawable/baseline_calendar_month_24"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/value_textLayout">
+        app:layout_constraintTop_toBottomOf="@id/valueType_textLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/startAt_editText"
@@ -117,7 +145,7 @@
         app:hintTextColor="@color/lightBrown"
         app:startIconDrawable="@drawable/baseline_access_time_24"
         app:layout_constraintStart_toEndOf="@id/startAt_textLayout"
-        app:layout_constraintTop_toBottomOf="@id/value_textLayout">
+        app:layout_constraintTop_toBottomOf="@id/valueType_textLayout">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/startTime_editText"

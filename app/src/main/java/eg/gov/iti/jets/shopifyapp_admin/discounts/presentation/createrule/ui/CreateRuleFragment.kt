@@ -1,14 +1,18 @@
 package eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.createrule.ui
 
+import android.R
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -35,6 +39,7 @@ class CreateRuleFragment : Fragment() {
     private lateinit var binding: FragmentCreateRuleBinding
     private var startDate : String? = null
     private var endDate : String? = null
+    private var valueType = ""
 
     private val viewModel: CreateRuleViewModel by lazy {
 
@@ -71,6 +76,8 @@ class CreateRuleFragment : Fragment() {
         observeCreateRule()
         addDatePricker()
         addTimePicker()
+        setupMenu()
+        handleSelectedTypeValue()
     }
 
     private fun addActionBtn() {
@@ -80,6 +87,24 @@ class CreateRuleFragment : Fragment() {
                 alertDialog.show()
             }
         }
+    }
+
+    private fun setupMenu() {
+        val valueTypeList =
+            listOf("percentage", "fixed amount")
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter(requireContext(), R.layout.select_dialog_item, valueTypeList)
+
+        binding.valueTypeEditText.threshold = 1
+        binding.valueTypeEditText.setAdapter(adapter)
+        binding.valueTypeEditText.setTextColor(Color.BLACK)
+    }
+
+    private fun handleSelectedTypeValue() {
+        binding.valueTypeEditText.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, _, position, _ ->
+                valueType = parent.getItemAtPosition(position).toString()
+            }
     }
 
     private fun observeCreateRule() {
@@ -114,11 +139,11 @@ class CreateRuleFragment : Fragment() {
             value = value.toString(),
             startsAt = startDate,
             endsAt = endDate,
+            valueType = valueType,
             targetType = "line_item",
             allocationMethod = "across",
             targetSelection = "all",
             customerSelection = "all",
-            valueType = "percentage",
         )
     }
 
@@ -131,10 +156,11 @@ class CreateRuleFragment : Fragment() {
             binding.titleEditText.error = "should have a value"
             return false
         }
-        if ((binding.valueEditText.text.toString()).toDouble() > 100
-            || (binding.valueEditText.text.toString()).toDouble() < 1
-        ) {
-            binding.valueEditText.error = "discount value should be between 1 and 100"
+        if (binding.valueTypeEditText.text.toString().isNullOrEmpty()) {
+            binding.valueTypeEditText.error = "should have a value type"
+            return false
+        }
+        if(!validateValue()){
             return false
         }
         if (binding.startAtEditText.text.toString().isNullOrEmpty()) {
@@ -160,6 +186,23 @@ class CreateRuleFragment : Fragment() {
         if(!validateDate()){
             Toast.makeText(requireContext(),"End date before start date",Toast.LENGTH_LONG).show()
             return false
+        }
+        return true
+    }
+
+    private fun validateValue() : Boolean{
+        if(valueType == "percentage") {
+            if ((binding.valueEditText.text.toString()).toDouble() > 100
+                || (binding.valueEditText.text.toString()).toDouble() < 1
+            ) {
+                binding.valueEditText.error = "discount value should be between 1 and 100"
+                return false
+            }
+        }else{
+            if ((binding.valueEditText.text.toString()).toDouble() == 0.0){
+                binding.valueEditText.error = "discount value should not be 0"
+                return false
+            }
         }
         return true
     }
@@ -239,18 +282,5 @@ class CreateRuleFragment : Fragment() {
         timePickerDialog.show()
     }
 
-
-
-    //
-//        viewModel.createPriceRule(
-//            PriceRuleBody
-//                (
-//                PriceRuleB(
-//                    "TESTAFTww", "line_item",
-//                    "all", "across", "percentage", "-1.0",
-//                    "all", "2017-11-19T17:59:10Z"
-//                )
-//            )
-//        )
 
 }

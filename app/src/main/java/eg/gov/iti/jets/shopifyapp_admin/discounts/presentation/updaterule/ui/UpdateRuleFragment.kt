@@ -3,12 +3,15 @@ package eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.updaterule.ui
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -44,6 +47,7 @@ class UpdateRuleFragment : Fragment() {
     private var priceRule: PriceRule? = null
     private var startDate : String? = null
     private var endDate : String? = null
+    private var valueType = ""
 
     private val viewModel: UpdateRuleViewModel by lazy {
 
@@ -82,8 +86,27 @@ class UpdateRuleFragment : Fragment() {
         observeUpdateRule()
         addDatePricker()
         addTimePicker()
+        setupMenu()
+        handleSelectedTypeValue()
     }
 
+    private fun setupMenu() {
+        val valueTypeList =
+            listOf("percentage", "fixed amount")
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter(requireContext(), android.R.layout.select_dialog_item, valueTypeList)
+
+        binding.valueTypeEditText.threshold = 1
+        binding.valueTypeEditText.setAdapter(adapter)
+        binding.valueTypeEditText.setTextColor(Color.BLACK)
+    }
+
+    private fun handleSelectedTypeValue() {
+        binding.valueTypeEditText.onItemClickListener =
+            AdapterView.OnItemClickListener { parent, _, position, _ ->
+                valueType = parent.getItemAtPosition(position).toString()
+            }
+    }
     private fun editActionBtn() {
         binding.saveEditBtn.setOnClickListener {
             if (isDataValidate()) {
@@ -125,6 +148,7 @@ class UpdateRuleFragment : Fragment() {
         priceRule?.value = value.toString()
         priceRule?.starts_at = startDate
         priceRule?.ends_at = endDate
+        priceRule?.value_type = valueType
     }
 
     private fun bindRuleData() {
@@ -135,6 +159,7 @@ class UpdateRuleFragment : Fragment() {
             binding.valueEditText.setText(value.toString())
             binding.startAtEditText.setText(priceRule?.starts_at?.substring(0,10))
             binding.endsAtEditText.setText(priceRule?.ends_at?.substring(0,10))
+            binding.valueTypeEditText.setText(priceRule?.value_type)
         }
     }
 
@@ -151,6 +176,13 @@ class UpdateRuleFragment : Fragment() {
             || (binding.valueEditText.text.toString()).toDouble() < 1
         ) {
             binding.valueEditText.error = "discount value should be between 1 and 100"
+            return false
+        }
+        if (binding.valueTypeEditText.text.toString().isNullOrEmpty()) {
+            binding.valueTypeEditText.error = "should have a value type"
+            return false
+        }
+        if(!validateValue()){
             return false
         }
         if (binding.startAtEditText.text.toString().isNullOrEmpty()) {
@@ -187,6 +219,23 @@ class UpdateRuleFragment : Fragment() {
         if(!binding.endsAtEditText.text.toString().isNullOrEmpty())
             return buildDate(startDate!!)!!.before(buildDate(endDate!!))
 
+        return true
+    }
+
+    private fun validateValue() : Boolean{
+        if(valueType == "percentage") {
+            if ((binding.valueEditText.text.toString()).toDouble() > 100
+                || (binding.valueEditText.text.toString()).toDouble() < 1
+            ) {
+                binding.valueEditText.error = "discount value should be between 1 and 100"
+                return false
+            }
+        }else{
+            if ((binding.valueEditText.text.toString()).toDouble() == 0.0){
+                binding.valueEditText.error = "discount value should not be  0"
+                return false
+            }
+        }
         return true
     }
 

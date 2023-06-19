@@ -20,5 +20,5 @@ data class PriceRule(
     val updated_at: String? = null,
     val usage_limit: String? = null,
     var value: String? = null,
-    val value_type: String? = null,
+    var value_type: String? = null,
 ) : Parcelable
