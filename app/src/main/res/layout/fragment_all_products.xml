@@ -37,9 +37,10 @@
         android:id="@+id/products_recyclerView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="@dimen/_120sdp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginBottom="@dimen/_100sdp"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/txt_search"
         tools:listitem="@layout/product_item" />

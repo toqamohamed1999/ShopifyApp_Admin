@@ -22,8 +22,9 @@ data class Variant(
     var sku: String? = null,
     var title: String? = null,
     var updated_at: String? = null,
+    var tracked : Boolean = true
 
-    ) : Parcelable
+) : Parcelable
 
 @Parcelize
 data class VariantRoot(

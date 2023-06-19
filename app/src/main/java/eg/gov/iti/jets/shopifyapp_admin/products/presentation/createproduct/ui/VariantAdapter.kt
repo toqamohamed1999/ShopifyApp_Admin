@@ -116,6 +116,10 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
                 holder.binding.sizeEditText.error = "should have a size"
                 return false
             }
+            if (variant.inventory_quantity.toString().isNullOrEmpty()) {
+                holder.binding.sizeEditText.error = "should have a quantity"
+                return false
+            }
         }
         return true
     }

@@ -120,8 +120,19 @@ class UpdateProductFragment : Fragment() ,ImageListener{
             if (isDataValidate()) {
                 buildProduct()
                 viewModel.updateProduct(product?.id!!, ProductResponse(product!!))
+                updateVariantQuantity()
                 alertDialog.show()
             }
+        }
+    }
+
+    private fun updateVariantQuantity(){
+        for (i in product!!.variants.indices){
+            viewModel.updateProductQuantity(UpdateQuantityBody(locationId = 84417610009,
+                inventoryItemId = product!!.variants[i].inventory_item_id,
+                available = product!!.variants[i].inventory_quantity))
+
+            if (!alertDialog.isShowing) alertDialog.show()
         }
     }
 
@@ -151,23 +162,20 @@ class UpdateProductFragment : Fragment() ,ImageListener{
 
     private fun observeUpdateProductQuantity() {
 
-        viewModel.updateProductQuantity(UpdateQuantityBody(locationId = 84417610009,
-            inventoryItemId = product!!.variants[0].inventory_item_id, available = 88))
-
         lifecycleScope.launch {
             viewModel.updateProductQuantity.collectLatest {
                 when (it) {
                     is APIState.Loading -> {
                     }
                     is APIState.Success -> {
-//                        alertDialog.dismiss()
-//                        Toast.makeText(requireActivity(), "Updated successfully", Toast.LENGTH_LONG)
-//                            .show()
+                        alertDialog.dismiss()
+                        Toast.makeText(requireActivity(), "Updated successfully", Toast.LENGTH_LONG)
+                            .show()
                         Log.i(TAG, "observeUpdateProductQuantity: ${it.data}")
                     }
                     else -> {
                         Log.i(TAG, "observeUpdateProductQuantity: $it")
-//                      alertDialog.dismiss()
+                      alertDialog.dismiss()
                     }
                 }
             }
