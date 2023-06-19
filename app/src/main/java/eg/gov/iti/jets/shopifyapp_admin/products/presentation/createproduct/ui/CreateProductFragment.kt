@@ -180,12 +180,12 @@ class CreateProductFragment : Fragment(), ImageListener {
             binding.titleEditText.error = "should have a type"
             return false
         }
-        if (!imagesAdapter.validateImagesUriList()) {
+        if (!imagesAdapter.validateImagesListCount()) {
             Toast.makeText(requireActivity(), "product should have at least one image", Toast.LENGTH_LONG)
                 .show()
             return false
         }
-        if (!imagesAdapter.validateImagesListCount()) {
+        if (!imagesAdapter.validateImagesList()) {
             Toast.makeText(requireActivity(), "delete unused images", Toast.LENGTH_LONG)
                 .show()
             return false
@@ -213,7 +213,7 @@ class CreateProductFragment : Fragment(), ImageListener {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK && requestCode == PICK_IMAGE_CODE) {
             imageUri = data?.data
-            imagesAdapter.imagesUriList.add(imagePosition, imageUri!!)
+            imagesAdapter.images[imagePosition].alt = imageUri.toString()
             imagesAdapter.notifyDataSetChanged()
         }
     }

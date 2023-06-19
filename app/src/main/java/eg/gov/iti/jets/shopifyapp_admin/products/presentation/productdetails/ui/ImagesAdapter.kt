@@ -30,8 +30,7 @@ import eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.ui.I
 import java.io.ByteArrayOutputStream
 
 class ImagesAdapter(
-    var images: MutableList<Image>, private val imageListener: ImageListener, val context: Context,
-    var imagesUriList: MutableList<Uri> = mutableListOf()
+    var images: MutableList<Image>, private val imageListener: ImageListener, val context: Context
 ) : RecyclerView.Adapter<ImagesAdapter.ViewHolder>() {
 
     private val TAG = "ImagesAdapter"
@@ -55,11 +54,9 @@ class ImagesAdapter(
         this.holder = holder
         if (position == 0) holder.binding.deleteImage.visibility = View.GONE
 
-       bind(position)
+        bind(position)
 
-        binding.couponImageView.setOnClickListener {
-            handleImageAction(position)
-        }
+        handleImageAction(position)
 
         binding.deleteImage.setOnClickListener {
             images.removeAt(position)
@@ -76,6 +73,17 @@ class ImagesAdapter(
     fun getImagesInBase64(): MutableList<Image> {
         for (i in images.indices) {
             images[i].attachment = convertImageToBase64(i)
+            images[i].alt == ""
+        }
+        return images
+    }
+
+    fun getUpdatedImages(): MutableList<Image> {
+        for (i in images.indices) {
+            if (!images[i].alt.isNullOrEmpty()) {
+                images[i].attachment = convertImageToBase64(i)
+                images[i].alt == ""
+            }
         }
         return images
     }
@@ -84,47 +92,66 @@ class ImagesAdapter(
     private fun convertImageToBase64(position: Int): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
         val bitmap = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            ImageDecoder.decodeBitmap(ImageDecoder.createSource(context.contentResolver, imagesUriList[position]))
+            ImageDecoder.decodeBitmap(
+                ImageDecoder.createSource(
+                    context.contentResolver,
+                    Uri.parse(images[position].alt)
+                )
+            )
         } else {
-            MediaStore.Images.Media.getBitmap(context.contentResolver, imagesUriList[position])
+            MediaStore.Images.Media.getBitmap(
+                context.contentResolver,
+                Uri.parse(images[position].alt)
+            )
         }
-       // val bitmap = holder.binding.couponImageView.drawable.toBitmap()
+        // val bitmap = holder.binding.couponImageView.drawable.toBitmap()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         val imageBytes: ByteArray = byteArrayOutputStream.toByteArray()
 
+        images[position].alt == ""
         return Base64.encodeToString(imageBytes, Base64.DEFAULT)
     }
 
-    fun validateImagesUriList(): Boolean {
-        if (imagesUriList.size == 0) {
-            return false
+
+    fun validateImagesList(): Boolean {
+        for (image in images) {
+            if (bindKey == "create") {
+                if (image.alt.isNullOrEmpty()) return false
+            } else {
+                if (image.src.isNullOrEmpty() && image.alt.isNullOrEmpty()) return false
+            }
         }
         return true
     }
 
     fun validateImagesListCount(): Boolean {
-        if (imagesUriList.size != images.size) {
-            return false
+        if (bindKey == "create") {
+            if (images[0].alt.isNullOrEmpty()) return false
+        } else {
+            if (images[0].src.isNullOrEmpty() && images[0].alt.isNullOrEmpty()) return false
         }
         return true
     }
 
-    fun setUpdateProductData(imageList : MutableList<Image>){
-        this.images = imageList
-        notifyDataSetChanged()
+    private fun bind(position: Int) {
+        if (bindKey == "create") {
+            bindImageUsingUri(position)
+        } else {
+            if (images[position].alt.isNullOrEmpty()) {
+                Glide.with(context)
+                    .load(images[position].src)
+                    .into(holder.binding.couponImageView)
+            } else {
+                bindImageUsingUri(position)
+            }
+        }
     }
 
-    private fun bind(position: Int){
-        if(bindKey == "create") {
-            if (imagesUriList.size > position) {
-                holder.binding.couponImageView.setImageURI(imagesUriList[position])
-            } else {
-                holder.binding.couponImageView.setImageResource(R.drawable.baseline_add_photo_alternate_24)
-            }
-        }else{
-            Glide.with(context)
-                .load(images[position].src)
-                .into(holder.binding.couponImageView)
+    private fun bindImageUsingUri(position: Int) {
+        if (!images[position].alt.isNullOrEmpty()) {
+            holder.binding.couponImageView.setImageURI(Uri.parse(images[position].alt))
+        } else {
+            holder.binding.couponImageView.setImageResource(R.drawable.baseline_add_photo_alternate_24)
         }
     }
 

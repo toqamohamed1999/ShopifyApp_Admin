@@ -21,8 +21,6 @@
 
     <include android:id="@+id/productsLayout" layout="@layout/home_item"/>
 
-    <include android:id="@+id/inventoryLayout" layout="@layout/home_item"/>
-
     <include android:id="@+id/discountsLayout" layout="@layout/home_item"/>
 
 </LinearLayout>

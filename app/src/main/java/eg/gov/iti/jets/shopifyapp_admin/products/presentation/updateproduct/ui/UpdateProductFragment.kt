@@ -190,7 +190,7 @@ class UpdateProductFragment : Fragment() ,ImageListener{
         product?.productType = binding.typeEditText.text.toString()
 
         if (imageUri != null) {
-            product?.images = imagesAdapter.getImagesInBase64() as ArrayList<Image>
+            product?.images = imagesAdapter.getUpdatedImages() as ArrayList<Image>
         }
         product?.variants = variantAdapter.variantsList
     }
@@ -205,10 +205,6 @@ class UpdateProductFragment : Fragment() ,ImageListener{
 
             variantList = product?.variants as MutableList<Variant>
             setUpRecyclerView()
-
-//            Glide.with(requireContext())
-//                .load(product?.image?.src)
-//                .into(binding.imageView)
 
             imagesAdapter.bindKey = "update"
             imagesAdapter.images = product?.images as MutableList<Image>
@@ -233,7 +229,7 @@ class UpdateProductFragment : Fragment() ,ImageListener{
             binding.titleEditText.error = "should have a type"
             return false
         }
-        if (!imagesAdapter.validateImagesUriList()) {
+        if (!imagesAdapter.validateImagesList()) {
             Toast.makeText(requireActivity(), "product should have at least one image", Toast.LENGTH_LONG)
                 .show()
             return false
@@ -265,7 +261,7 @@ class UpdateProductFragment : Fragment() ,ImageListener{
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK && requestCode == PICK_IMAGE_CODE) {
             imageUri = data?.data
-            imagesAdapter.imagesUriList.add(imagePosition, imageUri!!)
+            imagesAdapter.images[imagePosition].alt = imageUri.toString()
             imagesAdapter.notifyDataSetChanged()
         }
     }

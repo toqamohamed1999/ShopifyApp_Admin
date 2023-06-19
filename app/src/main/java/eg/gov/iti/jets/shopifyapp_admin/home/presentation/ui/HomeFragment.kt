@@ -38,9 +38,9 @@ class HomeFragment : Fragment() {
     }
 
     private fun setUpView(){
-        binding.inventoryLayout.constraintLayout.setBackgroundColor(Color.parseColor("#FF9C27B0"))
-        binding.inventoryLayout.titleTextview.text = "Inventory"
-        binding.inventoryLayout.imageView.setImageResource(R.drawable.inventory);
+//        binding.inventoryLayout.constraintLayout.setBackgroundColor(Color.parseColor("#FF9C27B0"))
+//        binding.inventoryLayout.titleTextview.text = "Inventory"
+//        binding.inventoryLayout.imageView.setImageResource(R.drawable.inventory);
         binding.discountsLayout.constraintLayout.setBackgroundColor(Color.parseColor("#FF8FE493"))
         binding.discountsLayout.titleTextview.text = " Price Rules\n& Discounts"
         binding.discountsLayout.imageView.setImageResource(R.drawable.discount);
