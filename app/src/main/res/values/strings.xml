@@ -35,5 +35,8 @@
     <string name="time">Time</string>
     <string name="edit_product">Edit Product</string>
     <string name="value_type">value type</string>
+    <string name="discounts">Discounts</string>
+    <string name="login">Login</string>
+    <string name="password">Password</string>
 
 </resources>

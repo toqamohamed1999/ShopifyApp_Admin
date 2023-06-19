@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/allProductsFragment"
+        android:icon="@drawable/baseline_production_quantity_limits_24"
+        android:title="@string/products" />
+    <item
+        android:id="@+id/allRulesFragment"
+        android:icon="@drawable/baseline_discount_24"
+        android:title="@string/discounts" />
+
+</menu>
