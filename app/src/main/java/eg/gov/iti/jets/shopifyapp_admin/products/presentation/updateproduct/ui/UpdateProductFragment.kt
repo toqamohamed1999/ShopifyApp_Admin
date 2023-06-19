@@ -85,7 +85,7 @@ class UpdateProductFragment : Fragment() ,ImageListener{
 
         setUpImagesRecyclerView()
         bindProductData()
-        addProductAction()
+        updateProductAction()
         observeUpdateProduct()
         setUpRecyclerView()
         addVariantAction()
@@ -115,7 +115,7 @@ class UpdateProductFragment : Fragment() ,ImageListener{
         }
     }
 
-    private fun addProductAction() {
+    private fun updateProductAction() {
         binding.saveBtn.setOnClickListener {
             if (isDataValidate()) {
                 buildProduct()
