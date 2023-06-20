@@ -28,7 +28,11 @@ class RulesAdapter : ListAdapter<PriceRule, RulesAdapter.ArticleViewHolder>(MyDi
         val rule = getItem(position)
 
         holder.binding.titleTextview.text = rule.title
-        holder.binding.valueTextview.text = rule.value+"%"
+        if (rule.target_type == "fixed amount") {
+            holder.binding.valueTextview.text = rule.value+" EGP"
+        }else{
+            holder.binding.valueTextview.text = rule.value+"%"
+        }
         holder.binding.createdAtTextview.text = rule.created_at
         holder.binding.startAtTextview.text = Html.fromHtml("<b>Start:</b> ${rule.starts_at}")
 

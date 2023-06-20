@@ -77,7 +77,7 @@ class AllDiscountFragment : Fragment() , DiscountListener{
     }
 
     private fun setUpRecyclerView() {
-        discountAdapter = DiscountAdapter(this,priceRule.value!!)
+        discountAdapter = DiscountAdapter(this,priceRule!!)
 
         binding.discountRecyclerView.apply {
             layoutManager = GridLayoutManager(requireContext(), 2)

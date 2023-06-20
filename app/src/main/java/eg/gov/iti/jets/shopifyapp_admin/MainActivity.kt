@@ -28,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNavigation: BottomNavigationView
     private lateinit var sharedPreferences: SharedPreferences
     private lateinit var navController: NavController
+    private var navDestinationId : Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,18 +52,24 @@ class MainActivity : AppCompatActivity() {
             this
         ) { isOpen ->
             bottomNavigation.isVisible = !isOpen
+            checkNav()
         }
     }
 
     private fun setUpNavBottom(navController: NavController) {
         navController.addOnDestinationChangedListener { _, navDestination, _ ->
-            if (navDestination.id == R.id.allProductsFragment || navDestination.id == R.id.allRulesFragment
-            ) {
-                bottomNavigation.visibility = View.VISIBLE
-            } else {
-                hideKeyBoard()
-                bottomNavigation.visibility = View.GONE
-            }
+            this.navDestinationId = navDestination.id
+            checkNav()
+        }
+    }
+
+    private fun checkNav(){
+        if (navDestinationId == R.id.allProductsFragment || navDestinationId == R.id.allRulesFragment
+        ) {
+            bottomNavigation.visibility = View.VISIBLE
+        } else {
+            hideKeyBoard()
+            bottomNavigation.visibility = View.GONE
         }
     }
 

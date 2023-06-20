@@ -7,16 +7,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".discounts.presentation.allrules.ui.AllRulesFragment">
 
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/price_rules"
+        android:textSize="@dimen/_20sdp"
+        android:fontFamily="@font/acme"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:textColor="@color/darkBlue"
+        android:textStyle="italic|bold"
+        android:layout_marginBottom="@dimen/_10sdp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rules_recyclerView"
         android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:paddingBottom="@dimen/_120sdp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginBottom="@dimen/_20sdp"
-        tools:listitem="@layout/rule_item"/>
+        app:layout_constraintTop_toBottomOf="@id/label"
+        tools:listitem="@layout/rule_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/add_floatingBtn"
@@ -25,7 +42,8 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:src="@drawable/baseline_add_24"
-        android:backgroundTint="@color/lightBrown"
+        android:tint="@color/white"
+        android:backgroundTint="@color/blue"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_50sdp"/>
 

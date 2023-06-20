@@ -1,21 +1,10 @@
-package eg.gov.iti.jets.shopifyapp_user.products.presentation.ui
+package eg.gov.iti.jets.shopifyapp_admin.products.presentation.productdetails.ui
 
-import android.R
 import android.content.Context
-import android.graphics.Color
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
 import androidx.recyclerview.widget.RecyclerView
 import eg.gov.iti.jets.shopifyapp_admin.databinding.DisplayVarientItemBinding
-import eg.gov.iti.jets.shopifyapp_admin.databinding.VarientItemBinding
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Variant
 
 

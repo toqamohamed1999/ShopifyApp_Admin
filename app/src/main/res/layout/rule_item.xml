@@ -27,8 +27,7 @@
             android:layout_marginTop="@dimen/_15sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:src="@drawable/rule2"
-            app:civ_border_width="@dimen/_1sdp"/>
+            android:src="@drawable/discount2" />
 
         <TextView
             android:id="@+id/title_textview"
@@ -54,7 +53,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:text="@string/created_at"
             android:textSize="@dimen/_10sdp"
-            android:textColor="@color/black"
+            android:textColor="@color/darkBlue"
             android:layout_marginEnd="@dimen/_4sdp"
             android:layout_marginTop="@dimen/_5sdp" />
 
@@ -64,7 +63,7 @@
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/title_textview"
             app:layout_constraintStart_toStartOf="@id/title_textview"
-            android:textColor="@color/lightBrown"
+            android:textColor="@color/blue"
             android:text="@string/value"
             android:textStyle="bold|italic"
             android:textSize="@dimen/_12sdp"
@@ -110,7 +109,7 @@
             android:layout_marginBottom="@dimen/_4sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:tint="@color/black" />
+            app:tint="@color/blue" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

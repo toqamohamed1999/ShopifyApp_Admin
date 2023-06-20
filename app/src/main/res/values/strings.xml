@@ -36,7 +36,8 @@
     <string name="edit_product">Edit Product</string>
     <string name="value_type">value type</string>
     <string name="discounts">Discounts</string>
-    <string name="login">Login</string>
+    <string name="login">Admin Login</string>
     <string name="password">Password</string>
+    <string name="price_rules">Price Rules</string>
 
 </resources>

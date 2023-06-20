@@ -40,7 +40,12 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
         if (position == 0) holder.binding.deleteImage.visibility = View.GONE
 
         holder.binding.variantTextview.text = "Variant " + (position + 1).toString()
-        holder.binding.colorEditText.setText(variant.sku)
+        if(variant.sku?.contains("-") == true){
+            val list = variant.sku?.split("-")
+            holder.binding.colorEditText.setText(list?.get(2) ?: "")
+        }else{
+            holder.binding.colorEditText.setText(variant.sku)
+        }
         holder.binding.sizeEditText.setText(variant.option1)
         holder.binding.priceEditText.setText(variant.price)
         holder.binding.quantityEditText.setText((variant.inventory_quantity ?: "").toString())
@@ -114,6 +119,10 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
             }
             if (variant.option1.isNullOrEmpty()) {
                 holder.binding.sizeEditText.error = "should have a size"
+                return false
+            }
+            if ((variant.option1!!.toDouble()) <= 0 || (variant.option1!!.toDouble()) > 70) {
+                holder.binding.sizeEditText.error = "size should be between 1 and 70"
                 return false
             }
             if (variant.inventory_quantity.toString().isNullOrEmpty()) {

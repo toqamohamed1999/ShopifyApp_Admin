@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import eg.gov.iti.jets.shopifyapp_admin.databinding.DiscountItemBinding
 import eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.DiscountCode
+import eg.gov.iti.jets.shopifyapp_admin.discounts.data.model.PriceRule
 import eg.gov.iti.jets.shopifyapp_admin.util.MyDiffUtil
 
 
-class DiscountAdapter(private val discountListener: DiscountListener,private val value : String
+class DiscountAdapter(private val discountListener: DiscountListener,private val rule : PriceRule
 ) : ListAdapter<DiscountCode, DiscountAdapter.ArticleViewHolder>(MyDiffUtil<DiscountCode>()) {
 
     private lateinit var binding: DiscountItemBinding
@@ -26,7 +27,11 @@ class DiscountAdapter(private val discountListener: DiscountListener,private val
         val discount = getItem(position)
 
         holder.binding.discountTitleTextView.text = discount.code
-        holder.binding.discountValueTextView.text = "$value%"
+        if (rule.target_type == "fixed amount") {
+            holder.binding.discountValueTextView.text = rule.value+" EGP"
+        }else{
+            holder.binding.discountValueTextView.text = rule.value+"%"
+        }
 
         binding.deleteImage.setOnClickListener {
             discountListener.deleteDiscount(discount)

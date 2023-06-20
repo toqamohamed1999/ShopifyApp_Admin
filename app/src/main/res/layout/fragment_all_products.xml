@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -17,11 +18,12 @@
         android:layout_marginEnd="16dp"
         android:background="@drawable/search_background"
         android:hint="@string/search_for_product"
-        app:boxStrokeColor="@color/purple_700"
-        app:hintTextColor="@color/purple_700"
+        app:boxStrokeColor="@color/darkBlue"
+        app:hintTextColor="@color/darkBlue"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:startIconTint="@color/blue"
         app:startIconDrawable="@drawable/search_icon">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -51,10 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/_20sdp"
         android:layout_marginBottom="@dimen/_50sdp"
-        android:backgroundTint="@color/orange"
-        android:outlineSpotShadowColor="@color/orange"
-        android:tint="@color/orange"
-        app:rippleColor="@color/orange"
+        android:backgroundTint="@color/blue"
         android:src="@drawable/baseline_add_24"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />

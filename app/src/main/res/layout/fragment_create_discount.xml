@@ -88,7 +88,7 @@
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_10sdp"
             android:text="@string/add"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textAllCaps="false"
             app:cornerRadius="10dp"
             android:backgroundTint="@color/green"

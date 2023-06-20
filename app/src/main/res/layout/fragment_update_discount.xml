@@ -85,7 +85,7 @@
             android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginStart="@dimen/_20sdp"
             android:text="@string/save_edit"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             android:textAllCaps="false"
             app:cornerRadius="10dp"
             android:backgroundTint="@color/green"

@@ -23,13 +23,14 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/_48sdp"
         android:background="@drawable/bottom_navigation_menu_background"
-        app:backgroundTint="@color/orange"
-        app:itemIconTint="#F1FAF4"
+        app:backgroundTint="@color/darkBlue"
+        app:itemIconTint="@drawable/navigation_view_colored"
         app:itemTextColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_navigation_menu" />
+        app:menu="@menu/bottom_navigation_menu"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
