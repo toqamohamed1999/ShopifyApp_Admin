@@ -1,11 +1,13 @@
 package eg.gov.iti.jets.shopifyapp_admin.products.presentation.updateproduct.ui
 
 import android.Manifest
+import android.R
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -15,6 +17,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.graphics.drawable.toBitmap
@@ -88,6 +91,7 @@ class UpdateProductFragment : Fragment(), ImageListener {
         updateProductAction()
         observeUpdateProduct()
         setUpRecyclerView()
+        setUpMenus()
         addVariantAction()
         handleAddImage()
         observeUpdateProductQuantity()
@@ -106,6 +110,29 @@ class UpdateProductFragment : Fragment(), ImageListener {
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         binding.imagesRecyclerView.layoutManager = layoutManager
         binding.imagesRecyclerView.adapter = imagesAdapter
+    }
+
+    private fun setUpMenus(){
+        val vendorsList =
+            listOf(
+                "ADIDAS", "ASICS TIGER", "CONVERSE","DR MARTENS","FLEX FIT","HERSCHEL","NIKE","PALLADUIM","PUMA",
+                "TIMBERLAND","SUPRA","VANS")
+
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter(requireContext(), R.layout.select_dialog_item, vendorsList)
+
+        binding.vendorEditText.threshold = 1
+        binding.vendorEditText.setAdapter(adapter)
+        binding.vendorEditText.setTextColor(Color.BLACK)
+
+        val typeList = listOf("SHOES", "ACCESSORIES", "T-SHIRTS")
+
+        val adapter2: ArrayAdapter<String> =
+            ArrayAdapter(requireContext(), R.layout.select_dialog_item, typeList)
+
+        binding.typeEditText.threshold = 1
+        binding.typeEditText.setAdapter(adapter2)
+        binding.typeEditText.setTextColor(Color.BLACK)
     }
 
     private fun addVariantAction() {

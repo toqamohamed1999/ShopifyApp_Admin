@@ -84,50 +84,56 @@
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/type_textLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_15sdp"
                 android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:hint="@string/type"
                 app:boxBackgroundMode="outline"
                 app:boxStrokeColor="@color/blue"
                 app:errorEnabled="true"
                 app:hintTextColor="@color/blue"
-                app:startIconDrawable="@drawable/baseline_category_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/title_textLayout">
+                app:layout_constraintTop_toBottomOf="@id/title_textLayout"
+                app:startIconDrawable="@drawable/baseline_category_24" >
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:id="@+id/type_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp" />
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    style="@style/Widget.AppTheme.TextInputEditText.Dense"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/vendor_textLayout"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_15sdp"
                 android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginEnd="@dimen/_15sdp"
                 android:layout_marginBottom="@dimen/_10sdp"
                 android:hint="@string/vendor"
                 app:boxBackgroundMode="outline"
                 app:boxStrokeColor="@color/blue"
                 app:errorEnabled="true"
                 app:hintTextColor="@color/blue"
-                app:startIconDrawable="@drawable/baseline_person_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/type_textLayout">
+                app:layout_constraintTop_toBottomOf="@id/type_textLayout"
+                app:startIconDrawable="@drawable/baseline_person_24" >
 
-                <com.google.android.material.textfield.TextInputEditText
+                <AutoCompleteTextView
                     android:id="@+id/vendor_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="18sp" />
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textSize="16sp"
+                    style="@style/Widget.AppTheme.TextInputEditText.Dense"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout

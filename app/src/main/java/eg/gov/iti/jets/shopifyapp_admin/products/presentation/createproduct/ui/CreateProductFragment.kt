@@ -1,6 +1,7 @@
 package eg.gov.iti.jets.shopifyapp_admin.products.presentation.createproduct.ui
 
 import android.Manifest
+import android.R
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
 import android.content.Intent
@@ -87,6 +88,7 @@ class CreateProductFragment : Fragment(), ImageListener {
         setUpVariantRecyclerView()
         addVariantAction()
         setUpImagesRecyclerView()
+        setUpMenus()
         handleAddImage()
     }
 
@@ -103,6 +105,29 @@ class CreateProductFragment : Fragment(), ImageListener {
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
         binding.imagesRecyclerView.layoutManager = layoutManager
         binding.imagesRecyclerView.adapter = imagesAdapter
+    }
+
+    private fun setUpMenus(){
+        val vendorsList =
+            listOf(
+                "ADIDAS", "ASICS TIGER", "CONVERSE","DR MARTENS","FLEX FIT","HERSCHEL","NIKE","PALLADUIM","PUMA",
+                "TIMBERLAND","SUPRA","VANS")
+
+        val adapter: ArrayAdapter<String> =
+            ArrayAdapter(requireContext(), R.layout.select_dialog_item, vendorsList)
+
+        binding.vendorEditText.threshold = 1
+        binding.vendorEditText.setAdapter(adapter)
+        binding.vendorEditText.setTextColor(Color.BLACK)
+
+        val typeList = listOf("SHOES", "ACCESSORIES", "T-SHIRTS")
+
+        val adapter2: ArrayAdapter<String> =
+            ArrayAdapter(requireContext(), R.layout.select_dialog_item, typeList)
+
+        binding.typeEditText.threshold = 1
+        binding.typeEditText.setAdapter(adapter2)
+        binding.typeEditText.setTextColor(Color.BLACK)
     }
 
     private fun addVariantAction() {

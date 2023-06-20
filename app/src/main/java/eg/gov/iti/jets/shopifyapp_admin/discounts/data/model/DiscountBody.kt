@@ -5,7 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class DiscountCodeB(
 
     @SerializedName("code") var code : String
-
 )
 
 data class DiscountCodeBody (

@@ -13,6 +13,8 @@ data class PriceRuleB(
     @SerializedName("customer_selection") var customerSelection: String? = null,
     @SerializedName("starts_at") var startsAt: String? = null,
     @SerializedName("ends_at") var endsAt: String? = null,
+    @SerializedName("once_per_customer") var once_per_customer: String? = null,
+    @SerializedName("usage_limit") var usage_limit: Int? = null
 
 )
 
