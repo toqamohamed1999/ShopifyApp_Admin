@@ -9,17 +9,17 @@
     android:gravity="center_vertical"
     tools:context=".SplashActivity">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/admin_dashboard"
-        android:textSize="@dimen/_20sdp"
-        android:fontFamily="@font/acme"
-        android:layout_gravity="center"
-        android:layout_marginTop="@dimen/_20sdp"
-        android:textColor="@color/darkBlue"
-        android:textStyle="italic|bold"
-        android:layout_marginBottom="@dimen/_40sdp"/>
+<!--    <TextView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="@string/admin_dashboard"-->
+<!--        android:textSize="@dimen/_20sdp"-->
+<!--        android:fontFamily="@font/acme"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginTop="@dimen/_20sdp"-->
+<!--        android:textColor="@color/darkBlue"-->
+<!--        android:textStyle="italic|bold"-->
+<!--        android:layout_marginBottom="@dimen/_40sdp"/>-->
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/splash_animationView"
@@ -28,6 +28,6 @@
         android:layout_gravity="center"
         app:lottie_autoPlay="true"
         app:lottie_loop="true"
-        app:lottie_rawRes="@raw/admin2"/>
+        app:lottie_rawRes="@raw/adminlottie"/>
 
 </LinearLayout>

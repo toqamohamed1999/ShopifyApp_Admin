@@ -117,7 +117,7 @@ class UpdateRuleFragment : Fragment() {
 
     private fun handleEditAction() {
         AlertDialog.Builder(context)
-            .setTitle("Delete Discount")
+            .setTitle("Edit Rule")
             .setMessage("Are you sure you want to save edit?")
             .setPositiveButton(
                 "OK"

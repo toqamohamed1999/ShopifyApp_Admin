@@ -143,7 +143,7 @@ class UpdateDiscountFragment : DialogFragment() {
 
     private fun handleEditAction() {
         AlertDialog.Builder(context)
-            .setTitle("Delete Discount")
+            .setTitle("Edit Discount")
             .setMessage("Are you sure you want to save edit?")
             .setPositiveButton(
                 "OK"
