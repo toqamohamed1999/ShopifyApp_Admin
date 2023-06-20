@@ -32,7 +32,7 @@ import kotlinx.coroutines.launch
 
 class UpdateDiscountFragment : DialogFragment() {
 
-    private lateinit var binding : FragmentUpdateDiscountBinding
+    private lateinit var binding: FragmentUpdateDiscountBinding
 
     private val viewModel: UpdateDiscountViewModel by lazy {
 
@@ -43,8 +43,8 @@ class UpdateDiscountFragment : DialogFragment() {
         ViewModelProvider(this, factory)[UpdateDiscountViewModel::class.java]
     }
 
-    private val alertDialog : AlertDialog by lazy {
-        createAlertDialog(requireContext(),"")
+    private val alertDialog: AlertDialog by lazy {
+        createAlertDialog(requireContext(), "")
     }
 
 
@@ -52,13 +52,18 @@ class UpdateDiscountFragment : DialogFragment() {
         super.onCreate(savedInstanceState)
 
     }
+
     companion object {
         private lateinit var priceRule: PriceRule
         private lateinit var discountCode: DiscountCode
         private lateinit var discountListener: DiscountListener
         const val TAG = "UpdateDiscountFragment"
 
-        fun newInstance(priceRule: PriceRule,discountCode: DiscountCode, discountListener: DiscountListener): UpdateDiscountFragment {
+        fun newInstance(
+            priceRule: PriceRule,
+            discountCode: DiscountCode,
+            discountListener: DiscountListener
+        ): UpdateDiscountFragment {
             this.priceRule = priceRule
             this.discountCode = discountCode
             this.discountListener = discountListener
@@ -71,7 +76,7 @@ class UpdateDiscountFragment : DialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentUpdateDiscountBinding.inflate(inflater,container,false)
+        binding = FragmentUpdateDiscountBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -84,22 +89,31 @@ class UpdateDiscountFragment : DialogFragment() {
         observeUpdateDiscount()
     }
 
-    private fun editActionBtn(){
+    private fun editActionBtn() {
         binding.saveEditBtn.setOnClickListener {
-            if(discountCode.code == binding.codeEditText.text.toString()){
+            if (discountCode.code == binding.codeEditText.text.toString()) {
                 binding.codeEditText.error = "code have no change to save"
-            }
-            else if (!binding.codeEditText.text.toString().isNullOrEmpty()) {
-                viewModel.updateDiscount(priceRule.id!!,discountCode.id!!,
-                       DiscountCodeResponse(DiscountCode(discountCode.id!!, code = binding.codeEditText.text.toString())))
-
-                alertDialog.show()
-            }
-            else{
+            } else if (binding.codeEditText.text.toString().isNullOrEmpty()) {
+                handleEditAction()
+            } else {
                 binding.codeEditText.error = "should have a code"
             }
         }
     }
+
+    private fun edit() {
+        viewModel.updateDiscount(
+            priceRule.id!!, discountCode.id!!,
+            DiscountCodeResponse(
+                DiscountCode(
+                    discountCode.id!!,
+                    code = binding.codeEditText.text.toString()
+                )
+            )
+        )
+        alertDialog.show()
+    }
+
 
     private fun observeUpdateDiscount() {
         lifecycleScope.launch {
@@ -112,17 +126,32 @@ class UpdateDiscountFragment : DialogFragment() {
                         Log.i(TAG, "observeUpdateDiscount: ${it.data}")
                         alertDialog.dismiss()
                         discountListener.getDiscounts()
-                        Toast.makeText(requireActivity(),"Updated successfully",Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireActivity(), "Updated successfully", Toast.LENGTH_LONG)
+                            .show()
                         dismiss()
                     }
                     else -> {
                         Log.i(CreateDiscountFragment.TAG, "observeUpdateDiscount: $it")
                         alertDialog.dismiss()
-                        Toast.makeText(requireActivity(),"Update failed",Toast.LENGTH_LONG).show()
+                        Toast.makeText(requireActivity(), "Update failed", Toast.LENGTH_LONG).show()
                         dismiss()
                     }
                 }
             }
         }
+    }
+
+    private fun handleEditAction() {
+        AlertDialog.Builder(context)
+            .setTitle("Delete Discount")
+            .setMessage("Are you sure you want to save edit?")
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+                edit()
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
     }
 }

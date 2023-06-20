@@ -27,7 +27,7 @@ class DiscountAdapter(private val discountListener: DiscountListener,private val
         val discount = getItem(position)
 
         holder.binding.discountTitleTextView.text = discount.code
-        if (rule.target_type == "fixed amount") {
+        if (rule.value_type == "fixed_amount") {
             holder.binding.discountValueTextView.text = rule.value+" EGP"
         }else{
             holder.binding.discountValueTextView.text = rule.value+"%"

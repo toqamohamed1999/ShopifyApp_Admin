@@ -91,7 +91,7 @@ class CreateRuleFragment : Fragment() {
 
     private fun setupMenu() {
         val valueTypeList =
-            listOf("percentage", "fixed amount")
+            listOf("percentage", "fixed_amount")
         val adapter: ArrayAdapter<String> =
             ArrayAdapter(requireContext(), R.layout.select_dialog_item, valueTypeList)
 

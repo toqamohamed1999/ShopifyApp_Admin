@@ -28,7 +28,7 @@ class RulesAdapter : ListAdapter<PriceRule, RulesAdapter.ArticleViewHolder>(MyDi
         val rule = getItem(position)
 
         holder.binding.titleTextview.text = rule.title
-        if (rule.target_type == "fixed amount") {
+        if (rule.value_type == "fixed_amount") {
             holder.binding.valueTextview.text = rule.value+" EGP"
         }else{
             holder.binding.valueTextview.text = rule.value+"%"

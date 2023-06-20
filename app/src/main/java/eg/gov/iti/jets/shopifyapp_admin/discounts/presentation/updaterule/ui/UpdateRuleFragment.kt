@@ -92,7 +92,7 @@ class UpdateRuleFragment : Fragment() {
 
     private fun setupMenu() {
         val valueTypeList =
-            listOf("percentage", "fixed amount")
+            listOf("percentage", "fixed_amount")
         val adapter: ArrayAdapter<String> =
             ArrayAdapter(requireContext(), android.R.layout.select_dialog_item, valueTypeList)
 
@@ -110,11 +110,25 @@ class UpdateRuleFragment : Fragment() {
     private fun editActionBtn() {
         binding.saveEditBtn.setOnClickListener {
             if (isDataValidate()) {
+                handleEditAction()
+            }
+        }
+    }
+
+    private fun handleEditAction() {
+        AlertDialog.Builder(context)
+            .setTitle("Delete Discount")
+            .setMessage("Are you sure you want to save edit?")
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
                 buildRule()
                 viewModel.updatePriceRule(priceRule?.id!!, PriceRuleResponse(priceRule!!))
                 alertDialog.show()
             }
-        }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
     }
 
     private fun observeUpdateRule() {
@@ -303,4 +317,6 @@ class UpdateRuleFragment : Fragment() {
         )
         timePickerDialog.show()
     }
+
+
 }

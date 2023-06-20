@@ -118,12 +118,30 @@ class UpdateProductFragment : Fragment(), ImageListener {
     private fun updateProductAction() {
         binding.saveBtn.setOnClickListener {
             if (isDataValidate()) {
-                buildProduct()
-                viewModel.updateProduct(product?.id!!, ProductResponse(product!!))
-                updateVariantQuantity()
-                alertDialog.show()
+               handleEditAction()
             }
         }
+    }
+
+    private fun handleEditAction() {
+        AlertDialog.Builder(context)
+            .setTitle("Delete Discount")
+            .setMessage("Are you sure you want to save edit?")
+            .setPositiveButton(
+                "OK"
+            ) { _, _ ->
+                edit()
+            }
+            .setNegativeButton("Cancel", null)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .show()
+    }
+
+    private fun edit(){
+        buildProduct()
+        viewModel.updateProduct(product?.id!!, ProductResponse(product!!))
+        updateVariantQuantity()
+        alertDialog.show()
     }
 
     private fun updateVariantQuantity() {
