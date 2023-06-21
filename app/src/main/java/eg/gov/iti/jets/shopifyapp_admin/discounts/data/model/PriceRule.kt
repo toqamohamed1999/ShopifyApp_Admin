@@ -6,12 +6,12 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class PriceRule(
 
+    val id: Long? = null,
     val allocation_limit: String? = null,
     val allocation_method: String? = null,
     val created_at: String? = null,
     val customer_selection: String? = null,
     var ends_at: String? = null,
-    val id: Long? = null,
     val once_per_customer: Boolean? = null,
     var starts_at: String? = null,
     val target_selection: String? = null,

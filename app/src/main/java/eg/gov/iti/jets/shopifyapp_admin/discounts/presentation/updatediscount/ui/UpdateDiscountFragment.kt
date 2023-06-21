@@ -93,7 +93,7 @@ class UpdateDiscountFragment : DialogFragment() {
         binding.saveEditBtn.setOnClickListener {
             if (discountCode.code == binding.codeEditText.text.toString()) {
                 binding.codeEditText.error = "code have no change to save"
-            } else if (binding.codeEditText.text.toString().isNullOrEmpty()) {
+            } else if (!binding.codeEditText.text.toString().isNullOrEmpty()) {
                 handleEditAction()
             } else {
                 binding.codeEditText.error = "should have a code"

@@ -47,6 +47,8 @@ class UpdateRuleFragment : Fragment() {
     private var priceRule: PriceRule? = null
     private var startDate : String? = null
     private var endDate : String? = null
+    private var startTime : String? = null
+    private var endTime : String? = null
     private var valueType = ""
 
     private val viewModel: UpdateRuleViewModel by lazy {
@@ -173,7 +175,10 @@ class UpdateRuleFragment : Fragment() {
             binding.valueEditText.setText(value.toString())
             binding.startAtEditText.setText(priceRule?.starts_at?.substring(0,10))
             binding.endsAtEditText.setText(priceRule?.ends_at?.substring(0,10))
+            binding.startTimeEditText.setText(priceRule?.starts_at?.substring(11,16))
+            binding.endTimeEditText.setText(priceRule?.ends_at?.substring(11,16))
             binding.valueTypeEditText.setText(priceRule?.value_type)
+            valueType = priceRule?.value_type!!
         }
     }
 

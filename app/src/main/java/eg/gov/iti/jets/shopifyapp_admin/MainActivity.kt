@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
         hostFragment = findViewById(R.id.nav_host_fragment)
 
         setupNavigation()
-        hideKeyBoard()
+      //  hideKeyBoard()
         observeNetwork()
         checkAuth()
 
@@ -84,7 +84,7 @@ class MainActivity : AppCompatActivity() {
         ) {
             bottomNavigation.visibility = View.VISIBLE
         } else {
-            hideKeyBoard()
+            //hideKeyBoard()
             bottomNavigation.visibility = View.GONE
         }
     }
