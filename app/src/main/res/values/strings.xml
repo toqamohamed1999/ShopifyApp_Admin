@@ -39,5 +39,6 @@
     <string name="login">Admin Login</string>
     <string name="password">Password</string>
     <string name="price_rules">Price Rules</string>
+    <string name="noInternetConnection">No Internet connection</string>
 
 </resources>
