@@ -121,8 +121,8 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
                 holder.binding.sizeEditText.error = "should have a size"
                 return false
             }
-            if ((variant.option1!!.toDouble()) <= 0 || (variant.option1!!.toDouble()) > 70) {
-                holder.binding.sizeEditText.error = "size should be between 1 and 70"
+            if (variant.option1!!.length > 2) {
+                holder.binding.sizeEditText.error = "size should be 2 digits only"
                 return false
             }
             if (variant.inventory_quantity.toString().isNullOrEmpty()) {
