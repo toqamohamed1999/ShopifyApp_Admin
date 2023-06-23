@@ -36,7 +36,6 @@ class DisplayVariantAdapter(private var variantsList: List<Variant>) :
             holder.binding.colorTextview.text = variant.sku
         }
         holder.binding.sizeTextview.text = variant.option1
-        holder.binding.priceTextview.text = variant.price+ " EGP"
         holder.binding.quantityTextview.text = variant.inventory_quantity.toString()
     }
 

@@ -160,7 +160,7 @@ class UpdateProductFragment : Fragment(), ImageListener {
                 edit()
             }
             .setNegativeButton("Cancel", null)
-            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setIcon(R.drawable.ic_dialog_alert)
             .show()
     }
 
@@ -241,6 +241,7 @@ class UpdateProductFragment : Fragment(), ImageListener {
             product?.images = imagesAdapter.getUpdatedImages() as ArrayList<Image>
         }
         product?.variants = variantAdapter.variantsList
+        product?.variants?.get(0)?.price = binding.priceEditText.text.toString()
     }
 
     private fun bindProductData() {
@@ -250,11 +251,15 @@ class UpdateProductFragment : Fragment(), ImageListener {
             binding.descEditText.setText(product?.bodyHtml)
             binding.vendorEditText.setText(product?.vendor)
             binding.typeEditText.setText(product?.productType)
+            binding.priceEditText.setText(product?.variants?.get(0)?.price.toString())
 
             variantList = product?.variants as MutableList<Variant>
             setUpRecyclerView()
 
             imagesAdapter.bindKey = "update"
+            for (image in product?.images!!){
+                image.alt = ""
+            }
             imagesAdapter.images = product?.images as MutableList<Image>
             imagesAdapter.notifyDataSetChanged()
         }
@@ -269,12 +274,17 @@ class UpdateProductFragment : Fragment(), ImageListener {
             binding.titleEditText.error = "should have a vendor"
             return false
         }
+        if (binding.priceEditText.text.toString().isNullOrEmpty()
+            || (binding.priceEditText.text.toString()).toDouble() <= 0.0) {
+            binding.priceEditText.error = "should have a price greater than 0"
+            return false
+        }
         if (binding.descEditText.text.toString().isNullOrEmpty()) {
-            binding.titleEditText.error = "should have a description"
+            binding.descEditText.error = "should have a description"
             return false
         }
         if (binding.typeEditText.text.toString().isNullOrEmpty()) {
-            binding.titleEditText.error = "should have a type"
+            binding.typeEditText.error = "should have a type"
             return false
         }
         if (!imagesAdapter.validateImagesList()) {

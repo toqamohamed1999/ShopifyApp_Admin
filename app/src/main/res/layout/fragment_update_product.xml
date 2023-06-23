@@ -137,6 +137,45 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/price_textLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="@dimen/_170sdp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_marginStart="@dimen/_15sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:hint="@string/price"
+                app:boxBackgroundMode="outline"
+                app:boxStrokeColor="@color/blue"
+                app:errorEnabled="true"
+                app:hintTextColor="@color/blue"
+                app:startIconDrawable="@drawable/baseline_attach_money_24"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/vendor_textLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/price_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="numberDecimal"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/currency_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:text="@string/EGP"
+                android:textColor="@color/blue"
+                android:textSize="@dimen/_15sdp"
+                android:textStyle="bold"
+                android:layout_marginBottom="@dimen/_22sdp"
+                app:layout_constraintStart_toEndOf="@id/price_textLayout"
+                app:layout_constraintBottom_toBottomOf="@id/price_textLayout"/>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/desc_textLayout"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
@@ -151,7 +190,7 @@
                 app:hintTextColor="@color/blue"
                 app:startIconDrawable="@drawable/baseline_description_24"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/vendor_textLayout">
+                app:layout_constraintTop_toBottomOf="@id/price_textLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/desc_editText"

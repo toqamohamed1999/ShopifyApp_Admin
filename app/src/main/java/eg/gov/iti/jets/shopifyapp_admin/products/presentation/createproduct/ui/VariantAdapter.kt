@@ -47,7 +47,6 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
             holder.binding.colorEditText.setText(variant.sku)
         }
         holder.binding.sizeEditText.setText(variant.option1)
-        holder.binding.priceEditText.setText(variant.price)
         holder.binding.quantityEditText.setText((variant.inventory_quantity ?: "").toString())
 
         holder.binding.deleteImage.setOnClickListener {
@@ -90,10 +89,6 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
     }
 
     private fun handleVariantData(position1: Int) {
-        holder.binding.priceEditText.doAfterTextChanged {
-            variantsList[position1].price = it.toString()
-        }
-
         holder.binding.sizeEditText.doAfterTextChanged {
             variantsList[position1].option1 = it.toString()
         }
@@ -111,10 +106,6 @@ class VariantAdapter(var variantsList: MutableList<Variant>, private val context
 
             if (variant.sku.isNullOrEmpty()) {
                 holder.binding.colorEditText.error = "should have a color"
-                return false
-            }
-            if (variant.price.isNullOrEmpty()) {
-                holder.binding.priceEditText.error = "should have a price"
                 return false
             }
             if (variant.option1.isNullOrEmpty()) {

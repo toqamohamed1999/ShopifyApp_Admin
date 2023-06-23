@@ -184,6 +184,7 @@ class CreateProductFragment : Fragment(), ImageListener {
         }
 
         productB.variants = variantAdapter.variantsList
+        productB.variants[0].price = binding.priceEditText.text.toString()
 
         return productB
     }
@@ -197,12 +198,17 @@ class CreateProductFragment : Fragment(), ImageListener {
             binding.titleEditText.error = "should have a vendor"
             return false
         }
+        if (binding.priceEditText.text.toString().isNullOrEmpty()
+            || (binding.priceEditText.text.toString()).toDouble() <= 0.0) {
+            binding.priceEditText.error = "should have a price greater than 0"
+            return false
+        }
         if (binding.descEditText.text.toString().isNullOrEmpty()) {
-            binding.titleEditText.error = "should have a description"
+            binding.descEditText.error = "should have a description"
             return false
         }
         if (binding.typeEditText.text.toString().isNullOrEmpty()) {
-            binding.titleEditText.error = "should have a type"
+            binding.typeEditText.error = "should have a type"
             return false
         }
         if (!imagesAdapter.validateImagesListCount()) {
