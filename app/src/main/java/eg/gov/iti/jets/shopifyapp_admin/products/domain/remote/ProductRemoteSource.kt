@@ -11,4 +11,5 @@ interface ProductRemoteSource {
     suspend fun updateProduct(productId : Long,body: ProductResponse): ProductResponse
     suspend fun deleteProduct(productId : Long) : String
     suspend fun updateProductQuantity(body: UpdateQuantityBody) : InventoryLevelResponse
+    suspend fun getVariantBYId(variantId : Long) : VariantRoot
 }

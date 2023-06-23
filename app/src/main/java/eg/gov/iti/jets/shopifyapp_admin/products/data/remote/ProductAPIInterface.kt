@@ -31,7 +31,7 @@ interface ProductAPIInterface {
     @Headers("Content-Type:application/json", "X-Shopify-Access-Token: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")
     @DELETE("products/{product_id}.json")
     suspend fun deleteProduct(
-        @Path("product_id") productId : Long,
+        @Path("product_id") productId : Long
     )
 
     @Headers("Content-Type:application/json", "X-Shopify-Access-Token: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")
@@ -39,4 +39,10 @@ interface ProductAPIInterface {
     suspend fun updateProductQuantity(
         @Body body: UpdateQuantityBody
     ) : InventoryLevelResponse
+
+    @Headers("Content-Type:application/json", "X-Shopify-Access-Token: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")
+    @GET("variants/{variant_id}.json")
+    suspend fun getVariantBYId(
+        @Path("variant_id") VariantId : Long
+    ) : VariantRoot
 }

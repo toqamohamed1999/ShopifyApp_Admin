@@ -45,4 +45,8 @@ class ProductRepoImp private constructor(
       return flowOf(remoteSource.updateProductQuantity(body))
     }
 
+    override suspend fun getVariantBYId(variantId: Long): Flow<VariantRoot> {
+        return flowOf(remoteSource.getVariantBYId(variantId))
+    }
+
 }

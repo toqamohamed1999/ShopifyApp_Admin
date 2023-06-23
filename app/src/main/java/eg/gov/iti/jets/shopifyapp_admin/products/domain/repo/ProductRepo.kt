@@ -11,5 +11,7 @@ interface ProductRepo {
     suspend fun updateProduct(productId: Long, body: ProductResponse): Flow<ProductResponse>
     suspend fun deleteProduct(productId: Long) : Flow<String>
     suspend fun updateProductQuantity(body: UpdateQuantityBody) : Flow<InventoryLevelResponse>
+    suspend fun getVariantBYId(variantId : Long) : Flow<VariantRoot>
+
 
 }

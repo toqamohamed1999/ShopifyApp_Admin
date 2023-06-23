@@ -39,4 +39,10 @@ class ProductRemoteSourceImp : ProductRemoteSource {
         return APIClient.apiInterface.updateProductQuantity(body)
     }
 
+    override suspend fun getVariantBYId(variantId: Long): VariantRoot {
+        return APIClient.apiInterface.getVariantBYId(variantId)
+    }
+
+
+
 }

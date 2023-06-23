@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
 import eg.gov.iti.jets.shopifyapp_admin.products.data.model.Product
+import eg.gov.iti.jets.shopifyapp_admin.products.data.model.VariantRoot
 import eg.gov.iti.jets.shopifyapp_admin.products.domain.repo.ProductRepo
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -25,10 +26,10 @@ class AllProductsViewModel(private val repo: ProductRepo) : ViewModel() {
     )
     var deleteProductState: StateFlow<APIState<String>> = _deleteProductState
 
-    init {
-        getProducts()
-    }
-
+    private var _variantState: MutableStateFlow<APIState<VariantRoot>> = MutableStateFlow(
+        APIState.Loading()
+    )
+    var variantState: StateFlow<APIState<VariantRoot>> = _variantState
 
     fun getProducts() {
         viewModelScope.launch {
@@ -52,6 +53,19 @@ class AllProductsViewModel(private val repo: ProductRepo) : ViewModel() {
             } catch (e: java.lang.Exception) {
                 _deleteProductState.value = APIState.Error()
                 Log.i(TAG, "deleteProduct: "+e.message)
+            }
+        }
+    }
+
+    fun getVariantById(variantId: Long) {
+        viewModelScope.launch {
+            try {
+                repo.getVariantBYId(variantId).collect {
+                    _variantState.value = APIState.Success(it!!)
+                }
+            } catch (e: java.lang.Exception) {
+                _variantState.value = APIState.Error()
+                Log.i(TAG, "getVariantById: "+e.message)
             }
         }
     }

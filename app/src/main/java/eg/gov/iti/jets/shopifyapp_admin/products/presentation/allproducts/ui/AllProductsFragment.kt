@@ -72,6 +72,7 @@ class AllProductsFragment : Fragment(), ProductListener {
         observeGetProduct()
         observeDeleteProduct()
         searchProduct()
+        //observeGetVariant()
     }
 
     override fun onStart() {
@@ -185,6 +186,25 @@ class AllProductsFragment : Fragment(), ProductListener {
 
             binding.txtNoResults.visibility = View.GONE
             binding.productsRecyclerView.visibility = View.VISIBLE
+        }
+    }
+
+    private fun observeGetVariant() {
+        viewModel.getVariantById(45349164220697)
+
+        lifecycleScope.launch {
+            viewModel.variantState.collectLatest {
+                when (it) {
+                    is APIState.Loading -> {
+                    }
+                    is APIState.Success -> {
+                        Log.i(TAG, "observeGetVariant: " + it.data)
+                    }
+                    else -> {
+                        Log.i(TAG, "observeGetVariant: $it")
+                    }
+                }
+            }
         }
     }
 
