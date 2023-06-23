@@ -45,7 +45,6 @@ class MainActivity : AppCompatActivity() {
         setupNavigation()
       //  hideKeyBoard()
         observeNetwork()
-        checkAuth()
 
         if(isOnline(applicationContext)){
             showView()
@@ -89,13 +88,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkAuth() {
-        sharedPreferences = applicationContext.getSharedPreferences("mypref", Context.MODE_PRIVATE)
 
-        if (!sharedPreferences.getBoolean("isLogin", false)) {
-            navController.navigate(R.id.loginFragment)
-        }
-    }
 
     private fun observeNetwork() {
         NetworkConnectivityObserver.initNetworkConnectivity(applicationContext)
@@ -146,6 +139,7 @@ class MainActivity : AppCompatActivity() {
         hostFragment.visibility = View.VISIBLE
         navController.navigate(navDestinationId)
     }
+
 
 
 }

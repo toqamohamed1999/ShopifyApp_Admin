@@ -96,9 +96,4 @@
         android:name="eg.gov.iti.jets.shopifyapp_admin.home.presentation.ui.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home" />
-    <fragment
-        android:id="@+id/loginFragment"
-        android:name="eg.gov.iti.jets.shopifyapp_admin.auth.ui.LoginFragment"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
 </navigation>

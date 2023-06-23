@@ -13,7 +13,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -27,7 +26,6 @@ import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.createrule.viewmo
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
 import eg.gov.iti.jets.shopifyapp_admin.util.buildDate
 import eg.gov.iti.jets.shopifyapp_admin.util.createAlertDialog
-import eg.gov.iti.jets.shopifyapp_admin.util.get12HourFormat
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.*
@@ -270,14 +268,15 @@ class CreateRuleFragment : Fragment() {
         val timePickerDialog = TimePickerDialog(
             requireActivity(), { _, hourOfDay, minute ->
 
-                val time = get12HourFormat(hourOfDay, minute)
+               // val time = get12HourFormat(hourOfDay, minute)
+                val time = "$hourOfDay:$minute"
                 if (view.id == binding.startTimeEditText.id) {
                     binding.startTimeEditText.setText(time)
                 } else {
                     binding.endTimeEditText.setText(time)
                 }
 
-            }, mHour!!, mMinute!!, false
+            }, mHour!!, mMinute!!, true
         )
         timePickerDialog.show()
     }

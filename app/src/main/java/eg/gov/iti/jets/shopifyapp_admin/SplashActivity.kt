@@ -8,11 +8,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.core.content.ContentProviderCompat.requireContext
+import eg.gov.iti.jets.shopifyapp_admin.auth.ui.LoginActivity
 import eg.gov.iti.jets.shopifyapp_admin.databinding.ActivitySplashBinding
 
 class SplashActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivitySplashBinding
+    private lateinit var sharedPreferences : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,9 +23,19 @@ class SplashActivity : AppCompatActivity() {
         supportActionBar?.hide()
 
         Handler(Looper.myLooper()!!).postDelayed({
-            val intent = Intent(this@SplashActivity, MainActivity::class.java)
+            var intent : Intent = if (isLogin()) {
+                Intent(this@SplashActivity, MainActivity::class.java)
+            }else{
+                Intent(this@SplashActivity, LoginActivity::class.java)
+            }
             startActivity(intent)
             finish()
         }, 2000)
     }
+
+    private fun isLogin() : Boolean {
+        sharedPreferences = applicationContext.getSharedPreferences("mypref", Context.MODE_PRIVATE)
+        return  sharedPreferences.getBoolean("isLogin", false)
+    }
+
 }

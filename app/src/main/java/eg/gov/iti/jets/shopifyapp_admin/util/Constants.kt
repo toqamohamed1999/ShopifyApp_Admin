@@ -2,6 +2,7 @@ package eg.gov.iti.jets.shopifyapp_admin.util
 
 import android.app.AlertDialog
 import android.content.Context
+import android.util.Log
 import eg.gov.iti.jets.shopifyapp_admin.BuildConfig
 import eg.gov.iti.jets.shopifyapp_admin.R
 import java.text.ParseException
@@ -26,8 +27,9 @@ fun createAlertDialog(context: Context, msg : String): AlertDialog {
 }
 
 fun buildDate(strDate : String) : Date?{
-    //val dtStart = "05-11-2017 05:42 PM"
-    val format = SimpleDateFormat("yyyy-MM-dd hh:mm a")
+    //val dtStart = "05-11-2017 05:42:00"
+    Log.i("CreateRuleFragment", "buildDate: $strDate")
+    val format = SimpleDateFormat("yyyy-MM-dd hh:mm")
     try {
         return format.parse(strDate)
     } catch (e: ParseException) {
@@ -36,14 +38,14 @@ fun buildDate(strDate : String) : Date?{
     return null
 }
 
-fun get12HourFormat(hourOfDay: Int, minute: Int): String {
-    val isPM = hourOfDay >= 12
-    return java.lang.String.format(
-        "%02d:%02d %s",
-        if (hourOfDay === 12 || hourOfDay === 0) 12 else hourOfDay % 12,
-        minute,
-        if (isPM) "PM" else "AM"
-    )
-}
+//fun get12HourFormat(hourOfDay: Int, minute: Int): String {
+//    val isPM = hourOfDay >= 12
+//    return java.lang.String.format(
+//        "%02d:%02d %s",
+//        if (hourOfDay === 12 || hourOfDay === 0) 12 else hourOfDay % 12,
+//        minute,
+//        if (isPM) "PM" else "AM"
+//    )
+//}
 
 

@@ -33,7 +33,6 @@ import eg.gov.iti.jets.shopifyapp_admin.discounts.presentation.updaterule.viewmo
 import eg.gov.iti.jets.shopifyapp_admin.util.APIState
 import eg.gov.iti.jets.shopifyapp_admin.util.buildDate
 import eg.gov.iti.jets.shopifyapp_admin.util.createAlertDialog
-import eg.gov.iti.jets.shopifyapp_admin.util.get12HourFormat
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.*
@@ -311,7 +310,8 @@ class UpdateRuleFragment : Fragment() {
         val timePickerDialog = TimePickerDialog(
             requireActivity(), { _, hourOfDay, minute ->
 
-                val time = get12HourFormat(hourOfDay, minute)
+              //  val time = get12HourFormat(hourOfDay, minute)
+                val time = "$hourOfDay:$minute"
                 if (view.id == binding.startTimeEditText.id) {
                     binding.startTimeEditText.setText(time)
                 } else {
