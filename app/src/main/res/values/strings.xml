@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">ShopifyApp_Admin</string>
+    <string name="app_name">Shop Quick Admin</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="products">Products</string>

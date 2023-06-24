@@ -37,7 +37,7 @@
                 android:layout_height="60dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginEnd="8dp"
-                android:src="@drawable/discount" />
+                android:src="@drawable/discount3" />
 
 
             <TextView
@@ -64,9 +64,9 @@
             android:layout_marginBottom="@dimen/_10sdp"
             android:hint="@string/code"
             app:boxBackgroundMode="outline"
-            app:boxStrokeColor="@color/green"
+            app:boxStrokeColor="@color/blue"
             app:errorEnabled="true"
-            app:hintTextColor="@color/green"
+            app:hintTextColor="@color/blue"
             app:startIconDrawable="@drawable/baseline_discount_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/linearLayout">
@@ -90,7 +90,7 @@
             android:textColor="@color/white"
             android:textAllCaps="false"
             app:cornerRadius="10dp"
-            android:backgroundTint="@color/green"
+            android:backgroundTint="@color/blue"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/textLayout"/>
 

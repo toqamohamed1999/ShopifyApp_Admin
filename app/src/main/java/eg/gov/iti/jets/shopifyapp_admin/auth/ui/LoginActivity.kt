@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import eg.gov.iti.jets.shopifyapp_admin.BuildConfig
 import eg.gov.iti.jets.shopifyapp_admin.MainActivity
@@ -33,14 +34,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun validateData() : Boolean{
-        if (binding.userNameEditText.text.toString() != BuildConfig.store_name){
-            binding.userNameEditText.error = "user name is not correct"
+        if (binding.userNameEditText.text.toString() != BuildConfig.store_name
+            || binding.passwordEditText.text.toString() != BuildConfig.admin_passowrd){
+            binding.warningText.visibility = View.VISIBLE
             return false
         }
-        if (binding.passwordEditText.text.toString() != BuildConfig.admin_passowrd){
-            binding.userNameEditText.error = "password is not correct"
-            return false
-        }
+        binding.warningText.visibility = View.GONE
         return true
     }
 

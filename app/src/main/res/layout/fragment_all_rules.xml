@@ -27,12 +27,12 @@
         android:id="@+id/rules_recyclerView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:paddingBottom="@dimen/_120sdp"
+        android:layout_marginTop="60dp"
+        android:paddingBottom="@dimen/_130sdp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/label"
+        app:layout_constraintBottom_toBottomOf="parent"
         tools:listitem="@layout/rule_item" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

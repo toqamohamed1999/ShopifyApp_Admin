@@ -37,7 +37,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:src="@drawable/discount"
+            android:src="@drawable/discount3"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -67,7 +67,7 @@
             android:layout_marginEnd="8dp"
             android:layout_marginBottom="8dp"
             android:gravity="center"
-            android:textColor="@color/green"
+            android:textColor="@color/blue"
             android:textSize="14sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
